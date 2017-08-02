@@ -20,5 +20,9 @@
   "food": {
     "dataSource": "mongodb",
     "public": true
+  },
+  "waiter": {
+    "dataSource": "mongodb",
+    "public": true
   }
 }

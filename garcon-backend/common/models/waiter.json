@@ -1,0 +1,38 @@
+{
+  "name": "waiter",
+  "plural": "waiters",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "fullname": {
+      "type": "string",
+      "required": true
+    },
+    "username": {
+      "type": "string",
+      "required": true
+    },
+    "password": {
+      "type": "string",
+      "required": true
+    },
+    "age": {
+      "type": "number",
+      "default": 18
+    },
+    "sex": {
+      "type": "string",
+      "default": "M"
+    },
+    "photo": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
