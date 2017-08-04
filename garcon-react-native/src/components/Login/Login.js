@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, KeyboardAvoidingView } from 'react-native';
+import LoginForm from './LoginForm'
 
 export default class Login extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.logoContainter}>
-          <Image
-            style={styles.logo}
-            source={require('../../../assets/images/iconWaiter.png')}
-          />
-          <Text style={styles.title}>
-            Welcome to Garson! Restaurant-Manager
-          </Text>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.logoContainter}>
+            <Image
+              style={styles.logo}
+              source={require('../../../assets/images/iconWaiter.png')}
+            />
+            <Text style={styles.title}>
+              Welcome to Garcon! Restaurant-Manager
+            </Text>
+          </View>
+          <LoginForm />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -35,8 +39,9 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#c0392b',
-    fontSize: 10,
+    fontSize: 17,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    width: 200
   }
 });
