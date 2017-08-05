@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { Button, Text, Form, Item, Input, Label } from 'native-base';
+import { Container, Button, Text, Form, Item, Input, Label } from 'native-base';
 
-export default class MyComponent extends Component {
+export default class LoginForm extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <Container style={{ padding: 15 }}>
         <Form>
-          <Item><Input returnKeyType="next" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="Username" /></Item>
+          <Item><Input returnKeyType="next" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="E-Mail" /></Item>
           <Item><Input returnKeyType="go" secureTextEntry autoCapitalize="none" autoCorrect={false} placeholder="Password" /></Item>
         </Form>
-        <Button block danger><Text>Login</Text></Button>
-      </View>
+        <Button style={{ marginBottom: 10 }} block danger><Text>Login</Text></Button>
+        <Button style={{ marginBottom: 10 }} block><Text>Registrati</Text></Button>
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 15
-  }
-});

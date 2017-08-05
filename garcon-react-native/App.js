@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Login from './src/components/Login/Login';
+import Registration from './src/components/Registration/Registration';
 
 export default class App extends Component  {
 
@@ -28,7 +29,7 @@ export default class App extends Component  {
       return <AppLoading />;
     }
     return (
-      <Login />
+      <Registration />
     );
   }
 }
