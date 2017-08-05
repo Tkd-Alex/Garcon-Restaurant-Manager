@@ -16,7 +16,9 @@ export default class Login extends Component {
               Welcome to Garcon! Restaurant-Manager
             </Text>
           </View>
-          <LoginForm />
+          <View style={styles.formContainter}>
+            <LoginForm />
+          </View>
         </View>
       </KeyboardAvoidingView>
     );
@@ -26,11 +28,12 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: '#bdc3c7',
   },
   logoContainter:{
     alignItems: 'center',
-    flexGrow: 1,
     justifyContent: 'center'
   },
   logo: {

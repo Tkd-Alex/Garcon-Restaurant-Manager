@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Button, Text, Form, Item, Input, Label } from 'native-base';
 
 export default class MyComponent extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TextInput returnKeyType="next" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="Username" style={styles.input}></TextInput>
-        <TextInput returnKeyType="go" secureTextEntry autoCapitalize="none" autoCorrect={false} placeholder="Password" style={styles.input}></TextInput>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>LOGIN</Text>
-        </TouchableOpacity>
+        <Form>
+          <Item><Input returnKeyType="next" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="Username" /></Item>
+          <Item><Input returnKeyType="go" secureTextEntry autoCapitalize="none" autoCorrect={false} placeholder="Password" /></Item>
+        </Form>
+        <Button block danger><Text>Login</Text></Button>
       </View>
     );
   }
@@ -17,22 +18,6 @@ export default class MyComponent extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
-  },
-  input: {
-    height: 40,
-    backgroundColor: '#7f8c8d',
-    marginBottom: 20,
-    color: '#FFFF',
-    paddingHorizontal: 10
-  },
-  buttonContainer: {
-    backgroundColor: '#c0392b',
-    paddingVertical: 15
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#FFFF',
-    fontWeight: '600'
+    padding: 15
   }
 });
