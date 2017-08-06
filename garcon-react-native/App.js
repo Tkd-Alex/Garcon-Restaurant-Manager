@@ -2,9 +2,15 @@ import Expo from 'expo';
 import { AppLoading } from 'expo';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 import Login from './src/components/Login/Login';
 import Registration from './src/components/Registration/Registration';
+
+const Navigation = StackNavigator({
+  Login: {screen: Login},
+  Registration: {screen: Registration}
+});
 
 export default class App extends Component  {
 
@@ -29,7 +35,7 @@ export default class App extends Component  {
       return <AppLoading />;
     }
     return (
-      <Registration />
+      <Navigation />
     );
   }
 }
