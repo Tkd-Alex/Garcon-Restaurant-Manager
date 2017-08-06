@@ -1,11 +1,13 @@
-import Expo from 'expo';
-import { AppLoading } from 'expo';
+import Expo, { AppLoading } from 'expo';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import Login from './src/components/Login/Login';
-import Registration from './src/components/Registration/Registration';
+import { Provider } from 'react-redux';
+import store from './src/components/store';
+
+import Login from './src/components/Login/login';
+import Registration from './src/components/Registration/registration';
 
 const Navigation = StackNavigator({
   Login: {screen: Login},
@@ -35,7 +37,9 @@ export default class App extends Component  {
       return <AppLoading />;
     }
     return (
-      <Navigation />
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
     );
   }
 }

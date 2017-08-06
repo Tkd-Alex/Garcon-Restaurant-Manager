@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity ,KeyboardAvoidingView } from 'react-native';
 import { Container, Button, Text, Form, Item, Input, Label, Content } from 'native-base';
 
-import LogoContainter from '../LogoContainer'
+import LogoContainter from '../logoContainer'
 
 export default class Login extends Component {
 

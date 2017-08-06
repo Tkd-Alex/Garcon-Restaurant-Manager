@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Image } from 'react-native';
-import { Container, Content, List, ListItem, InputGroup, Input, Icon, Text, Picker, Button, Form, Item, Grid, Col, Body, Thumbnail, Left, Right } from 'native-base';
+import { Container, Content, List, ListItem, InputGroup, Input, Icon, Text,
+         Picker, Button, Form, Item, Grid, Col, Body, Thumbnail, Left, Right } from 'native-base';
 import { ImagePicker } from 'expo';
 
-export default class Registration extends Component {
+import { registerUser } from '../actions'
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  registerUser: state.registerUser
+})
+
+class Registration extends Component {
 
   static navigationOptions = {
     title: "Registrazione"
@@ -85,7 +93,7 @@ export default class Registration extends Component {
               </ListItem>
             </List>
           </Content>
-          <Button style={{ marginBottom: 10 }} block><Text>Registrati</Text></Button>
+          <Button onPress={() => this.props.registerUser( {userObject: {"nome":"Alex", "cognome":"Maggio"}, password: "Eccoti" }) } style={{ marginBottom: 10 }} block><Text>Registrati</Text></Button>
         </Container>
       </KeyboardAvoidingView>
     );
@@ -105,3 +113,5 @@ const styles = StyleSheet.create({
     fontSize: 30
   }
 });
+
+export default connect(mapStateToProps, { registerUser })(Registration);
