@@ -6,7 +6,7 @@ export default class LogoContainter extends Component {
   render() {
     return (
       <Container style={styles.logoContainter}>
-        <Image style={{ width: 120, height: 120 }} source={require('../../assets/images/iconWaiter.png')} />
+        <Image style={{ width: 120, height: 120 }} source={ require('../../assets/images/iconWaiter.png') } />
         <Text style={styles.titleStyle}> Welcome to Garcon! Restaurant-Manager</Text>
       </Container>
     );
