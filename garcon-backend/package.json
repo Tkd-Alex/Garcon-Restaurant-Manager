@@ -1,0 +1,24 @@
+{
+  "name": "garcon-backend",
+  "version": "1.0.0",
+  "description": "Restful api for garcon restaurant manager",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tkd-Alex/Garcon-Restaurant-Manager.git"
+  },
+  "author": "Tkd-Alex (Alessandro Maggio)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tkd-Alex/Garcon-Restaurant-Manager/issues"
+  },
+  "homepage": "https://github.com/Tkd-Alex/Garcon-Restaurant-Manager#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.6"
+  }
+}
