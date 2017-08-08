@@ -1,6 +1,7 @@
 import Expo, { AppLoading } from 'expo';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Root } from "native-base";
 import { StackNavigator } from 'react-navigation';
 
 import { Provider } from 'react-redux';
@@ -38,7 +39,9 @@ export default class App extends Component  {
     }
     return (
       <Provider store={store}>
-        <Navigation />
+        <Root>
+          <Navigation />
+        </Root>
       </Provider>
     );
   }
