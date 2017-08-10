@@ -5,7 +5,7 @@ var bcrypt = require ('bcrypt');
 var Schema = mongoose.Schema;
 
 var WaiterSchema = new Schema({
-  fullName:{
+  fullname:{
     type: String,
     trim: true,
     required: true

@@ -17,11 +17,15 @@
   },
   "homepage": "https://github.com/Tkd-Alex/Garcon-Restaurant-Manager#readme",
   "dependencies": {
-    "bcrypt": "^1.0.2",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
+    "crypto": "0.0.3",
     "express": "^4.15.4",
     "jsonwebtoken": "^7.4.2",
     "mongoose": "^4.11.6",
-    "morgan": "^1.8.2"
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0"
   }
 }
