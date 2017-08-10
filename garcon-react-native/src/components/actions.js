@@ -14,7 +14,7 @@ export const registerUser = (userInfo, navigation) => {
            headers: { 'Accept': 'application/json',
                       'Content-Type': 'application/json'
                     },
-           body: JSON.stringify({ fullname: userInfo.fullName,
+           body: JSON.stringify({ fullname: userInfo.fullname,
                                   age: userInfo.age,
                                   sex: userInfo.userSex,
                                   email: userInfo.mail,
@@ -47,7 +47,7 @@ export const loginUser = (userInfo, navigation) => {
            headers: { 'Accept': 'application/json',
                       'Content-Type': 'application/json'
                     },
-           body: JSON.stringify({ fullname: userInfo.fullName,
+           body: JSON.stringify({ fullname: userInfo.fullname,
                                   age: userInfo.age,
                                   sex: userInfo.userSex,
                                   email: userInfo.mail,
