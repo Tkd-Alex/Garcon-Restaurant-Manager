@@ -9,16 +9,16 @@ let port = '3000'
 export const registerUser = (userInfo, navigation) => {
   return (dispatch) => {
     dispatch({ type: SIGNUP_USER_START });
-    fetch('http://' + server + ':' + port + '/api/v1/waiters', {
+    fetch('http://' + server + ':' + port + '/api/auth/register', {
            method: 'POST',
            headers: { 'Accept': 'application/json',
                       'Content-Type': 'application/json'
                     },
            body: JSON.stringify({ fullname: userInfo.fullname,
+                                  email: userInfo.mail,
+                                  password: userInfo.password,
                                   age: userInfo.age,
                                   sex: userInfo.userSex,
-                                  email: userInfo.mail,
-                                  password: userInfo.password
                                 })
           })
       .then((response) => response.json())
@@ -29,7 +29,7 @@ export const registerUser = (userInfo, navigation) => {
 
 export const registerUserSuccess = (dispatch, responseJson, navigation) => {
   dispatch({ type: SIGNUP_USER_SUCCESS });
-  Toast.show({ text: "Utente " + responseJson.fullname + " registrato, adesso puoi effettuare il login.", position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
+  Toast.show({ text: "Utente " + responseJson.user.fullname + " registrato, adesso puoi effettuare il login.", position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
   navigation.goBack()
 }
 
@@ -42,15 +42,12 @@ export const registerUserFail = (dispatch, error) => {
 export const loginUser = (userInfo, navigation) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER_START });
-    fetch('http://' + server + ':' + port + '/api/v1/waiters', {
+    fetch('http://' + server + ':' + port + '/api/auth/login', {
            method: 'POST',
            headers: { 'Accept': 'application/json',
                       'Content-Type': 'application/json'
                     },
-           body: JSON.stringify({ fullname: userInfo.fullname,
-                                  age: userInfo.age,
-                                  sex: userInfo.userSex,
-                                  email: userInfo.mail,
+           body: JSON.stringify({ email: userInfo.mail,
                                   password: userInfo.password
                                 })
           })
@@ -62,12 +59,13 @@ export const loginUser = (userInfo, navigation) => {
 
 export const loginUserSuccess = (dispatch, responseJson, navigation) => {
   dispatch({ type: LOGIN_USER_SUCCESS });
+  //console.log(responseJson.token);
   //Toast.show({ text: "Utente " + responseJson.fullname + " registrato, adesso puoi effettuare il login.", position: 'bottom', buttonText: 'Ok', duration: 4000, type: success })
   //navigation.goBack()
 }
 
 export const loginUserFail = (dispatch, error) => {
   dispatch({ type: LOGIN_USER_FAIL });
-  //Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: danger })
+  Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: danger })
   //console.log(error);
 }
