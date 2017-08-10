@@ -4,7 +4,7 @@ import { Container, Content, List, ListItem, InputGroup, Input, Icon, Text, Toas
          Picker, Button, Form, Item, Grid, Col, Body, Thumbnail, Left, Right } from 'native-base';
 import { ImagePicker } from 'expo';
 
-import { registerUser } from '../actions'
+import { registerUser } from '../actions/authActions'
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({

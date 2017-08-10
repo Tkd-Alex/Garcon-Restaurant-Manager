@@ -5,14 +5,18 @@ import { Root } from "native-base";
 import { StackNavigator } from 'react-navigation';
 
 import { Provider } from 'react-redux';
-import store from './src/components/store';
+import store from './src/store';
 
-import Login from './src/components/Login/login';
-import Registration from './src/components/Registration/registration';
+import Login from './src/screen/login';
+import Registration from './src/screen/registration';
+import Home from './src/screen/home';
+import Menu from './src/screen/menu';
 
 const Navigation = StackNavigator({
   Login: {screen: Login},
-  Registration: {screen: Registration}
+  Registration: {screen: Registration},
+  Home: {screen: Home},
+  Menu: {screen: Menu}
 });
 
 export default class App extends Component  {

@@ -1,7 +1,8 @@
 import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOUT,
-         SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL } from './actionTypes'
+         SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL } from './types'
 
 import { Toast } from 'native-base';
+import { AsyncStorage } from 'react-native'
 
 let server = '192.168.0.14'
 let port = '3000'
@@ -59,13 +60,18 @@ export const loginUser = (userInfo, navigation) => {
 
 export const loginUserSuccess = (dispatch, responseJson, navigation) => {
   dispatch({ type: LOGIN_USER_SUCCESS });
-  //console.log(responseJson.token);
-  //Toast.show({ text: "Utente " + responseJson.fullname + " registrato, adesso puoi effettuare il login.", position: 'bottom', buttonText: 'Ok', duration: 4000, type: success })
-  //navigation.goBack()
+  try {
+    AsyncStorage.setItem('garcon-token', responseJson.token, () => {
+      console.log("Ho appena finito");
+      navigation.navigate("Home", {})
+    });
+  } catch (error) {
+    console.log("Error to save data on AsyncStorage")
+  }
 }
 
 export const loginUserFail = (dispatch, error) => {
   dispatch({ type: LOGIN_USER_FAIL });
-  Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: danger })
+  Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: 'danger' })
   //console.log(error);
 }

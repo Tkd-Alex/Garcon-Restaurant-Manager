@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput, TouchableOpacity ,KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity ,KeyboardAvoidingView, Keyboard } from 'react-native';
 import { Container, Button, Text, Form, Item, Input, Label, Content, Toast } from 'native-base';
 
-import { loginUser } from '../actions'
+import { loginUser } from '../actions/authActions'
 import { connect } from 'react-redux';
 
-import LogoContainter from '../logoContainer'
+import LogoContainter from '../components/logoContainer'
 
 const mapStateToProps = state => ({
   loginUser: state.loginUser
@@ -24,7 +24,7 @@ class Login extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <KeyboardAvoidingView onPress={Keyboard.dismiss} behavior="padding" style={styles.container}>
         <LogoContainter/>
         <Container style={{ padding: 15 }}>
           <Content>
@@ -37,7 +37,7 @@ class Login extends Component {
             <Button onPress={() => {if(this.state.mail == "" || this.state.password == "")
                                       Toast.show({ text: 'Assicurati di aver inserito tutti i dati!', position: 'bottom', buttonText: 'Ok', duration: 2500 })
                                     else
-                                      this.props.loginUser(this.state)
+                                      this.props.loginUser(this.state, this.props.navigation)
                                     }
                                   }
                     style={{ marginBottom: 10 }} block danger><Text>Accedi</Text></Button>
