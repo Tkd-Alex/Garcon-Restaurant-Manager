@@ -25,7 +25,7 @@ class Login extends Component {
   render() {
     return (
       <Container onPress={Keyboard.dismiss} style={styles.container}>
-        <LogoContainter/>
+        {/* <LogoContainter/> */}
         <Container style={{ paddingTop: 20 }}>
           <Content padder>
             <Form>

@@ -1,5 +1,9 @@
+import Expo from 'expo';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Container, Content,  Header, Left, Body, Right,
+         Button, Icon, Title, List, ListItem, Text } from 'native-base';
+
+import Colors from '../constants/Colors';
 
 export default class Drink extends Component {
 
@@ -9,15 +13,26 @@ export default class Drink extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>I'm the DRINK component</Text>
-      </View>
+      <Container>
+        <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
+          <Body>
+            <Title>Bevande</Title>
+          </Body>
+        </Header>
+        <Content>
+          <List>
+            <ListItem>
+              <Text>Simon Mignolet</Text>
+            </ListItem>
+            <ListItem>
+              <Text>Nathaniel Clyne</Text>
+            </ListItem>
+            <ListItem>
+              <Text>Dejan Lovren</Text>
+            </ListItem>
+          </List>
+        </Content>
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

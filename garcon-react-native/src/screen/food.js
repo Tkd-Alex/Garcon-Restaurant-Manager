@@ -16,7 +16,7 @@ export default class Food extends Component {
       <Container>
         <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
           <Body>
-            <Title>Cibo</Title>
+            <Title style={{color: "white"}}>Cibo</Title>
           </Body>
         </Header>
         <Content>

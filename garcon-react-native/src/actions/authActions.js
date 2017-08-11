@@ -44,7 +44,7 @@ export const registerUserSuccess = (dispatch, responseJson, navigation) => {
 }
 
 export const registerUserFail = (dispatch, error) => {
-  dispatch({ type: SIGNUP_USER_FAIL });
+  dispatch({ type: SIGNUP_USER_FAIL, payload: error });
   Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
   console.log(error);
 }
@@ -68,12 +68,13 @@ export const loginUser = (userInfo, navigation) => {
 };
 
 export const loginUserSuccess = (dispatch, responseJson, navigation) => {
-  dispatch({ type: LOGIN_USER_SUCCESS });
+  let userLogged = responseJson.user;
+  console.log(userLogged);
+  userLogged.token = responseJson.token;
+  dispatch({ type: LOGIN_USER_SUCCESS, payload: userLogged });
   try {
-    AsyncStorage.setItem('garcon-token', responseJson.token, () => {
-      console.log("Ho appena finito");
+    AsyncStorage.setItem('garcon-token', userLogged.token, () => {
       navigation.dispatch(resetAction)
-      //navigation.navigate("Food", {})
     });
   } catch (error) {
     console.log("Error to save data on AsyncStorage")
@@ -81,7 +82,7 @@ export const loginUserSuccess = (dispatch, responseJson, navigation) => {
 }
 
 export const loginUserFail = (dispatch, error) => {
-  dispatch({ type: LOGIN_USER_FAIL });
+  dispatch({ type: LOGIN_USER_FAIL, payload: error });
   Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: 'danger' })
   //console.log(error);
 }

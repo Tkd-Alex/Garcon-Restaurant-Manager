@@ -11,21 +11,20 @@ let initialState = {
 export default authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER_START:
-      return 0;
+      return {...state, isLoading: true, erro: null};
     case LOGIN_USER_SUCCESS:
-      return 0;
+      return {...state, isLoading: false, erro: null, user: action.payload};
     case LOGIN_USER_FAIL:
-      return 0;
+      return {...state, isLoading: false, error: action.payload};
     case LOGIN_USER_LOGOUT:
       return 0;
     case SIGNUP_USER_START:
-      return 0;
+      return {...state, isLoading: true};
     case SIGNUP_USER_SUCCESS:
-      return 0;
+      return {...state, isLoading: false};
     case SIGNUP_USER_FAIL:
-      return 0;
+      return {...state, isLoading: false, error: action.payload};
     default:
       return state;
   }
 }
-

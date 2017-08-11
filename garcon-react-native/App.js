@@ -60,20 +60,38 @@ const tabNavigation = TabNavigator({
     headerMode: 'screen'
 });
 
-const Navigation = StackNavigator({
-  authNavigation: {screen: authNavigation},
-  tabNavigation: {screen: tabNavigation},
-}, { headerMode: 'none' });
+export const createRootNavigator = (signedIn = false) => {
+  return StackNavigator(
+    {
+      authNavigation: {screen: authNavigation},
+      tabNavigation: {screen: tabNavigation},
+    }, {
+      headerMode: 'none',
+      initialRouteName: signedIn ? "tabNavigation" : "authNavigation"
+    });
+};
 
+export const isSignedIn = () => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('garcon-token').then(res => {
+      if (res !== null) resolve(true);
+      else resolve(false);
+    })
+    .catch(err => reject(err));
+  });
+};
 
 export default class App extends Component  {
 
   state = {
     isReady: false,
+    signedIn: true,
   };
 
   componentWillMount() {
     this._cacheResourcesAsync();
+    /* isSignedIn().then(res => this.setState({ signedIn: res, checkedSignIn: true }))
+                   .catch(err => alert("An error occurred")); */
   }
 
   async _cacheResourcesAsync() {
@@ -85,16 +103,19 @@ export default class App extends Component  {
   }
 
   render() {
+
     if (!this.state.isReady) {
       return <AppLoading />;
+    }else{
+      const Navigation = createRootNavigator(this.state.signedIn);
+      return (
+        <Provider store={store}>
+          <Root>
+            <Navigation />
+          </Root>
+        </Provider>
+      );
     }
-    return (
-      <Provider store={store}>
-        <Root>
-          <Navigation />
-        </Root>
-      </Provider>
-    );
   }
 }
 

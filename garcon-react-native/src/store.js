@@ -6,6 +6,6 @@ import logger from 'redux-logger';
 
 import appReducer from './reducers';
 
-const store = createStore(appReducer, {}, applyMiddleware(thunk));
+const store = createStore(appReducer, {}, applyMiddleware(thunk, logger, promiseMiddleware));
 
 export default store;
