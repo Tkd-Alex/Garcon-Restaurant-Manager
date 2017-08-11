@@ -1,5 +1,9 @@
+import Expo from 'expo';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Container, Content,  Header, Left, Body, Right,
+         Button, Icon, Title, List, ListItem, Text } from 'native-base';
+
+import Colors from '../constants/Colors';
 
 export default class Order extends Component {
 
@@ -9,15 +13,15 @@ export default class Order extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>I'm the ORDER component</Text>
-      </View>
+      <Container>
+        <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
+          <Body>
+            <Title style={{color: "white"}}>Ordini</Title>
+          </Body>
+        </Header>
+        <Content>
+        </Content>
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

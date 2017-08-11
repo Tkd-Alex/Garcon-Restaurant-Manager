@@ -5,10 +5,10 @@ import { Container, Content,  Header, Left, Body, Right,
 
 import Colors from '../constants/Colors';
 
-export default class Drink extends Component {
+export default class Settings extends Component {
 
   static navigationOptions = {
-    title: "Drink"
+    title: "Settings"
   };
 
   render() {
@@ -16,21 +16,10 @@ export default class Drink extends Component {
       <Container>
         <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
           <Body>
-            <Title style={{color: "white"}}>Bevande</Title>
+            <Title style={{color: "white"}}>Impostazioni</Title>
           </Body>
         </Header>
         <Content>
-          <List>
-            <ListItem>
-              <Text>Simon Mignolet</Text>
-            </ListItem>
-            <ListItem>
-              <Text>Nathaniel Clyne</Text>
-            </ListItem>
-            <ListItem>
-              <Text>Dejan Lovren</Text>
-            </ListItem>
-          </List>
         </Content>
       </Container>
     );

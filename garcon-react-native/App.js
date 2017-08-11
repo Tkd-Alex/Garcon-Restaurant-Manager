@@ -15,6 +15,7 @@ import Registration from './src/screen/registration';
 import Food from './src/screen/food';
 import Drink from './src/screen/drink';
 import Order from './src/screen/order';
+import Settings from './src/screen/settings';
 
 import Colors from './src/constants/Colors';
 
@@ -47,7 +48,15 @@ const tabNavigation = TabNavigator({
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-list${focused ? '' : '-outline'}` : 'md-list'}
                                                         size={30} color={focused ? Colors.tintColor : tintColor} />
     }
-  }
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: {
+      tabBarLabel:"Impostazioni",
+      tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-settings${focused ? '' : '-outline'}` : 'md-settings'}
+                                                        size={30} color={focused ? Colors.tintColor : tintColor} />
+    }
+  },
   }, {
     tabBarOptions: {
       activeTintColor: Colors.tintColor,
