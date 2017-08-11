@@ -1,6 +1,7 @@
 'use strict';
 
 const AuthenticationController = require('./controllers/authentication'),
+      IngredientController = require('./controllers/ingredient'),
       express = require('express'),
       passportService = require('./config/passport'),
       passport = require('passport');
@@ -18,6 +19,8 @@ module.exports = function(app) {
   apiRoutes.get('/', function(req, res){
     res.json({ message: "garcon-backend api is on " + new Date() });
   });
+
+  apiRoutes.route('/ingredient').get(IngredientController.getAll).post(IngredientController.insert);
 
   privateRoutes.get('/testing', requireAuth, AuthenticationController.roleAuthorization, function(req, res){
     res.json({ message: "Funziona!" });
