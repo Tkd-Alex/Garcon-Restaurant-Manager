@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Container } from 'native-base';
+import Colors from '../constants/Colors';
 
 export default class LogoContainter extends Component {
   render() {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   titleStyle: {
-    color: '#c0392b',
+    color: Colors.tintColor,
     fontSize: 20,
     paddingTop: 10,
     fontWeight: 'bold',

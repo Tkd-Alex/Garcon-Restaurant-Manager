@@ -16,6 +16,8 @@ import Food from './src/screen/food';
 import Drink from './src/screen/drink';
 import Order from './src/screen/order';
 
+import Colors from './src/constants/Colors';
+
 const authNavigation = StackNavigator({
   Login: {screen: Login},
   Registration: {screen: Registration}
@@ -27,7 +29,7 @@ const tabNavigation = TabNavigator({
     navigationOptions: {
       tabBarLabel:"Pietanze",
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-pizza${focused ? '' : '-outline'}` : 'md-pizza'}
-                                                        size={30} color={focused ? "#c0392b" : tintColor} />
+                                                        size={30} color={focused ? Colors.tintColor : tintColor} />
     }
   },
   Drink: {
@@ -35,7 +37,7 @@ const tabNavigation = TabNavigator({
     navigationOptions: {
       tabBarLabel:"Bevande",
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-beer${focused ? '' : '-outline'}` : 'md-beer'}
-                                                        size={30} color={focused ? "#c0392b" : tintColor} />
+                                                        size={30} color={focused ? Colors.tintColor : tintColor} />
     }
   },
   Order: {
@@ -43,13 +45,13 @@ const tabNavigation = TabNavigator({
     navigationOptions: {
       tabBarLabel:"Ordini",
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-list${focused ? '' : '-outline'}` : 'md-list'}
-                                                        size={30} color={focused ? "#c0392b" : tintColor} />
+                                                        size={30} color={focused ? Colors.tintColor : tintColor} />
     }
   }
   }, {
     tabBarOptions: {
-      activeTintColor: '#c0392b',
-      inactiveTintColor: '#ccc',
+      activeTintColor: Colors.tintColor,
+      inactiveTintColor: Colors.inactiveTintColor,
     },
     animationEnabled: true,
     swipeEnabled: true,
@@ -89,8 +91,6 @@ export default class App extends Component  {
     return (
       <Provider store={store}>
         <Root>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <StatusBar backgroundColor="red" barStyle="light-content"/>}
           <Navigation />
         </Root>
       </Provider>

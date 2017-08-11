@@ -24,10 +24,10 @@ class Login extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView onPress={Keyboard.dismiss} behavior="padding" style={styles.container}>
+      <Container onPress={Keyboard.dismiss} style={styles.container}>
         <LogoContainter/>
-        <Container style={{ padding: 15 }}>
-          <Content>
+        <Container style={{ paddingTop: 20 }}>
+          <Content padder>
             <Form>
               <Item><Input onChangeText={(mail) => this.setState({mail})}
                            returnKeyType="next" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="E-Mail" /></Item>
@@ -40,12 +40,12 @@ class Login extends Component {
                                       this.props.loginUser(this.state, this.props.navigation)
                                     }
                                   }
-                    style={{ marginBottom: 10 }} block danger><Text>Accedi</Text></Button>
+                    style={{ marginTop: 10 }} block danger><Text>Accedi</Text></Button>
             <Button onPress={() => this.props.navigation.navigate("Registration", {})}
-                    style={{ marginBottom: 10 }} block><Text>Registrati</Text></Button>
+                    style={{ marginTop: 10 }} block><Text>Registrati</Text></Button>
           </Content>
         </Container>
-      </KeyboardAvoidingView>
+      </Container>
     );
   }
 }

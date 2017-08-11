@@ -1,6 +1,9 @@
+import Expo from 'expo';
 import React, { Component } from 'react';
 import { Container, Content,  Header, Left, Body, Right,
          Button, Icon, Title, List, ListItem, Text } from 'native-base';
+
+import Colors from '../constants/Colors';
 
 export default class Food extends Component {
 
@@ -11,7 +14,7 @@ export default class Food extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: "#c0392b" }}>
+        <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
           <Body>
             <Title>Cibo</Title>
           </Body>
