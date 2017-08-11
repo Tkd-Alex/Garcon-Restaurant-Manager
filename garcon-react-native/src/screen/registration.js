@@ -67,14 +67,14 @@ class Registration extends Component {
               </ListItem>
               <ListItem>
                 <InputGroup>
-                  <Icon ios='ios-unlock' android="md-unlock" style={styles.iconForm} />
+                  <Icon ios='ios-lock' android="md-lock" style={styles.iconForm} />
                   <Input onChangeText={(password) => this.setState({password})}
                          returnKeyType="next" secureTextEntry autoCapitalize="none" autoCorrect={false} placeholder="Password" />
                 </InputGroup>
               </ListItem>
               <ListItem>
                 <InputGroup>
-                  <Icon ios='ios-unlock' android="md-unlock" style={styles.iconForm} />
+                  <Icon ios='ios-lock' android="md-lock" style={styles.iconForm} />
                   <Input  onChangeText={(password_v) => this.setState({password_v})}
                           returnKeyType="next" secureTextEntry autoCapitalize="none" autoCorrect={false} placeholder="Conferma password" />
                 </InputGroup>

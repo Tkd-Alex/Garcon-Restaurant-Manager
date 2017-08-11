@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default class Menu extends Component {
+export default class Order extends Component {
 
   static navigationOptions = {
-    title: "Menu"
+    title: "Order"
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>I'm the MyComponent component</Text>
+        <Text>I'm the ORDER component</Text>
       </View>
     );
   }

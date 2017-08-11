@@ -3,9 +3,18 @@ import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOU
 
 import { Toast } from 'native-base';
 import { AsyncStorage } from 'react-native'
+import { NavigationActions } from 'react-navigation'
 
 let server = '192.168.0.14'
 let port = '3000'
+
+const resetAction = NavigationActions.reset({
+  index: 0,
+  key: null,
+  actions: [
+    NavigationActions.navigate({ routeName: 'tabNavigation'})
+  ]
+})
 
 export const registerUser = (userInfo, navigation) => {
   return (dispatch) => {
@@ -63,7 +72,8 @@ export const loginUserSuccess = (dispatch, responseJson, navigation) => {
   try {
     AsyncStorage.setItem('garcon-token', responseJson.token, () => {
       console.log("Ho appena finito");
-      navigation.navigate("Home", {})
+      navigation.dispatch(resetAction)
+      //navigation.navigate("Food", {})
     });
   } catch (error) {
     console.log("Error to save data on AsyncStorage")
