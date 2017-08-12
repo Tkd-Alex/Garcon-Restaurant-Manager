@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "garcon-react-native",
-    "description": "An empty new project",
+    "description": "Restaurant manager",
     "slug": "garcon-react-native",
     "privacy": "public",
     "sdkVersion": "19.0.0",
