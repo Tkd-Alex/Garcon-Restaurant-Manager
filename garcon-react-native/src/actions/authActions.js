@@ -5,8 +5,10 @@ import { Toast } from 'native-base';
 import { AsyncStorage } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 
-let server = '192.168.0.14'
-let port = '3000'
+import Server from '../constants/Server';
+
+let server = Server.address;
+let port = Server.port;
 
 const resetAction = NavigationActions.reset({
   index: 0,

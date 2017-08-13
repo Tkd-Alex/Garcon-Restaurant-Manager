@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput, TouchableOpacity ,KeyboardAvoidingView, Keyboard } from 'react-native';
+import { View, Image, StyleSheet, TextInput, TouchableOpacity ,KeyboardAvoidingView, Keyboard } from 'react-native';
 import { Container, Button, Text, Form, Item, Input, Label, Content, Toast } from 'native-base';
 
 import { loginUser } from '../actions/authActions'
 import { connect } from 'react-redux';
-
-import LogoContainter from '../components/logoContainer'
 
 const mapStateToProps = state => ({
   loginUser: state.loginUser
@@ -25,10 +23,12 @@ class Login extends Component {
   render() {
     return (
       <Container onPress={Keyboard.dismiss} style={styles.container}>
-        {/* <LogoContainter/> */}
         <Container style={{ paddingTop: 20 }}>
           <Content padder>
-            <Form>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Image resizeMode="contain" style={{ height: 120 }} source={ require('../../assets/images/logoGarcon.png') } />
+            </View>
+            <Form style={{ paddingTop: 30 }}>
               <Item><Input onChangeText={(mail) => this.setState({mail})}
                            returnKeyType="next" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="E-Mail" /></Item>
               <Item><Input onChangeText={(password) => this.setState({password})}
