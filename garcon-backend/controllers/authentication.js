@@ -58,7 +58,6 @@ exports.register = function(req, res, next) {
   // Return error if no password provided
   if (!password) { return res.status(422).send({ error: 'Assicurati di avere inserito una password.' }); }
 
-
   User.findOne({ email: email }, function(err, existingUser) {
       if (err) { return next(err); }
 

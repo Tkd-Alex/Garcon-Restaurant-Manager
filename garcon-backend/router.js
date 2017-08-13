@@ -2,6 +2,7 @@
 
 const AuthenticationController = require('./controllers/authentication'),
       IngredientController = require('./controllers/ingredient'),
+      ProductController = require('./controllers/product'),
       express = require('express'),
       passportService = require('./config/passport'),
       passport = require('passport');
@@ -20,7 +21,26 @@ module.exports = function(app) {
     res.json({ message: "garcon-backend api is on " + new Date() });
   });
 
-  apiRoutes.route('/ingredient').get(IngredientController.getAll).post(IngredientController.insert);
+  //=========================
+  // Ingredient Routes
+  //=========================
+  apiRoutes.route('/ingredient').get(IngredientController.getAll)
+                                .post(IngredientController.insert);
+
+  apiRoutes.route('/ingredient/:id').get(IngredientController.get)
+                                    .put(IngredientController.update)
+                                    .delete(IngredientController.delete);
+
+  //=========================
+  // Product Routes
+  //=========================
+  apiRoutes.route('/product').get(ProductController.getAll)
+                             .post(ProductController.insert);
+
+  apiRoutes.route('/product/:id').get(ProductController.get)
+                                 .put(ProductController.update)
+                                 .delete(ProductController.delete);                           
+
 
   privateRoutes.get('/testing', requireAuth, AuthenticationController.roleAuthorization, function(req, res){
     res.json({ message: "Funziona!" });
@@ -35,10 +55,8 @@ module.exports = function(app) {
 
   // Set auth routes as subgroup/middleware to apiRoutes
   apiRoutes.use('/auth', authRoutes);
-
   // Registration routes
   authRoutes.post('/register', AuthenticationController.register);
-
   // Login route
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
 
