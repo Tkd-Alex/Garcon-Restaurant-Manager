@@ -3,15 +3,34 @@ import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right,
          Button, Icon, Title, List, ListItem, Text, InputGroup, Input } from 'native-base';
+import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import ListItemCustom from '../components/ListItemCustom';
+import { fetchProduct } from '../actions/productActions'
 
-export default class Food extends Component {
+function mapStateToProps (state) {
+  return {
+    listProduct: state.product
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    fetchProduct: () => dispatch(fetchProduct('Food'))
+  }
+}
+
+class Food extends Component {
 
   static navigationOptions = {
     title: "Food"
   };
+
+  componentWillMount(){
+    this.props.fetchProduct()
+    console.log(this.props)
+  }
 
   render() {
     return (
@@ -27,10 +46,15 @@ export default class Food extends Component {
         </InputGroup>
         <Content>
           <List>
-            <ListItemCustom title="Pizza mararina" description="Gli ingredienti della pizza" iterateIndex='0' />
+            {this.props.listProduct.listProduct.map(product =>
+            <ListItemCustom key={product._id} title={product.name}
+                            description={product.ingredients.map(o => o.name).join(', ')} />
+            )}
           </List>
         </Content>
       </Container>
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Food);
