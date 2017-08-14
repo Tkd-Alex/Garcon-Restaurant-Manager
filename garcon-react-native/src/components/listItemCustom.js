@@ -13,7 +13,7 @@ render() {
     |===================
     */}
     return (
-      <ListItem style={{marginLeft: 0}} onPress={() => {alert("TEST!")}}>
+      <ListItem style={{marginLeft: 0}}>
         <View style={{width: '75%'}}>
           <Body>
             <Text>{this.props.title}</Text>
@@ -23,8 +23,8 @@ render() {
         <View>
           <Right>
             <View style={styles.buttonContainer}>
-              <Button style={styles.smallestButton} small success><Icon name='ios-add' /></Button>
-              <Button style={styles.smallestButton} small danger><Icon name='ios-remove' /></Button>
+              <Button style={styles.smallestButton} onPress={() => {alert("TEST!")}}  small success><Icon name='ios-add' /></Button>
+              <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {})} small warning><Icon name='ios-restaurant' /></Button>
             </View>
           </Right>
         </View>
@@ -38,15 +38,15 @@ render() {
     |===================
     */}
     return (
-      <ListItem style={{marginLeft: 0}} onPress={() => {alert("TEST!")}}>
+      <ListItem style={{marginLeft: 0}}>
         <Body>
           <Text>{this.props.title}</Text>
           <Text note>{this.props.description}</Text>
         </Body>
         <Right>
           <View style={styles.buttonContainer}>
-            <Button style={styles.smallestButton} small success><Icon name='md-add'/></Button>
-            <Button style={styles.smallestButton} small danger><Icon name='md-remove'/></Button>
+            <Button style={styles.smallestButton} onPress={() => {alert("TEST!")}} small success><Icon name='md-add'/></Button>
+            <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {})} small warning><Icon name='md-restaurant'/></Button>
           </View>
         </Right>
       </ListItem>

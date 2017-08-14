@@ -14,9 +14,9 @@ export default productReducer = (state = initialState, action) => {
     case FETCH_ERROR:
       return {...state, isLoading: false, error: action.payload};
     case DRINK_FETCH_SUCCESS:
-      return {typeProduct: "Drink", listProduct: action.payload, isLoading: true};
+      return {typeProduct: "Drink", listProduct: action.payload, isLoading: false};
     case FOOD_FETCH_SUCCESS:
-      return {typeProduct: "Food", listProduct: action.payload, isLoading: true};
+      return {typeProduct: "Food", listProduct: action.payload, isLoading: false};
     default:
       return state;
   }

@@ -16,6 +16,7 @@ import Food from './src/screen/food';
 import Drink from './src/screen/drink';
 import Order from './src/screen/order';
 import Settings from './src/screen/settings';
+import EditProduct from  './src/screen/editProduct';
 
 import Colors from './src/constants/Colors';
 
@@ -74,6 +75,7 @@ export const createRootNavigator = (signedIn = false) => {
     {
       authNavigation: {screen: authNavigation},
       tabNavigation: {screen: tabNavigation},
+      editProduct: {screen: EditProduct}
     }, {
       headerMode: 'none',
       initialRouteName: signedIn ? "tabNavigation" : "authNavigation"
