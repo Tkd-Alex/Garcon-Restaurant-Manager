@@ -39,8 +39,9 @@ module.exports = function(app) {
 
   apiRoutes.route('/product/:id').get(ProductController.get)
                                  .put(ProductController.update)
-                                 .delete(ProductController.delete);                           
+                                 .delete(ProductController.delete);
 
+  apiRoutes.route('/product/category/:category').get(ProductController.getCategory)
 
   privateRoutes.get('/testing', requireAuth, AuthenticationController.roleAuthorization, function(req, res){
     res.json({ message: "Funziona!" });
