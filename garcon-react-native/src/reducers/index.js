@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
-import productReducer from './productReducer';
+import foodReducer from './foodReducer';
+import drinkReducer from './drinkReducer';
 
 const appReducer = combineReducers({
   auth: authReducer,
-  product: productReducer
+  food: foodReducer,
+  drink: drinkReducer
 })
 
 export default appReducer;

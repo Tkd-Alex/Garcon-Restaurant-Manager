@@ -1,4 +1,5 @@
-import { FETCH_START, FETCH_ERROR, DRINK_FETCH_SUCCESS, FOOD_FETCH_SUCCESS } from './types'
+import { FOOD_FETCH_START, FOOD_FETCH_ERROR, FOOD_FETCH_SUCCESS,
+         DRINK_FETCH_START, DRINK_FETCH_ERROR, DRINK_FETCH_SUCCESS } from './types'
 
 import { Toast } from 'native-base';
 import { AsyncStorage } from 'react-native'
@@ -11,7 +12,10 @@ let port = Server.port;
 
 export const fetchProduct = (type) => {
   return (dispatch) => {
-    dispatch({ type: FETCH_START });
+    
+    if (type == "Food") dispatch({ type: FOOD_FETCH_START });
+    else dispatch({ type: DRINK_FETCH_START });
+
     fetch('http://' + server + ':' + port + '/api/product/category/' + type, {
            method: 'GET',
            headers: { 'Accept': 'application/json',
@@ -30,7 +34,9 @@ export const fetchProductSuccess = (dispatch, responseJson, type) => {
 }
 
 export const fetchProductFail = (dispatch, error) => {
-  dispatch({ type: FETCH_ERROR, payload: error });
+  if (type == "Food") dispatch({ type: FOOD_FETCH_ERROR });
+  else dispatch({ type: DRINK_FETCH_ERROR });
+
   Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
   console.log(error);
 }

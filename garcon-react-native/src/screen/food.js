@@ -9,9 +9,8 @@ import Colors from '../constants/Colors';
 import ListItemCustom from '../components/listItemCustom';
 import { fetchProduct } from '../actions/productActions'
 
-
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.food
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -49,8 +48,7 @@ class Food extends Component {
             {this.props.product.listProduct.filter(product =>
                                                    product.name.toLowerCase().includes(this.state.filterText.toLowerCase()))
                                            .map(product =>
-            <ListItemCustom key={product._id} title={product.name} navigation={this.props.navigation}
-                            description={product.ingredients.map(o => o.name).join(', ')} />
+            <ListItemCustom key={product._id} product={product} navigation={this.props.navigation} />
             )}
           </List>
         </Content>

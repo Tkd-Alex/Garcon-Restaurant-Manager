@@ -16,8 +16,8 @@ render() {
       <ListItem style={{marginLeft: 0}}>
         <View style={{width: '75%'}}>
           <Body>
-            <Text>{this.props.title}</Text>
-            <Text note style={{fontSize: 12}}>{this.props.description}</Text>
+            <Text>{this.props.product.name}</Text>
+            <Text note style={{fontSize: 12}}>{this.props.product.ingredients.map(o => o.name).join(', ')}</Text>
           </Body>
         </View>
         <View>
@@ -40,8 +40,8 @@ render() {
     return (
       <ListItem style={{marginLeft: 0}}>
         <Body>
-          <Text>{this.props.title}</Text>
-          <Text note>{this.props.description}</Text>
+          <Text>{this.props.product.name}</Text>
+          <Text note>{this.props.product.ingredients.map(o => o.name).join(', ')}</Text>
         </Body>
         <Right>
           <View style={styles.buttonContainer}>
