@@ -20,14 +20,14 @@ render() {
             <Text note style={{fontSize: 12}}>{this.props.product.ingredients.map(o => o.name).join(', ')}</Text>
           </Body>
         </View>
-        <View>
-          <Right>
-            <View style={styles.buttonContainer}>
-              <Button style={styles.smallestButton} onPress={() => {alert("TEST!")}}  small success><Icon name='ios-add' /></Button>
-              <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {})} small warning><Icon name='ios-restaurant' /></Button>
-            </View>
-          </Right>
-        </View>
+        <Right>
+          <View style={styles.buttonContainer}>
+            <Button style={styles.smallestButton} onPress={() => this.props.incrementCallback(this.props.product) } small success><Icon name='ios-add' /></Button>
+            { this.props.product.category == 'Food' &&
+            <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {})} small warning><Icon name='ios-restaurant' /></Button>
+            }
+          </View>
+        </Right>
       </ListItem>
     )
   }
@@ -45,8 +45,10 @@ render() {
         </Body>
         <Right>
           <View style={styles.buttonContainer}>
-            <Button style={styles.smallestButton} onPress={() => {alert("TEST!")}} small success><Icon name='md-add'/></Button>
+            <Button style={styles.smallestButton} onPress={() => this.props.incrementCallback(this.props.product) } small success><Icon name='md-add'/></Button>
+            { this.props.product.category == 'Food' &&
             <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {})} small warning><Icon name='md-restaurant'/></Button>
+            }
           </View>
         </Right>
       </ListItem>
@@ -64,6 +66,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'flex-end'
   }
 });

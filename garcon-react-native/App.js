@@ -45,7 +45,7 @@ const tabNavigation = TabNavigator({
   Order: {
     screen: Order,
     navigationOptions: {
-      tabBarLabel:"Ordini",
+      tabBarLabel:"Riepilogo ordine",
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-list${focused ? '' : '-outline'}` : 'md-list'}
                                                         size={30} color={focused ? Colors.tintColor : tintColor} />
     }
