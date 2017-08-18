@@ -7,14 +7,18 @@ import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import ListItemCustom from '../components/listItemCustom';
-import { fetchProduct } from '../actions/productActions'
+import { fetchProduct } from '../actions/productActions';
+import { editProduct, addProduct, incrementProduct } from '../actions/orderActions';
 
 const mapStateToProps = state => ({
-  product: state.drink
+  product: state.drink,
+  order: state.order
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProduct: () => dispatch(fetchProduct('Drink'))
+  fetchProduct: () => dispatch(fetchProduct('Drink')),
+  incrementProduct: (product) => dispatch(incrementProduct(product)),
+  addProduct: (product) => dispatch(addProduct(product))
 })
 
 class Drink extends Component {
@@ -48,7 +52,8 @@ class Drink extends Component {
             {this.props.product.listProduct.filter(product =>
                                                    product.name.toLowerCase().includes(this.state.filterText.toLowerCase()))
                                            .map(product =>
-            <ListItemCustom key={product._id} product={product} navigation={this.props.navigation} />
+            <ListItemCustom key={product._id} product={product} navigation={this.props.navigation}
+                            incrementCallback={this.props.order.listOrder.map(order => order.product).indexOf(product) > -1 ? this.props.incrementProduct : this.props.addProduct} />
             )}
           </List>
         </Content>

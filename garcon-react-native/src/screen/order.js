@@ -42,6 +42,7 @@ class Order extends Component {
                  </H3>
              </Left>
            </CardItem>
+           { order.product.ingredients.length > 0 &&
            <CardItem>
              <Body>
                <Text>
@@ -49,6 +50,7 @@ class Order extends Component {
                </Text>
              </Body>
            </CardItem>
+          }
            <CardItem>
              <Left>
                <Icon name="logo-euro" />
@@ -64,7 +66,9 @@ class Order extends Component {
                        onPress={() => this.props.incrementProduct(order.product)} ><Icon ios='ios-add' android='md-add' /></Button>
                <Button style={styles.smallestButton} small danger
                        onPress={() => order.quantity-1 > 0 ? this.props.decrementProduct(order.product) : this.props.removeProduct(order.product)} ><Icon ios='ios-remove' android='md-remove' /></Button>
+               { order.product.category == 'Food' &&
                <Button style={styles.smallestButton} small warning><Icon ios='ios-restaurant' android='md-restaurant' /></Button>
+               }
                </View>
              </Right>
            </CardItem>

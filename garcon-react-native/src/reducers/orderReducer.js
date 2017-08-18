@@ -28,17 +28,18 @@ export default orderReducer = (state = initialState, action) => {
       state.listOrder.push({ product: action.payload, quantity: 1, totalPrice: action.payload.price });
       return {...state};
     case REMOVE_PRODUCT:
-      alert('i mia chi bo')
-      return state;
+      var index = state.listOrder.map(order => order.product).indexOf(action.payload)
+      state.listOrder.splice(index,1);
+      return {...state};
     case INRECREMENT_PRODUCT:
-      let filterProduct = state.listOrder.filter(order => JSON.stringify(order.product) === JSON.stringify(action.payload));
-      state.listOrder[state.listOrder.indexOf(filterProduct[0])].quantity++;
-      state.listOrder[state.listOrder.indexOf(filterProduct[0])].totalPrice = state.listOrder[state.listOrder.indexOf(filterProduct[0])].quantity * action.payload.price;
+      var index = state.listOrder.map(order => order.product).indexOf(action.payload)
+      state.listOrder[index].quantity++;
+      state.listOrder[index].totalPrice = state.listOrder[index].quantity * action.payload.price;
       return {...state};
     case DECREMENT_PRODUCT:
-      let filterProduct_2 = state.listOrder.filter(order => JSON.stringify(order.product) === JSON.stringify(action.payload));
-      state.listOrder[state.listOrder.indexOf(filterProduct_2[0])].quantity--;
-      state.listOrder[state.listOrder.indexOf(filterProduct_2[0])].totalPrice = state.listOrder[state.listOrder.indexOf(filterProduct_2[0])].quantity * action.payload.price;
+      var index = state.listOrder.map(order => order.product).indexOf(action.payload)
+      state.listOrder[index].quantity--;
+      state.listOrder[index].totalPrice = state.listOrder[index].quantity * action.payload.price;
       return {...state};
     default:
       return state;
