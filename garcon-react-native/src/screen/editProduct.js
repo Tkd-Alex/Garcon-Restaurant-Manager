@@ -1,16 +1,30 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
-import { View, Platform, StyleSheet } from 'react-native';
+import { View, Platform, StyleSheet, RefreshControl } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right, H2, Tab, Tabs, TabHeading,
          Button, Icon, Title, List, ListItem, Text, InputGroup, Input } from 'native-base';
+import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
+import { fetchIngredient } from '../actions/ingredientActions';
 
-export default class EditProduct extends Component {
+const mapStateToProps = state => ({
+  ingredient: state.ingredient
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchIngredient: () => dispatch(fetchIngredient()),
+})
+
+class EditProduct extends Component {
 
   static navigationOptions = {
     title: "Modifica"
   };
+
+  componentWillMount(){
+    this.props.fetchIngredient()
+  }
 
   state = {
     filterText_present: '',
@@ -38,26 +52,20 @@ export default class EditProduct extends Component {
               <Container>
                 <InputGroup borderType="underline" >
                   <Icon ios="ios-search" android="md-search" style={{ color: Colors.inactiveTintColor }}/>
-                  <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText_present: text})}/>
+                  <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText_remove: text})}/>
                 </InputGroup>
                 <Content>
                   <List>
-                    <ListItem>
+                    {this.props.navigation.state.params.product.ingredients.map(ingredient =>
+                    <ListItem key={ingredient._id}>
                       <Body>
-                        <Text>Ingredienti</Text>
+                        <Text>{ingredient.name}</Text>
                       </Body>
                       <Right>
                         <Button style={styles.smallestButton} small danger><Icon ios='ios-remove' android='md-remove' /></Button>
                        </Right>
                     </ListItem>
-                    <ListItem>
-                      <Body>
-                        <Text>Ingredienti</Text>
-                      </Body>
-                      <Right>
-                        <Button style={styles.smallestButton} small danger><Icon ios='ios-remove' android='md-remove' /></Button>
-                       </Right>
-                    </ListItem>
+                    )}
                   </List>
                 </Content>
               </Container>
@@ -69,26 +77,20 @@ export default class EditProduct extends Component {
             <Container>
               <InputGroup borderType="underline" >
                 <Icon ios="ios-search" android="md-search" style={{ color: Colors.inactiveTintColor }}/>
-                <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText_present: text})}/>
+                <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText_add: text})}/>
               </InputGroup>
-              <Content>
+              <Content refreshControl={ <RefreshControl onRefresh={this.props.fetchIngredient} refreshing={this.props.ingredient.isLoading} /> } >
                 <List>
-                  <ListItem>
+                  {this.props.ingredient.listIngredient.map(ingredient =>
+                  <ListItem key={ingredient._id}>
                     <Body>
-                      <Text>Ingredienti</Text>
+                      <Text>{ingredient.name}</Text>
                     </Body>
                     <Right>
                       <Button style={styles.smallestButton} small success><Icon ios='ios-add' android='md-add' /></Button>
                      </Right>
                   </ListItem>
-                  <ListItem>
-                    <Body>
-                      <Text>Ingredienti</Text>
-                    </Body>
-                    <Right>
-                      <Button style={styles.smallestButton} small success><Icon ios='ios-add' android='md-add' /></Button>
-                     </Right>
-                  </ListItem>
+                  )}
                 </List>
               </Content>
             </Container>
@@ -106,3 +108,5 @@ const styles = StyleSheet.create({
     marginLeft: 5
   }
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProduct);

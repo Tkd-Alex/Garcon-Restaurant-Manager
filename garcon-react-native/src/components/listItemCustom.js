@@ -24,7 +24,7 @@ render() {
           <View style={styles.buttonContainer}>
             <Button style={styles.smallestButton} onPress={() => this.props.incrementCallback(this.props.product) } small success><Icon name='ios-add' /></Button>
             { this.props.product.category == 'Food' &&
-            <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {})} small warning><Icon name='ios-restaurant' /></Button>
+            <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {product: this.props.product})} small warning><Icon name='ios-restaurant' /></Button>
             }
           </View>
         </Right>
@@ -47,7 +47,7 @@ render() {
           <View style={styles.buttonContainer}>
             <Button style={styles.smallestButton} onPress={() => this.props.incrementCallback(this.props.product) } small success><Icon name='md-add'/></Button>
             { this.props.product.category == 'Food' &&
-            <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {})} small warning><Icon name='md-restaurant'/></Button>
+            <Button style={styles.smallestButton} onPress={() => this.props.navigation.navigate("editProduct", {product: this.props.product})} small warning><Icon name='md-restaurant'/></Button>
             }
           </View>
         </Right>
