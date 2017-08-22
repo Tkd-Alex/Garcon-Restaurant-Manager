@@ -68,7 +68,7 @@ class Order extends Component {
                        onPress={() => order.quantity-1 > 0 ? this.props.decrementProduct(order.product) : this.props.removeProduct(order.product)} ><Icon ios='ios-remove' android='md-remove' /></Button>
                { order.product.category == 'Food' &&
                <Button style={styles.smallestButton} small warning
-                       onPress={() => this.props.navigation.navigate("editProduct", {product: order.product})} ><Icon ios='ios-restaurant' android='md-restaurant' /></Button>
+                       onPress={() => this.props.navigation.navigate("editProduct", {product: order.product, index: index})} ><Icon ios='ios-restaurant' android='md-restaurant' /></Button>
                }
                </View>
              </Right>

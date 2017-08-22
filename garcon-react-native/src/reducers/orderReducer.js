@@ -23,21 +23,22 @@ export default orderReducer = (state = initialState, action) => {
     case ORDER_NEW_ERROR:
       return state;
     case EDIT_PRODUCT:
-      return state;
+      state.listOrder[action.index].product = action.payload;
+      return {...state};
     case ADD_PRODUCT:
       state.listOrder.push({ product: action.payload, quantity: 1, totalPrice: action.payload.price });
       return {...state};
     case REMOVE_PRODUCT:
-      var index = state.listOrder.map(order => order.product).indexOf(action.payload)
+      var index = state.listOrder.map(order => order.product).indexOf(action.payload);
       state.listOrder.splice(index,1);
       return {...state};
     case INRECREMENT_PRODUCT:
-      var index = state.listOrder.map(order => order.product).indexOf(action.payload)
+      var index = state.listOrder.map(order => order.product).indexOf(action.payload);
       state.listOrder[index].quantity++;
       state.listOrder[index].totalPrice = state.listOrder[index].quantity * action.payload.price;
       return {...state};
     case DECREMENT_PRODUCT:
-      var index = state.listOrder.map(order => order.product).indexOf(action.payload)
+      var index = state.listOrder.map(order => order.product).indexOf(action.payload);
       state.listOrder[index].quantity--;
       state.listOrder[index].totalPrice = state.listOrder[index].quantity * action.payload.price;
       return {...state};

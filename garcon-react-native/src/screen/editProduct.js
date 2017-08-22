@@ -7,14 +7,20 @@ import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import { fetchIngredient } from '../actions/ingredientActions';
+import { addProduct, editProduct } from '../actions/orderActions'
 
 const mapStateToProps = state => ({
-  ingredient: state.ingredient
+  ingredient: state.ingredient,
+  order: state.order
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchIngredient: () => dispatch(fetchIngredient()),
+  addProduct: (product, navigation) => dispatch(addProduct(product, navigation)),
+  editProduct: (product, index, navigation) => dispatch(editProduct(product, index, navigation)),
 })
+
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class EditProduct extends Component {
 
@@ -28,17 +34,20 @@ class EditProduct extends Component {
 
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.state = { filterText_present: '',
-                   filterText_remove: '',
-                   product: this.props.navigation.state.params.product,
+    this.state = { filterText: '',
+                   product:  this.copyOfProduct(this.props.navigation.state.params.product),
                    dataSource: ds.cloneWithRows(this.props.navigation.state.params.product.ingredients) };
+  }
+
+  copyOfProduct(_product){
+    var product = JSON.parse(JSON.stringify(_product))
+    //delete product._id;
+    return product;
   }
 
   _deleteRow(section, index, ingredient) {
     var product = this.state.product
     product.ingredients.splice(product.ingredients.indexOf(ingredient), 1);
-    alert(JSON.stringify(product)); //The splice is correct.
     this.setState({ product: product,
                     dataSource: this.state.dataSource.cloneWithRows(product.ingredients)
                   })
@@ -71,7 +80,12 @@ class EditProduct extends Component {
             <Title style={{color: "white"}}>Modifica</Title>
           </Body>
           <Right>
-            <Button transparent>
+            <Button transparent onPress={() => {  if(this.props.navigation.state.params.index > -1)
+                                                    this.props.editProduct(this.state.product, this.props.navigation.state.params.index, this.props.navigation)
+                                                  else
+                                                    this.props.addProduct(this.state.product, this.props.navigation)
+                                                }
+                                        } >
               <Icon style={{color: "white"}} name='cart' />
             </Button>
           </Right>
@@ -82,12 +96,8 @@ class EditProduct extends Component {
                           <Text style={{color: Platform.OS === 'ios' ? Colors.tintColorDark: 'white'}} >Rimuovi</Text>
                         </TabHeading>}>
               <Container>
-                <InputGroup borderType="underline" >
-                  <Icon ios="ios-search" android="md-search" style={{ color: Colors.inactiveTintColor }}/>
-                  <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText_remove: text})}/>
-                </InputGroup>
                 <Content>
-                  <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
+                  <ListView enableEmptySections key={this.state.product.ingredients} dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
                 </Content>
               </Container>
           </Tab>
@@ -98,11 +108,13 @@ class EditProduct extends Component {
             <Container>
               <InputGroup borderType="underline" >
                 <Icon ios="ios-search" android="md-search" style={{ color: Colors.inactiveTintColor }}/>
-                <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText_add: text})}/>
+                <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText: text})}/>
               </InputGroup>
               <Content refreshControl={ <RefreshControl onRefresh={this.props.fetchIngredient} refreshing={this.props.ingredient.isLoading} /> } >
                 <List>
-                  {this.props.ingredient.listIngredient.map(ingredient =>
+                  {this.props.ingredient.listIngredient.filter(ingredient =>
+                                                        ingredient.name.toLowerCase().includes(this.state.filterText.toLowerCase()))
+                                                       .map(ingredient =>
                   <ListItem key={ingredient._id}>
                     <Body>
                       <Text>{ingredient.name}</Text>

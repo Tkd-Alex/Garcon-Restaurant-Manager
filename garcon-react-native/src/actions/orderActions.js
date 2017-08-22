@@ -49,34 +49,39 @@ export const newOrderFail = () => {
   dispatch({ type: ORDER_NEW_ERROR });
 }
 
-export const editProduct = () => {
-  dispatch({ type: EDIT_PRODUCT });
+export const editProduct = (product, index, navigation) => {
+  return (dispatch) => {
+    dispatch({ type: EDIT_PRODUCT, payload: product, index: index});
+    Toast.show({ text: product.name + " modificato!", position: 'bottom', duration: 3000, type: 'success' })
+    if(navigation) navigation.goBack()
+  }
 }
 
-export const addProduct = (product) => {
+export const addProduct = (product, navigation) => {
   return (dispatch) => {
     dispatch({ type: ADD_PRODUCT, payload: product });
-      Toast.show({ text: product.name + " aggiunto!", position: 'bottom', duration: 3000, type: 'success' })
+    Toast.show({ text: product.name + " aggiunto!", position: 'bottom', duration: 3000, type: 'success' })
+    if(navigation) navigation.goBack()
   }
 }
 
 export const removeProduct = (product) => {
   return (dispatch) => {
     dispatch({ type: REMOVE_PRODUCT, payload: product });
-      Toast.show({ text: product.name + " rimosso!", position: 'bottom', duration: 3000, type: 'success' })
+    Toast.show({ text: product.name + " rimosso!", position: 'bottom', duration: 3000, type: 'success' })
   }
 }
 
 export const incrementProduct = (product) => {
   return (dispatch) => {
     dispatch({ type: INRECREMENT_PRODUCT, payload: product });
-      Toast.show({ text: product.name + " incrementato!", position: 'bottom', duration: 3000, type: 'success' })
+    Toast.show({ text: product.name + " incrementato!", position: 'bottom', duration: 3000, type: 'success' })
   }
 }
 
 export const decrementProduct = (product) => {
   return (dispatch) => {
     dispatch({ type: DECREMENT_PRODUCT, payload: product  });
-      Toast.show({ text: product.name + " decrementato!", position: 'bottom', duration: 3000, type: 'success' })
+    Toast.show({ text: product.name + " decrementato!", position: 'bottom', duration: 3000, type: 'success' })
   }
 }
