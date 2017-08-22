@@ -1,6 +1,6 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
-import { View, Platform, StyleSheet, RefreshControl } from 'react-native';
+import { View, Platform, StyleSheet, RefreshControl, ListView } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right, H2, Tab, Tabs, TabHeading,
          Button, Icon, Title, List, ListItem, Text, InputGroup, Input } from 'native-base';
 import { connect } from 'react-redux';
@@ -23,12 +23,40 @@ class EditProduct extends Component {
   };
 
   componentWillMount(){
-    this.props.fetchIngredient()
+    this.props.fetchIngredient();
   }
 
-  state = {
-    filterText_present: '',
-  };
+  constructor(props) {
+    super(props);
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.state = { filterText_present: '',
+                   filterText_remove: '',
+                   product: this.props.navigation.state.params.product,
+                   dataSource: ds.cloneWithRows(this.props.navigation.state.params.product.ingredients) };
+  }
+
+  _deleteRow(section, index, ingredient) {
+    var product = this.state.product
+    product.ingredients.splice(product.ingredients.indexOf(ingredient), 1);
+    alert(JSON.stringify(product)); //The splice is correct.
+    this.setState({ product: product,
+                    dataSource: this.state.dataSource.cloneWithRows(product.ingredients)
+                  })
+  }
+
+  renderRow(ingredient, section, index) {
+    return (
+      <ListItem key={ingredient.index}>
+        <Body>
+          <Text>{ingredient.name}</Text>
+        </Body>
+        <Right>
+          <Button onPress={this._deleteRow.bind(this, section, index, ingredient)}
+                  style={styles.smallestButton} small danger><Icon ios='ios-remove' android='md-remove' /></Button>
+         </Right>
+      </ListItem>
+    )
+  }
 
   render() {
     return (
@@ -38,11 +66,15 @@ class EditProduct extends Component {
            <Button onPress={() => this.props.navigation.goBack()} transparent>
              <Icon style={{color: "white"}} name='arrow-back' />
            </Button>
-         </Left>
+          </Left>
           <Body>
             <Title style={{color: "white"}}>Modifica</Title>
           </Body>
-          <Right></Right>
+          <Right>
+            <Button transparent>
+              <Icon style={{color: "white"}} name='cart' />
+            </Button>
+          </Right>
         </Header>
         <Tabs>
           <Tab heading={ <TabHeading style={{backgroundColor: Platform.OS === 'ios' ? 'ghostwhite' : Colors.tintColor}}>
@@ -55,18 +87,7 @@ class EditProduct extends Component {
                   <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText_remove: text})}/>
                 </InputGroup>
                 <Content>
-                  <List>
-                    {this.props.navigation.state.params.product.ingredients.map(ingredient =>
-                    <ListItem key={ingredient._id}>
-                      <Body>
-                        <Text>{ingredient.name}</Text>
-                      </Body>
-                      <Right>
-                        <Button style={styles.smallestButton} small danger><Icon ios='ios-remove' android='md-remove' /></Button>
-                       </Right>
-                    </ListItem>
-                    )}
-                  </List>
+                  <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
                 </Content>
               </Container>
           </Tab>
@@ -87,7 +108,13 @@ class EditProduct extends Component {
                       <Text>{ingredient.name}</Text>
                     </Body>
                     <Right>
-                      <Button style={styles.smallestButton} small success><Icon ios='ios-add' android='md-add' /></Button>
+                      <Button onPress={ () => { var product = this.state.product;
+                                                product.ingredients = product.ingredients.concat(ingredient);
+                                                this.setState({ product: product,
+                                                                dataSource: this.state.dataSource.cloneWithRows(product.ingredients)
+                                                              })
+                                      }}
+                              style={styles.smallestButton} small success><Icon ios='ios-add' android='md-add' /></Button>
                      </Right>
                   </ListItem>
                   )}
