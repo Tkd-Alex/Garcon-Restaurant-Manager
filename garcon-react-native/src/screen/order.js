@@ -4,6 +4,7 @@ import { View, Platform, StyleSheet } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right, H3,
          Button, Icon, Title, List, ListItem, Text, Card, CardItem } from 'native-base';
 import { connect } from 'react-redux';
+import Prompt from 'react-native-prompt';
 
 import Colors from '../constants/Colors';
 import { editProduct, removeProduct, incrementProduct, decrementProduct } from '../actions/orderActions'
@@ -24,13 +25,24 @@ class Order extends Component {
     title: "Order"
   };
 
+  state = {
+    promptVisible: false,
+    tableNumber: "",
+  };
+
   render() {
     return (
       <Container>
         <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
+          <Left></Left>
           <Body>
             <Title style={{color: "white"}}>Ordini</Title>
           </Body>
+          <Right>
+            <Button transparent onPress={() => this.setState({ promptVisible: true })}>
+              <Icon style={{color: "white"}} name='basket' />
+            </Button>
+          </Right>
         </Header>
         <Content>
           {this.props.order.listOrder.map((order, index) =>
@@ -74,6 +86,15 @@ class Order extends Component {
              </Right>
            </CardItem>
           </Card> )}
+
+          <Prompt
+            title="Inserisci il numero del tavolo"
+            placeholder=""
+            defaultValue="0"
+            visible={this.state.promptVisible}
+            onCancel={() => this.setState({ promptVisible: false })}
+            onSubmit={(value) => this.setState({ promptVisible: false, tableNumber: value })}/>
+
         </Content>
       </Container>
     );
