@@ -3,6 +3,7 @@
 const AuthenticationController = require('./controllers/authentication'),
       IngredientController = require('./controllers/ingredient'),
       ProductController = require('./controllers/product'),
+      OrderController = require('./controllers/order'),
       express = require('express'),
       passportService = require('./config/passport'),
       passport = require('passport');
@@ -42,6 +43,13 @@ module.exports = function(app) {
                                  .delete(ProductController.delete);
 
   apiRoutes.route('/product/category/:category').get(ProductController.getCategory)
+
+
+  //=========================
+  // Order Routes
+  //=========================
+  apiRoutes.route('/order').get(OrderController.getAll)
+                           .post(OrderController.insert);
 
   privateRoutes.get('/testing', requireAuth, AuthenticationController.roleAuthorization, function(req, res){
     res.json({ message: "Funziona!" });
