@@ -2,7 +2,10 @@ import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOU
          SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL } from '../actions/types'
 
 let initialState = {
-  user: null,
+  //user: null,
+  user: {
+    "_id": "598c3fca4dd3095f54762b1d"
+  },
   error: null,
   isLoading: false,
   isLogged: false,

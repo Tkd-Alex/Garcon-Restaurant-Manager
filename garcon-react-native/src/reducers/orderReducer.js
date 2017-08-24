@@ -4,6 +4,7 @@ import { ORDER_FETCH_START, ORDER_FETCH_SUCCESS, ORDER_FETCH_ERROR,
 
 let initialState = {
   listProduct: [],
+  listOrder: [],
   error: null,
   isLoading: false
 }
@@ -11,17 +12,17 @@ let initialState = {
 export default orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ORDER_FETCH_START:
-      return state;
+      return {...state, isLoading: true, error: null};
     case ORDER_FETCH_SUCCESS:
-      return state;
+      return {...state, isLoading: false, error: null, listOrder: action.payload};
     case ORDER_FETCH_ERROR:
-      return state;
+      return {...state, isLoading: false, error: action.payload};
     case ORDER_NEW_START:
-      return state;
+      return {...state, isLoading: true, error: null};
     case ORDER_NEW_SUCCESS:
-      return state;
+      return {...state, isLoading: false, error: null};
     case ORDER_NEW_ERROR:
-      return state;
+      return {...state, isLoading: false, error: action.payload};
     case EDIT_PRODUCT:
       state.listProduct[action.index].product = action.payload;
       return {...state};

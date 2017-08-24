@@ -35,19 +35,24 @@ class EditProduct extends Component {
   constructor(props) {
     super(props);
     this.state = { filterText: '',
-                   product:  this.copyOfProduct(this.props.navigation.state.params.product),
+                   product:  this.copyElement(this.props.navigation.state.params.product),
                    dataSource: ds.cloneWithRows(this.props.navigation.state.params.product.ingredients) };
   }
 
-  copyOfProduct(_product){
-    var product = JSON.parse(JSON.stringify(_product))
-    //delete product._id;
-    return product;
+  copyElement(item){
+    return JSON.parse(JSON.stringify(item))
   }
 
-  _deleteRow(section, index, ingredient) {
-    var product = this.state.product
-    product.ingredients.splice(product.ingredients.indexOf(ingredient), 1);
+  customIndexOf(item, array){
+    for(var i in array)
+      if(JSON.stringify(item) == JSON.stringify(array[i]))
+        return i;
+    return -1;
+  }
+
+  deleteRow(ingredient) {
+    var product = this.copyElement(this.state.product)
+    product.ingredients.splice(this.customIndexOf(ingredient, product.ingredients), 1);
     this.setState({ product: product,
                     dataSource: this.state.dataSource.cloneWithRows(product.ingredients)
                   })
@@ -55,12 +60,12 @@ class EditProduct extends Component {
 
   renderRow(ingredient, section, index) {
     return (
-      <ListItem key={ingredient.index}>
+      <ListItem key={ingredient._id}>
         <Body>
           <Text>{ingredient.name}</Text>
         </Body>
         <Right>
-          <Button onPress={this._deleteRow.bind(this, section, index, ingredient)}
+          <Button onPress={this.deleteRow.bind(this, ingredient)}
                   style={styles.smallestButton} small danger><Icon ios='ios-remove' android='md-remove' /></Button>
          </Right>
       </ListItem>

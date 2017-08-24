@@ -15,6 +15,7 @@ import Registration from './src/screen/registration';
 import Food from './src/screen/food';
 import Drink from './src/screen/drink';
 import Order from './src/screen/order';
+import Orders from './src/screen/orders';
 import Settings from './src/screen/settings';
 import EditProduct from  './src/screen/editProduct';
 
@@ -45,7 +46,15 @@ const tabNavigation = TabNavigator({
   Order: {
     screen: Order,
     navigationOptions: {
-      tabBarLabel:"Riepilogo ordine",
+      tabBarLabel:"Comanda",
+      tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-document${focused ? '' : '-outline'}` : 'md-document'}
+                                                        size={30} color={focused ? Colors.tintColor : tintColor} />
+    }
+  },
+  Orders: {
+    screen: Orders,
+    navigationOptions: {
+      tabBarLabel:"Riepilogo ordini",
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-list${focused ? '' : '-outline'}` : 'md-list'}
                                                         size={30} color={focused ? Colors.tintColor : tintColor} />
     }

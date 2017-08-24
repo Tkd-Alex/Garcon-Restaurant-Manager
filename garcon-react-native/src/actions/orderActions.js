@@ -11,22 +11,22 @@ import Server from '../constants/Server';
 let server = Server.address;
 let port = Server.port;
 
-export const fetchOrder = (type) => {
+export const fetchOrder = () => {
   return (dispatch) => {
     dispatch({ type: ORDER_FETCH_START });
-    fetch('http://' + server + ':' + port + '/api/product/category/' + type, {
+    fetch('http://' + server + ':' + port + '/api/order', {
            method: 'GET',
            headers: { 'Accept': 'application/json',
                       'Content-Type': 'application/json'
                     }
           })
       .then((response) => response.json())
-      .then((responseJson) => { fetchOrderSuccess(dispatch, responseJson, type) })
+      .then((responseJson) => { fetchOrderSuccess(dispatch, responseJson) })
       .catch((error) => { fetchOrderFail(dispatch, error) });
   }
 };
 
-export const fetchOrderSuccess = (dispatch, responseJson, type) => {
+export const fetchOrderSuccess = (dispatch, responseJson) => {
   dispatch({ type: ORDER_FETCH_SUCCESS, payload: responseJson.result });
 }
 
@@ -37,16 +37,35 @@ export const fetchOrderFail = (dispatch, error) => {
   console.log(error);
 }
 
-export const newOrder = () => {
-  dispatch({ type: ORDER_NEW_START });
+export const newOrder = (order) => {
+  return (dispatch) => {
+    dispatch({ type: ORDER_NEW_START });
+    fetch('http://' + server + ':' + port + '/api/order', {
+           method: 'POST',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                    },
+           body: JSON.stringify({ tableNumber: order.tableNumber,
+                                  listProduct: order.listProduct,
+                                  totalPrice: order.totalPrice,
+                                  waiter: order.waiter._id
+                                })
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { newOrderSuccess(dispatch, responseJson) })
+      .catch((error) => { newOrderFail(dispatch, error) });
+  }
 }
 
-export const newOrderSuccess = () => {
+export const newOrderSuccess = (dispatch, responseJson) => {
   dispatch({ type: ORDER_NEW_SUCCESS });
+  Toast.show({ text: "Ordine confermato!", position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
 }
 
-export const newOrderFail = () => {
+export const newOrderFail = (dispatch, error) => {
   dispatch({ type: ORDER_NEW_ERROR });
+  Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
+  console.log(error);
 }
 
 export const editProduct = (product, index, navigation) => {

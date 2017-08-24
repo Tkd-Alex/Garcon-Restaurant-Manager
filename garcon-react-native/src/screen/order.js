@@ -7,16 +7,19 @@ import { connect } from 'react-redux';
 import Prompt from 'react-native-prompt';
 
 import Colors from '../constants/Colors';
-import { editProduct, removeProduct, incrementProduct, decrementProduct } from '../actions/orderActions'
+import { editProduct, removeProduct, incrementProduct, decrementProduct,
+         newOrder } from '../actions/orderActions'
 
 const mapStateToProps = state => ({
-  order: state.order
+  order: state.order,
+  auth: state.auth
 })
 
 const mapDispatchToProps = dispatch => ({
   incrementProduct: (product) => dispatch(incrementProduct(product)),
   decrementProduct: (product) => dispatch(decrementProduct(product)),
-  removeProduct: (product) => dispatch(removeProduct(product))
+  removeProduct: (product) => dispatch(removeProduct(product)),
+  newOrder: (order) => dispatch(newOrder(order))
 })
 
 class Order extends Component {
@@ -26,8 +29,7 @@ class Order extends Component {
   };
 
   state = {
-    promptVisible: false,
-    tableNumber: "",
+    promptVisible: false
   };
 
   render() {
@@ -36,7 +38,7 @@ class Order extends Component {
         <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
           <Left></Left>
           <Body>
-            <Title style={{color: "white"}}>Ordini</Title>
+            <Title style={{color: "white"}}>Comanda</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => this.setState({ promptVisible: true })}>
@@ -93,7 +95,15 @@ class Order extends Component {
             defaultValue="0"
             visible={this.state.promptVisible}
             onCancel={() => this.setState({ promptVisible: false })}
-            onSubmit={(value) => this.setState({ promptVisible: false, tableNumber: value })}/>
+            onSubmit={  (value) => this.setState({ promptVisible: false },
+                                           () => {  var order = { tableNumber: value,
+                                                                  listProduct: this.props.order.listProduct,
+                                                                  totalPrice: this.props.order.listProduct.reduce( (a, b) =>  ({ totalPrice: a.totalPrice + b.totalPrice}) ).totalPrice,
+                                                                  waiter: this.props.auth.user == null ? 'DEBUG_XXX' : this.props.auth.user._id
+                                                                }
+                                                    this.props.newOrder(order);
+                                                  })
+                     }/>
 
         </Content>
       </Container>
