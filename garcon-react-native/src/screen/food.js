@@ -54,7 +54,7 @@ class Food extends Component {
                                                    product.name.toLowerCase().includes(this.state.filterText.toLowerCase()))
                                            .map(product =>
             <ListItemCustom key={product._id} product={product} navigation={this.props.navigation}
-                            incrementCallback={this.props.order.listOrder.map(order => order.product).indexOf(product) > -1 ? this.props.incrementProduct : this.props.addProduct} />
+                            incrementCallback={this.props.order.listProduct.map(order => order.product).indexOf(product) > -1 ? this.props.incrementProduct : this.props.addProduct} />
             )}
           </List>
         </Content>

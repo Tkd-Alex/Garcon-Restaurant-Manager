@@ -45,7 +45,7 @@ class Order extends Component {
           </Right>
         </Header>
         <Content>
-          {this.props.order.listOrder.map((order, index) =>
+          {this.props.order.listProduct.map((order, index) =>
          <Card key={index} style={{flex: 0}}>
              <CardItem>
              <Left>
