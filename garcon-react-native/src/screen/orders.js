@@ -1,15 +1,30 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
-import { Container, Content,  Header, Left, Body, Right,
-         Button, Icon, Title, List, ListItem, Text } from 'native-base';
+import { View, Platform, StyleSheet, RefreshControl } from 'react-native';
+import { Container, Content,  Header, Left, Body, Right, H3,
+         Button, Icon, Title, List, ListItem, Text, Card, CardItem } from 'native-base';
+import { connect } from 'react-redux';
 
+import { fetchOrder } from '../actions/orderActions'
 import Colors from '../constants/Colors';
 
-export default class Orders extends Component {
+const mapStateToProps = state => ({
+  order: state.order
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchOrder: () => dispatch(fetchOrder())
+})
+
+class Orders extends Component {
 
   static navigationOptions = {
     title: "Orders"
   };
+
+  componentWillMount(){
+    this.props.fetchOrder()
+  }
 
   render() {
     return (
@@ -19,9 +34,39 @@ export default class Orders extends Component {
             <Title style={{color: "white"}}>Riepilogo ordini</Title>
           </Body>
         </Header>
-        <Content>
+        <Content refreshControl={ <RefreshControl onRefresh={this.props.fetchOrder} refreshing={this.props.order.isLoading} /> }>
+          <List>
+            {this.props.order.listOrder.map(order =>
+              <Card key={order._id} style={{flex: 0}}>
+                <CardItem>
+                  <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <H3>
+                        Tavolo: {order.tableNumber}
+                      </H3>
+                      <Text note>{order.date}</Text>
+                  </View>
+                </CardItem>
+                <CardItem style={{paddingTop: 0}}>
+                  <Left>
+                    <Icon name={order.complete ? 'checkmark': 'close' } style={{fontSize: 40, color: order.complete ? 'green' : 'red' }} />
+                    <Text>Pronto</Text>
+                  </Left>
+                  <Left>
+                    <Icon name={order.paid ? 'checkmark': 'close' } style={{fontSize: 40, color: order.paid ? 'green' : 'red' }} />
+                    <Text>Pagato</Text>
+                  </Left>
+                  <Left>
+                    <Icon name="logo-euro" style={{fontSize: 20}} />
+                    <Text>{order.totalPrice.toFixed(2)}</Text>
+                  </Left>
+                </CardItem>
+               </Card>
+            )}
+          </List>
         </Content>
       </Container>
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Orders);

@@ -41,7 +41,8 @@ class Order extends Component {
             <Title style={{color: "white"}}>Comanda</Title>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.setState({ promptVisible: true })}>
+            <Button transparent onPress={() => {if(this.props.order.listProduct.length < 1) alert("Impossibile proseguire")
+                                                else this.setState({ promptVisible: true })}}>
               <Icon style={{color: "white"}} name='basket' />
             </Button>
           </Right>
