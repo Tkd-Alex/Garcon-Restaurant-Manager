@@ -1,4 +1,4 @@
-![GarconLogo](https://raw.githubusercontent.com/Tkd-Alex/Garcon-Restaurant-Manager/master/garcon-react-native/assets/images/logoGarcon.png)
+![GarconLogo](https://raw.githubusercontent.com/Tkd-Alex/Garcon-Restaurant-Manager/master/garcon-documentation/logoGarcon_small.png)
 ---
 ### Garçon-Restaurant-Manager - Manager application for restaurant. <br />
 **Autore**: [Alessandro Maggio](https://www.linkedin.com/in/aalessandromaggio/) | Mat: X81000134 | [@Tkd-Alex](https://github.com/Tkd-Alex)
