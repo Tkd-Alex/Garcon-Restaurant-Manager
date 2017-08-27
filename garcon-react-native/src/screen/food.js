@@ -6,7 +6,7 @@ import { Container, Content,  Header, Left, Body, Right,
 import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
-import ListItemCustom from '../components/listItemCustom';
+import ProductListItem from '../components/productListItem';
 import { fetchProduct } from '../actions/productActions';
 import { editProduct, addProduct, incrementProduct } from '../actions/orderActions'
 
@@ -53,7 +53,7 @@ class Food extends Component {
             {this.props.product.listProduct.filter(product =>
                                                    product.name.toLowerCase().includes(this.state.filterText.toLowerCase()))
                                            .map(product =>
-            <ListItemCustom key={product._id} product={product} navigation={this.props.navigation}
+            <ProductListItem key={product._id} product={product} navigation={this.props.navigation}
                             incrementCallback={this.props.order.listProduct.map(order => order.product).indexOf(product) > -1 ? this.props.incrementProduct : this.props.addProduct} />
             )}
           </List>

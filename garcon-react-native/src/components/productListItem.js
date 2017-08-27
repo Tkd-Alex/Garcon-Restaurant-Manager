@@ -4,7 +4,7 @@ import { View, Platform, StyleSheet } from 'react-native';
 import { Container, Content, Left, Body, Right,
          Button, Icon, Title, ListItem, Text, InputGroup, Input } from 'native-base';
 
-export default class ListItemCustom extends Component {
+export default class ProductListItem extends Component {
 render() {
   if(Platform.OS === 'ios'){
     { /*
