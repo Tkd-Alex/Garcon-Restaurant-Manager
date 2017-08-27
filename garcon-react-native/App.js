@@ -12,12 +12,15 @@ import store from './src/store';
 import Login from './src/screen/login';
 import Registration from './src/screen/registration';
 
+//Tab
 import Food from './src/screen/food';
 import Drink from './src/screen/drink';
-import Order from './src/screen/order';
-import Orders from './src/screen/orders';
+import OrderTab from './src/screen/orderTab';
+import OrdersTab from './src/screen/ordersTab';
 import Settings from './src/screen/settings';
+
 import EditProduct from  './src/screen/editProduct';
+import Order from './src/screen/order';
 
 import Colors from './src/constants/Colors';
 
@@ -43,16 +46,16 @@ const tabNavigation = TabNavigator({
                                                         size={30} color={focused ? Colors.tintColor : tintColor} />
     }
   },
-  Order: {
-    screen: Order,
+  OrderTab: {
+    screen: OrderTab,
     navigationOptions: {
       tabBarLabel:"Comanda",
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-document${focused ? '' : '-outline'}` : 'md-document'}
                                                         size={30} color={focused ? Colors.tintColor : tintColor} />
     }
   },
-  Orders: {
-    screen: Orders,
+  OrdersTab: {
+    screen: OrdersTab,
     navigationOptions: {
       tabBarLabel:"Riepilogo ordini",
       tabBarIcon: ({ tintColor, focused }) => <Ionicons name={Platform.OS === 'ios' ? `ios-list${focused ? '' : '-outline'}` : 'md-list'}
@@ -84,7 +87,8 @@ export const createRootNavigator = (signedIn = false) => {
     {
       authNavigation: {screen: authNavigation},
       tabNavigation: {screen: tabNavigation},
-      editProduct: {screen: EditProduct}
+      editProduct: {screen: EditProduct},
+      order: {screen: Order}
     }, {
       headerMode: 'none',
       initialRouteName: signedIn ? "tabNavigation" : "authNavigation"

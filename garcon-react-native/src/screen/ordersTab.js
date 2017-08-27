@@ -16,10 +16,10 @@ const mapDispatchToProps = dispatch => ({
   fetchOrder: () => dispatch(fetchOrder())
 })
 
-class Orders extends Component {
+class OrdersTab extends Component {
 
   static navigationOptions = {
-    title: "Orders"
+    title: "OrdersTab"
   };
 
   componentWillMount(){
@@ -38,7 +38,7 @@ class Orders extends Component {
           <List>
             {this.props.order.listOrder.map(order =>
               <Card key={order._id} style={{flex: 0}}>
-                <CardItem>
+                <CardItem button onPress={() => this.props.navigation.navigate("order", {order: order})}>
                   <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
                       <H3>
                         Tavolo: {order.tableNumber}
@@ -47,20 +47,20 @@ class Orders extends Component {
                   </View>
                 </CardItem>
                 <CardItem style={{paddingTop: 0}}>
-                  <Left>
+                  <Left style={{justifyContent: 'center'}}>
                     <Icon name={order.complete ? 'checkmark': 'close' } style={{fontSize: 40, color: order.complete ? 'green' : 'red' }} />
                     <Text>Pronto</Text>
                   </Left>
-                  <Left>
+                  <Left style={{justifyContent: 'center'}}>
                     <Icon name={order.paid ? 'checkmark': 'close' } style={{fontSize: 40, color: order.paid ? 'green' : 'red' }} />
                     <Text>Pagato</Text>
                   </Left>
-                  <Left>
+                  <Left style={{justifyContent: 'center'}}>
                     <Icon name="logo-euro" style={{fontSize: 20}} />
                     <Text>{order.totalPrice.toFixed(2)}</Text>
                   </Left>
                 </CardItem>
-               </Card>
+              </Card>
             )}
           </List>
         </Content>
@@ -69,4 +69,4 @@ class Orders extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Orders);
+export default connect(mapStateToProps, mapDispatchToProps)(OrdersTab);
