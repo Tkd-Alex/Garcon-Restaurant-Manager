@@ -1,9 +1,12 @@
-import Expo from 'expo';
+import Expo, { Notifications } from 'expo';
 import React, { Component } from 'react';
 import { View, Platform, RefreshControl } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right,
          Button, Icon, Title, List, ListItem, Text, InputGroup, Input } from 'native-base';
 import { connect } from 'react-redux';
+
+// Food is the main screen.
+import registerForPushNotificationsAsync from '../registerNotification';
 
 import Colors from '../constants/Colors';
 import ProductListItem from '../components/productListItem';
@@ -12,7 +15,8 @@ import { editProduct, addProduct, incrementProduct } from '../actions/orderActio
 
 const mapStateToProps = state => ({
   product: state.food,
-  order: state.order
+  order: state.order,
+  user: state.auth.user
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -31,6 +35,25 @@ class Food extends Component {
   componentWillMount(){
     this.props.fetchProduct()
   }
+
+  // Notifications
+  componentDidMount() {
+    this._notificationSubscription = this._registerForPushNotifications();
+  }
+
+  componentWillUnmount() {
+    this._notificationSubscription && this._notificationSubscription.remove();
+  }
+
+  _registerForPushNotifications() {
+    registerForPushNotificationsAsync(this.props.user);
+    // Watch for incoming notifications
+    this._notificationSubscription = Notifications.addListener( this._handleNotification );
+  }
+
+  _handleNotification = ({ origin, data }) => {
+    console.log( `Push notification ${origin} with data: ${JSON.stringify(data)}` );
+  };
 
   state = {
     filterText: '',

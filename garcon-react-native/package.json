@@ -8,6 +8,7 @@
   "dependencies": {
     "expo": "^19.0.0",
     "native-base": "^2.3.1",
+    "npm": "^5.3.0",
     "react": "16.0.0-alpha.12",
     "react-native": "https://github.com/expo/react-native/archive/sdk-19.0.0.tar.gz",
     "react-native-prompt": "^1.0.0",
