@@ -16,7 +16,7 @@ const UserSchema = new Schema({
   email:{
     type: String,
     unique: true,
-    trime: true,
+    trim: true,
     lowercase: true,
     required: true
   },
@@ -42,6 +42,10 @@ const UserSchema = new Schema({
   },
   photo:{
     type: String
+  },
+  push_token:{
+    type: String,
+    trim: true
   }
 });
 

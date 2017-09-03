@@ -51,6 +51,9 @@ module.exports = function(app) {
   apiRoutes.route('/order').get(OrderController.getAll)
                            .post(OrderController.insert);
 
+  apiRoutes.route('/order/:id').get(OrderController.confirm)
+                               .post(OrderController.pay);
+
   privateRoutes.get('/testing', requireAuth, AuthenticationController.roleAuthorization, function(req, res){
     res.json({ message: "Funziona!" });
   });
@@ -68,6 +71,8 @@ module.exports = function(app) {
   authRoutes.post('/register', AuthenticationController.register);
   // Login route
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
+  // Set token route
+  authRoutes.post('/set-token/:id', requireAuth, AuthenticationController.setToken)
 
   // Set url for API group routes
   app.use('/api', apiRoutes);

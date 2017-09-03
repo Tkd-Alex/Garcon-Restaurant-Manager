@@ -90,6 +90,24 @@ exports.register = function(req, res, next) {
 }
 
 //========================================
+// Set Token Route
+//========================================
+exports.setToken = function(req, res, next){
+  if (!req.body.token) { return res.status(422).send({ error: 'Assicurati di avere inserito il token.'}); }
+
+  User.findById(req.params.id, function(err, user) {
+    if (err) { return next(err); }
+    user.push_token = req.body.token;
+
+    user.save(function(err, result) {
+      if (err) { return next(err); }
+      res.status(201).json({"message": 'Il token è stato aggiornato con successo', "result": result});
+    });
+
+  });
+}
+
+//========================================
 // Authorization Middleware
 //========================================
 // Role authorization check

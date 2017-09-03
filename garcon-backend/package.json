@@ -20,6 +20,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
     "crypto": "0.0.3",
+    "expo-server-sdk": "^2.3.1",
     "express": "^4.15.4",
     "jsonwebtoken": "^7.4.2",
     "mongoose": "^4.11.6",
