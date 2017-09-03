@@ -1,5 +1,6 @@
 import { ORDER_FETCH_START, ORDER_FETCH_SUCCESS, ORDER_FETCH_ERROR,
          ORDER_NEW_START, ORDER_NEW_SUCCESS, ORDER_NEW_ERROR,
+         ORDER_UPDATE_START, ORDER_UPDATE_SUCCESS, ORDER_UPDATE_ERROR,
          EDIT_PRODUCT, ADD_PRODUCT, REMOVE_PRODUCT ,INRECREMENT_PRODUCT, DECREMENT_PRODUCT } from '../actions/types'
 
 import { Toast } from 'native-base';
@@ -64,6 +65,33 @@ export const newOrderSuccess = (dispatch, responseJson) => {
 
 export const newOrderFail = (dispatch, error) => {
   dispatch({ type: ORDER_NEW_ERROR });
+  Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
+  console.log(error);
+}
+
+export const updateOrder = (order) => {
+  return (dispatch) => {
+    dispatch({ type: ORDER_UPDATE_START });
+    fetch('http://' + server + ':' + port + '/api/order/' + order._id, {
+           method: 'GET',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                    }
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { updateOrderSuccess(dispatch, responseJson) })
+      .catch((error) => { updateOrderFail(dispatch, error) });
+  }
+};
+
+export const updateOrderSuccess = (dispatch, responseJson) => {
+  fetchOrder();
+  dispatch({ type: ORDER_UPDATE_SUCCESS });
+}
+
+export const updateOrderFail = (dispatch, error) => {
+  dispatch({ type: ORDER_UPDATE_ERROR });
+
   Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
   console.log(error);
 }

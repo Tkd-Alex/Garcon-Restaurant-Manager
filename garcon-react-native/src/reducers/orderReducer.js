@@ -1,5 +1,6 @@
 import { ORDER_FETCH_START, ORDER_FETCH_SUCCESS, ORDER_FETCH_ERROR,
          ORDER_NEW_START, ORDER_NEW_SUCCESS, ORDER_NEW_ERROR,
+         ORDER_UPDATE_START, ORDER_UPDATE_SUCCESS, ORDER_UPDATE_ERROR,
          EDIT_PRODUCT, ADD_PRODUCT, REMOVE_PRODUCT, INRECREMENT_PRODUCT, DECREMENT_PRODUCT } from '../actions/types'
 
 let initialState = {
@@ -22,6 +23,12 @@ export default orderReducer = (state = initialState, action) => {
     case ORDER_NEW_SUCCESS:
       return {...state, isLoading: false, error: null};
     case ORDER_NEW_ERROR:
+      return {...state, isLoading: false, error: action.payload};
+    case ORDER_UPDATE_START:
+      return {...state, isLoading: true, error: null};
+    case ORDER_UPDATE_SUCCESS:
+      return {...state, isLoading: false, error: null};
+    case ORDER_UPDATE_ERROR:
       return {...state, isLoading: false, error: action.payload};
     case EDIT_PRODUCT:
       state.listProduct[action.index].product = action.payload;

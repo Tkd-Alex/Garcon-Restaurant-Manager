@@ -114,8 +114,10 @@ export default class App extends Component  {
 
   componentWillMount() {
     this._cacheResourcesAsync();
-    /* isSignedIn().then(res => this.setState({ signedIn: res, checkedSignIn: true }))
-                   .catch(err => alert("An error occurred")); */
+    /*
+    isSignedIn().then(res => this.setState({ signedIn: res, checkedSignIn: true }))
+                   .catch(err => alert("An error occurred"));
+    */
   }
 
   async _cacheResourcesAsync() {
@@ -128,9 +130,8 @@ export default class App extends Component  {
 
   render() {
 
-    if (!this.state.isReady) {
-      return <AppLoading />;
-    }else{
+    if (!this.state.isReady) return <AppLoading />;
+    else{
       const Navigation = createRootNavigator(this.state.signedIn);
       return (
         <Provider store={store}>
