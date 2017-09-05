@@ -19,7 +19,9 @@ exports.insert = function(req, res, next) {
 
     order.save(function(err, result) {
         if (err) { return next(err); }
-        res.status(201).json({"message": 'Ordine inserito!', "result": result});
+        Product.populate(result, {path:'listProduct.product.ingredients', model:'Ingredient'},function(err,result){
+            res.status(201).json({"message": 'Ordine inserito!', "result": result});
+        });
     });
 
 }
@@ -41,7 +43,7 @@ exports.confirm = function(req, res, next){
       order.complete = true;
 
       let chunk = {
-          to: order.waiter[0].push_token,
+          to: order.waiter.push_token,
           sound: 'default',
           body: "L'ordine " + order.tableNumber + " è completato!",
           data: {}
@@ -53,7 +55,7 @@ exports.confirm = function(req, res, next){
             let receipts = await expo.sendPushNotificationsAsync([chunk]);
             console.log(receipts);
         } catch (error) { console.error(error); }
-        res.status(201).json({"message": 'oridne aggiornato', "result": result});
+        res.status(201).json({"message": 'Oridne confermato', "result": result});
       });
 
     });
@@ -65,7 +67,7 @@ exports.pay = function(req, res, next){
       order.paid = true;
       order.save(function(err, result) {
         if (err) { return next(err); }
-        res.status(201).json({"message": 'oridne aggiornato', "result": result});
+        res.status(201).json({"message": 'Oridne pagato', "result": result});
       });
 
     });

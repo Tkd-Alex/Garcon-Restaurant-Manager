@@ -4,8 +4,8 @@ import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOU
 let initialState = {
   //user: null,
   user: {
-    "_id": "598c3fca4dd3095f54762b1d",
-    "push_token": "ExponentPushToken[Oe9XjQLCJCGddtQDgnOzJU]"
+    _id: "598c3fca4dd3095f54762b1d",
+    push_token: "ExponentPushToken[Oe9XjQLCJCGddtQDgnOzJU]"
   },
   error: null,
   isLoading: false,

@@ -1,7 +1,7 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
 import { View, Platform, StyleSheet, ListView } from 'react-native';
-import { Container, Content,  Header, Left, Body, Right, H3,
+import { Container, Content,  Header, Left, Body, Right, H3, Toast,
          Button, Icon, Title, List, ListItem, Text, Card, CardItem } from 'native-base';
 import { connect } from 'react-redux';
 
@@ -52,8 +52,14 @@ class Order extends Component {
         </Header>
         <Content>
           <ListView enableEmptySections key={this.state.order.listProduct} dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
-          <Button onPress={() => { this.props.updateOrder(this.state.order) }} style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} iconLeft block success><Icon name='checkmark' /><Text>Ordine pronto!</Text></Button>
-          <Button style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} iconLeft block warning><Icon name='logo-usd' /><Text>Conferma pagamento</Text></Button>
+          <Button onPress={() => { this.state.order.complete ? Toast.show({ text: "L'ordine è già stato contrassegnato!", position: 'bottom', duration: 3000, type: 'danger' }) : this.props.updateOrder(this.state.order) }}
+                  iconLeft block success
+                  style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} ><Icon name='checkmark' /><Text>Ordine pronto!</Text></Button>
+          <Button onPress={() => { if(!this.state.order.complete) Toast.show({ text: "Devi prima confermare l'ordine!", position: 'bottom', duration: 3000, type: 'danger' })
+                                   else if(this.state.order.paid) Toast.show({ text: "L'ordine è già stato pagato!", position: 'bottom', duration: 3000, type: 'danger' })
+                                   else this.props.updateOrder(this.state.order) }}
+                  iconLeft block warning
+                  style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} ><Icon name='logo-usd' /><Text>Conferma pagamento</Text></Button>
         </Content>
       </Container>
     );

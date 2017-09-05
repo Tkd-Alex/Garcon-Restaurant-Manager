@@ -100,7 +100,7 @@ class OrderTab extends Component {
                                            () => {  var order = { tableNumber: value,
                                                                   listProduct: this.props.order.listProduct,
                                                                   totalPrice: this.props.order.listProduct.reduce( (a, b) =>  ({ totalPrice: a.totalPrice + b.totalPrice}) ).totalPrice,
-                                                                  waiter: this.props.auth.user == null ? 'DEBUG_XXX' : this.props.auth.user._id
+                                                                  waiter: this.props.auth.user == null ? 'DEBUG_XXX' : this.props.auth.user
                                                                 }
                                                     this.props.newOrder(order);
                                                   })

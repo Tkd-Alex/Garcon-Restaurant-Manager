@@ -49,7 +49,7 @@ export const newOrder = (order) => {
            body: JSON.stringify({ tableNumber: order.tableNumber,
                                   listProduct: order.listProduct,
                                   totalPrice: order.totalPrice,
-                                  waiter: order.waiter._id
+                                  waiter: order.waiter
                                 })
           })
       .then((response) => response.json())
@@ -59,8 +59,8 @@ export const newOrder = (order) => {
 }
 
 export const newOrderSuccess = (dispatch, responseJson) => {
-  dispatch({ type: ORDER_NEW_SUCCESS });
-  Toast.show({ text: "Ordine confermato!", position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
+  dispatch({ type: ORDER_NEW_SUCCESS, payload: responseJson.result });
+  Toast.show({ text: responseJson.message, position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
 }
 
 export const newOrderFail = (dispatch, error) => {
@@ -72,8 +72,9 @@ export const newOrderFail = (dispatch, error) => {
 export const updateOrder = (order) => {
   return (dispatch) => {
     dispatch({ type: ORDER_UPDATE_START });
+    let method = order.complete ? "POST" : "GET"
     fetch('http://' + server + ':' + port + '/api/order/' + order._id, {
-           method: 'GET',
+           method: method,
            headers: { 'Accept': 'application/json',
                       'Content-Type': 'application/json'
                     }
@@ -85,13 +86,12 @@ export const updateOrder = (order) => {
 };
 
 export const updateOrderSuccess = (dispatch, responseJson) => {
-  fetchOrder();
-  dispatch({ type: ORDER_UPDATE_SUCCESS });
+  Toast.show({ text: responseJson.message, position: 'bottom', duration: 2500, type: 'success' })
+  dispatch({ type: ORDER_UPDATE_SUCCESS, payload: responseJson.result });
 }
 
 export const updateOrderFail = (dispatch, error) => {
-  dispatch({ type: ORDER_UPDATE_ERROR });
-
+  dispatch({ type: ORDER_UPDATE_ERROR, payload: error });
   Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
   console.log(error);
 }

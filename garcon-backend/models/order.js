@@ -47,7 +47,7 @@ const OrderSchema = new Schema({
     default: false
   },
   waiter:{
-    type: [mongoose.Schema.Types.ObjectId],
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }
 });

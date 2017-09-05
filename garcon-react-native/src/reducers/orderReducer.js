@@ -21,12 +21,16 @@ export default orderReducer = (state = initialState, action) => {
     case ORDER_NEW_START:
       return {...state, isLoading: true, error: null};
     case ORDER_NEW_SUCCESS:
+      state.listProduct = [];
+      state.listOrder = state.listOrder.concat(action.payload);
       return {...state, isLoading: false, error: null};
     case ORDER_NEW_ERROR:
       return {...state, isLoading: false, error: action.payload};
     case ORDER_UPDATE_START:
       return {...state, isLoading: true, error: null};
     case ORDER_UPDATE_SUCCESS:
+      var index = state.listOrder.map(order => order._id).indexOf(action.payload._id);
+      state.listOrder[index] = action.payload;
       return {...state, isLoading: false, error: null};
     case ORDER_UPDATE_ERROR:
       return {...state, isLoading: false, error: action.payload};
