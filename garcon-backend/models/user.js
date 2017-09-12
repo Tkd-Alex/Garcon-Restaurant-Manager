@@ -50,6 +50,10 @@ const UserSchema = new Schema({
   restaurants:{
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Restaurant'
+  },
+  defaultRestaurant:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant'
   }
 });
 

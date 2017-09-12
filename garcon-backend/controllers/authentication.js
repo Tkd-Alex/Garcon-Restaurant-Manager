@@ -23,8 +23,7 @@ function setUserInfo(request) {
     email: request.email,
     admin: request.admin,
     age: request.age,
-    sex: request.sex,
-    photo: request.photo
+    sex: request.sex
   }
 };
 
@@ -32,11 +31,16 @@ function setUserInfo(request) {
 exports.login = function(req, res, next) {
 
   let userInfo = setUserInfo(req.user);
+  User.findById(req.user._id)
+      .populate({path: 'restaurants', model:'Restaurant', select:'name'})
+      .populate({path: 'defaultRestaurant', model:'Restaurant', select:'name'})
+      .exec(function(err, result){
+    res.status(200).json({
+      token: 'JWT ' + generateToken(userInfo),
+      user: result
+    });
+  })
 
-  res.status(200).json({
-    token: 'JWT ' + generateToken(userInfo),
-    user: userInfo
-  });
 }
 
 // Registration Route
@@ -93,13 +97,28 @@ exports.register = function(req, res, next) {
 exports.setToken = function(req, res, next){
   if (!req.body.token) { return res.status(422).send({ error: 'Assicurati di avere inserito il token.'}); }
 
-  User.findById(req.params.id, function(err, user) {
+  User.findById(req.user._id, function(err, user) {
     if (err) { return next(err); }
     user.push_token = req.body.token;
 
     user.save(function(err, result) {
       if (err) { return next(err); }
       res.status(201).json({"message": 'Il token è stato aggiornato con successo', "result": result});
+    });
+
+  });
+}
+
+// Update default resturant
+exports.update = function(req, res, next){
+  User.findById(req.user._id, function(err, user) {
+    if (err) { return next(err); }
+    user.defaultRestaurant = req.body.defaultRestaurant;
+    user.save(function(err, result) {
+      if (err) { return next(err); }
+      Restaurant.populate(result, [{path:"defaultRestaurant", select:'name'}, {path:"restaurants", select:'name'}], function(err, user) {
+        res.status(201).json({"message": 'Ristorante predefinito aggiornato!', "result": user});
+      });
     });
 
   });
@@ -123,13 +142,12 @@ exports.roleAuthorization = function(req, res, next) {
     if (foundUser.admin) { return next(); }
 
     res.status(401).json({ error: 'Pagina riservata agli amministratori.' });
-    return next('Non autorizzato');
+    return next('Non autorizzato - Admin');
   })
 }
 
 // Check if is owner
 exports.ownerAuthorization = function(req, res, next) {
-  console.log(req.params)
   const user = req.user;
   const restaurant_id = req.params.restaurant;
 
@@ -142,7 +160,7 @@ exports.ownerAuthorization = function(req, res, next) {
     if(user._id.toString() == foundRestaurant.owner.toString()) { return next(); }
 
     res.status(401).json({ error: 'Non sei il proprietario.' });
-    return next('Non autorizzato');
+    return next('Non autorizzato - Proprietario');
   })
 }
 
@@ -160,6 +178,6 @@ exports.waiterAuthorization = function(req, res, next) {
     if(foundRestaurant.waiters.indexOf(user._id) > -1) { return next(); }
 
     res.status(401).json({ error: 'Non sei un cameriere presso questo locale.' });
-    return next('Non autorizzato');
+    return next('Non autorizzato - Cameriere');
   })
 }

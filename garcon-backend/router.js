@@ -31,14 +31,15 @@ module.exports = function(app) {
   apiRoutes.use('/auth', authRoutes);
   authRoutes.post('/register', AuthenticationController.register);
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
-  authRoutes.post('/set-token/:id', requireAuth, AuthenticationController.setToken)
+  authRoutes.put('/update', requireAuth, AuthenticationController.update);
+  authRoutes.post('/set-token', requireAuth, AuthenticationController.setToken)
 
   //=========================
   // Restaurant Routes (Main)
   //=========================
 
   apiRoutes.use('/restaurant', restaurantRoutes);
-  restaurantRoutes.post('/new-restaurant', requireAuth, AuthenticationController.roleAuthorization, RestaurantController.newRestaurant);
+  restaurantRoutes.post('/', requireAuth, AuthenticationController.roleAuthorization, RestaurantController.newRestaurant);
 
   // Waiter
   restaurantRoutes.post('/:restaurant/waiter/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.addWaiter);

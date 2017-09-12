@@ -16,8 +16,9 @@ exports.newRestaurant = function(req, res, next){
   if (!name) { return res.status(422).send({ error: 'Inserisci il nome del locale.'}); }
   const address = req.body.address;
   if (!address) { return res.status(422).send({ error: 'Inserisci l\'indirizzo.'}); }
-  const owner = req.body.owner;
-  if (!owner) { return res.status(422).send({ error: 'Inserisci il proprietario.'}); }
+  const owner = req.user;
+  //const owner = req.body.owner;
+  //if (!owner) { return res.status(422).send({ error: 'Inserisci il proprietario.'}); }
 
   let restaurant = new Restaurant({
     name: name,
@@ -27,6 +28,12 @@ exports.newRestaurant = function(req, res, next){
 
   restaurant.save(function(err, result){
     if(err) return next(err);
+    User.findById(owner._id, function(err, waiter){
+      waiter.restaurants.push(restaurant);
+      waiter.save(function(err){
+        if (err) { return next(err); }
+      });
+    })
     res.status(201).json({"message": "Ristorante creato con successo.", "result": result});
   })
 }
@@ -187,7 +194,9 @@ exports.updateProduct = function(req, res, next){
 exports.getProduct = function(req, res, next){
   const product = req.params.id;
   const category = req.params.category;
-  Restaurant.findById(req.params.restaurant).populate({path: 'menu.ingredients', model:'Ingredient'}).exec(function(err, restaurant){
+  Restaurant.findById(req.params.restaurant)
+            .populate({path: 'menu.ingredients', model:'Ingredient'})
+            .exec(function(err, restaurant){
     if (err) { return next(err); }
     if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
     else{
@@ -197,16 +206,11 @@ exports.getProduct = function(req, res, next){
       }
       else if(category){
         let result = [];
-        for(let i in restaurant.menu.toObject()){
-        console.log(restaurant.menu[i]);
-        if(restaurant.menu[i].category.toLowerCase() == category.toLowerCase()) result.push(restaurant.menu[i]);}
+        for(let i in restaurant.menu.toObject()) if(restaurant.menu[i].category.toLowerCase() == category.toLowerCase()) result.push(restaurant.menu[i]);
         if(result.length == 0) { return res.status(422).send({ error: 'Nessun prodotto appartenente a ' + category }); }
         else res.status(201).json({"result": result});
       }
       else{
-        //Product.populate(restaurant, { path:'menu.ingredients' },function(err,restaurant){
-        //  console.log(restaurant);
-        //});
         res.status(201).json({"result": restaurant.menu});
       }
     }
