@@ -1,5 +1,6 @@
 import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOUT,
-         SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL } from './types'
+         SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL,
+         UPDATE_USER_START, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL } from './types'
 
 import { Toast } from 'native-base';
 import { AsyncStorage } from 'react-native'
@@ -34,21 +35,24 @@ export const registerUser = (userInfo, navigation) => {
                                 })
           })
       .then((response) => response.json())
-      .then((responseJson) => { registerUserSuccess(dispatch, responseJson, navigation) })
+      .then((responseJson) => {
+        if (responseJson.error) registerUserFail(dispatch, responseJson.error)
+        else registerUserSuccess(dispatch, responseJson, navigation)
+      })
       .catch((error) => { registerUserFail(dispatch, error) });
   }
 };
 
 export const registerUserSuccess = (dispatch, responseJson, navigation) => {
   dispatch({ type: SIGNUP_USER_SUCCESS });
-  Toast.show({ text: "Utente " + responseJson.user.fullname + " registrato, adesso puoi effettuare il login.", position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
-  navigation.goBack()
+  console.log(responseJson);
+  Toast.show({ text: "Utente " + responseJson.user.fullname + " registrato.", position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
+  loginUserSuccess(dispatch, responseJson, navigation)
 }
 
 export const registerUserFail = (dispatch, error) => {
   dispatch({ type: SIGNUP_USER_FAIL, payload: error });
-  Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
-  console.log(error);
+  Toast.show({ text: error, position: 'bottom', duration: 3000, type: 'danger' })
 }
 
 export const loginUser = (userInfo, navigation) => {
@@ -70,12 +74,11 @@ export const loginUser = (userInfo, navigation) => {
 };
 
 export const loginUserSuccess = (dispatch, responseJson, navigation) => {
-  let userLogged = responseJson.user;
-  console.log(userLogged);
-  userLogged.token = responseJson.token;
-  dispatch({ type: LOGIN_USER_SUCCESS, payload: userLogged });
+  //let userLogged = responseJson.user;
+  //userLogged.token = responseJson.token;
+  dispatch({ type: LOGIN_USER_SUCCESS, payload: responseJson });
   try {
-    AsyncStorage.setItem('garcon-token', userLogged.token, () => {
+    AsyncStorage.setItem('garcon-token', responseJson.token, () => {
       navigation.dispatch(resetAction)
     });
   } catch (error) {
@@ -87,4 +90,31 @@ export const loginUserFail = (dispatch, error) => {
   dispatch({ type: LOGIN_USER_FAIL, payload: error });
   Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: 'danger' })
   //console.log(error);
+}
+
+export const updateUser = (token, idRestaurant) => {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_USER_START });
+    fetch('http://' + server + ':' + port + '/api/auth/update', {
+           method: 'PUT',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                      'Authorization': token
+                    },
+           body: JSON.stringify({ defaultRestaurant: idRestaurant })
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { updateUserSuccess(dispatch, responseJson) })
+      .catch((error) => { updateUserFail(dispatch, error) });
+  }
+};
+
+export const updateUserSuccess = (dispatch, responseJson) => {
+  dispatch({ type: UPDATE_USER_SUCCESS, payload: responseJson.result });
+  Toast.show({ text: responseJson.message, position: 'bottom', duration: 3000, type: 'success' })
+}
+
+export const updateUserFail = (dispatch, error) => {
+  dispatch({ type: UPDATE_USER_FAIL, payload: error });
+  Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: 'danger' })
 }
