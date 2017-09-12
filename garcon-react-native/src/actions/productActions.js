@@ -10,21 +10,22 @@ import Server from '../constants/Server';
 let server = Server.address;
 let port = Server.port;
 
-export const fetchProduct = (type) => {
+export const fetchProduct = (type, restaurant, token) => {
   return (dispatch) => {
-    
+
     if (type == "Food") dispatch({ type: FOOD_FETCH_START });
     else dispatch({ type: DRINK_FETCH_START });
 
-    fetch('http://' + server + ':' + port + '/api/product/category/' + type, {
+    fetch('http://' + server + ':' + port + '/api/restaurant/' + restaurant._id + '/product/category/' + type, {
            method: 'GET',
            headers: { 'Accept': 'application/json',
-                      'Content-Type': 'application/json'
+                      'Content-Type': 'application/json',
+                      'Authorization': token
                     }
           })
       .then((response) => response.json())
       .then((responseJson) => { fetchProductSuccess(dispatch, responseJson, type) })
-      .catch((error) => { fetchProductFail(dispatch, error) });
+      .catch((error) => { fetchProductFail(dispatch, error, type) });
   }
 };
 
@@ -33,7 +34,7 @@ export const fetchProductSuccess = (dispatch, responseJson, type) => {
   else dispatch({ type: DRINK_FETCH_SUCCESS, payload: responseJson.result });
 }
 
-export const fetchProductFail = (dispatch, error) => {
+export const fetchProductFail = (dispatch, error, type) => {
   if (type == "Food") dispatch({ type: FOOD_FETCH_ERROR });
   else dispatch({ type: DRINK_FETCH_ERROR });
 

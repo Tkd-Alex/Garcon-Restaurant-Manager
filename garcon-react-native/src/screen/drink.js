@@ -12,11 +12,13 @@ import { editProduct, addProduct, incrementProduct } from '../actions/orderActio
 
 const mapStateToProps = state => ({
   product: state.drink,
-  order: state.order
+  order: state.order,
+  user: state.auth.user,
+  token: state.auth.token
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProduct: () => dispatch(fetchProduct('Drink')),
+  fetchProduct: (restaurant, token) => dispatch(fetchProduct('Drink', restaurant, token)),
   incrementProduct: (product) => dispatch(incrementProduct(product)),
   addProduct: (product) => dispatch(addProduct(product))
 })
@@ -27,8 +29,12 @@ class Drink extends Component {
     title: "Drink"
   };
 
+  _fetchProduct(){
+    this.props.fetchProduct(this.props.user.defaultRestaurant, this.props.token)
+  }
+
   componentWillMount(){
-    this.props.fetchProduct()
+    this._fetchProduct();
   }
 
   state = {
@@ -47,7 +53,7 @@ class Drink extends Component {
           <Icon ios="ios-search" android="md-search" style={{ color: Colors.inactiveTintColor }}/>
           <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText: text})}/>
         </InputGroup>
-        <Content refreshControl={ <RefreshControl onRefresh={this.props.fetchProduct} refreshing={this.props.product.isLoading} /> }>
+        <Content refreshControl={ <RefreshControl onRefresh={this._fetchProduct.bind(this)} refreshing={this.props.product.isLoading} /> }>
           <List>
             {this.props.product.listProduct.filter(product =>
                                                    product.name.toLowerCase().includes(this.state.filterText.toLowerCase()))

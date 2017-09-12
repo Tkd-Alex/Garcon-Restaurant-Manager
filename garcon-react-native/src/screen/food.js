@@ -16,11 +16,12 @@ import { editProduct, addProduct, incrementProduct } from '../actions/orderActio
 const mapStateToProps = state => ({
   product: state.food,
   order: state.order,
-  user: state.auth.user
+  user: state.auth.user,
+  token: state.auth.token
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProduct: () => dispatch(fetchProduct('Food')),
+  fetchProduct: (restaurant, token) => dispatch(fetchProduct('Food', restaurant, token)),
   editProduct: () => dispatch(editProduct()),
   incrementProduct: (product) => dispatch(incrementProduct(product)),
   addProduct: (product) => dispatch(addProduct(product))
@@ -32,8 +33,12 @@ class Food extends Component {
     title: "Food"
   };
 
+  _fetchProduct(){
+    this.props.fetchProduct(this.props.user.defaultRestaurant, this.props.token)
+  }
+
   componentWillMount(){
-    this.props.fetchProduct()
+    this._fetchProduct();
   }
 
   // Notifications
@@ -46,7 +51,7 @@ class Food extends Component {
   }
 
   _registerForPushNotifications() {
-    registerForPushNotificationsAsync(this.props.user);
+    registerForPushNotificationsAsync(this.props.user, this.props.token);
     // Watch for incoming notifications
     this._notificationSubscription = Notifications.addListener( this._handleNotification );
   }
@@ -71,7 +76,7 @@ class Food extends Component {
           <Icon ios="ios-search" android="md-search" style={{ color: Colors.inactiveTintColor }}/>
           <Input placeholder="Cerca..." onChangeText={(text) => this.setState({filterText: text})}/>
         </InputGroup>
-        <Content refreshControl={ <RefreshControl onRefresh={this.props.fetchProduct} refreshing={this.props.product.isLoading} /> }>
+        <Content refreshControl={ <RefreshControl onRefresh={this._fetchProduct.bind(this)} refreshing={this.props.product.isLoading} /> }>
           <List>
             {this.props.product.listProduct.filter(product =>
                                                    product.name.toLowerCase().includes(this.state.filterText.toLowerCase()))
