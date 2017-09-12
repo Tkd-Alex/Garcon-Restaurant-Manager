@@ -216,3 +216,91 @@ exports.getProduct = function(req, res, next){
     }
   });
 }
+
+// Order
+exports.addOrder = function(req, res, next){
+  const tableNumber = req.body.tableNumber;
+  if (!tableNumber) { return res.status(422).send({ error: 'Inserisci il numero del tavolo.'}); }
+
+  const owner = req.user;
+
+  Restaurant.findById(req.params.restaurant, function(err, restaurant){
+    if (err) { return next(err); }
+    if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
+    else{
+      let order = new Order({
+          tableNumber: tableNumber,
+          listProduct: req.body.listProduct,
+          totalPrice: req.body.totalPrice,
+          waiter: owner
+      });
+      restaurant.orders.push(order);
+      restaurant.save(function(err){
+        if(err) { return next(err) };
+        Product.populate(order, {path:'listProduct.product.ingredients', model:'Ingredient'}, function(err,result){
+          res.status(201).json({"message": 'Ordine inserito!', "result": result});
+        });
+      });
+    }
+  });
+}
+
+exports.getOrder = function(req, res, next){
+  const order = req.params.id;
+  Restaurant.findById(req.params.restaurant)
+            .populate({path: 'orders.listProduct.product.ingredients', model:'Ingredient'})
+            .exec(function(err, restaurant){
+    if (err) { return next(err); }
+    if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
+    else{
+      if(order){
+        if(restaurant.orders.id(order)) res.status(201).json({"result": restaurant.orders.id(order)});
+        else { return res.status(422).send({ error: 'Prodotto non trovato' }); }
+      }
+      else{
+        res.status(201).json({"result": restaurant.orders});
+      }
+    }
+  });
+}
+
+exports.confirmOrder = function(req, res, next){
+  const order = req.params.id;
+  Restaurant.findById(req.params.restaurant)
+            .populate({path: 'orders.waiter', model:'User'})
+            .exec(function(err, restaurant){
+    if (err) { return next(err); }
+    if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
+    else{
+      restaurant.orders.id(order).complete = true;
+      let chunk = {
+          to: restaurant.orders.id(order).waiter.push_token,
+          sound: 'default',
+          body: "L'ordine " + restaurant.orders.id(order).tableNumber + " è completato!",
+          data: {}
+      }
+      restaurant.save(async function(err){
+        if (err) { return next(err); }
+        try {
+            let receipts = await expo.sendPushNotificationsAsync([chunk]);
+            console.log(receipts);
+        } catch (error) { console.error(error); }
+        res.status(201).json({"message": 'Ordine completato', "result": restaurant.orders.id(order)});
+      })
+    }
+  });
+}
+
+exports.payOrder = function(req, res, next){
+  const order = req.params.id;
+  Restaurant.findById(req.params.restaurant, function(err, restaurant){
+    if (err) { return next(err); }
+    if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
+    else{
+      restaurant.orders.id(order).paid = true;
+      restaurant.save(async function(err){
+        res.status(201).json({"message": 'Pagato', "result": restaurant.orders.id(order)});
+      })
+    }
+  });
+}

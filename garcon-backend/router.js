@@ -55,6 +55,14 @@ module.exports = function(app) {
   restaurantRoutes.get('/:restaurant/product', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
   restaurantRoutes.get('/:restaurant/product/category/:category', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
 
+  // Order
+  restaurantRoutes.post('/:restaurant/order', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.addOrder);
+  restaurantRoutes.get('/:restaurant/order/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
+  restaurantRoutes.get('/:restaurant/order', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
+  restaurantRoutes.put('/:restaurant/order/cofirm/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.confirmOrder);
+  restaurantRoutes.put('/:restaurant/order/pay/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.payOrder);
+
+
   // Set url for API group routes
   app.use('/api', apiRoutes);
 
