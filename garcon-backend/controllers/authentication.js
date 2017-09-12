@@ -1,8 +1,12 @@
 'use strict';
 
 const jwt = require('jsonwebtoken'),
-      crypto = require('crypto'),
-      User = require('../models/user'),
+      crypto = require('crypto');
+
+const User = require('../models/user'),
+      Product = require('../models/product'),
+      Order = require('../models/order'),
+      Restaurant = require('../models/restaurant'),
       config = require('../config/main');
 
 function generateToken(user) {
@@ -24,9 +28,7 @@ function setUserInfo(request) {
   }
 };
 
-//========================================
 // Login Route
-//========================================
 exports.login = function(req, res, next) {
 
   let userInfo = setUserInfo(req.user);
@@ -37,9 +39,7 @@ exports.login = function(req, res, next) {
   });
 }
 
-//========================================
 // Registration Route
-//========================================
 exports.register = function(req, res, next) {
   // Check for registration errors
   const fullname = req.body.fullname;
@@ -89,9 +89,7 @@ exports.register = function(req, res, next) {
   });
 }
 
-//========================================
 // Set Token Route
-//========================================
 exports.setToken = function(req, res, next){
   if (!req.body.token) { return res.status(422).send({ error: 'Assicurati di avere inserito il token.'}); }
 
@@ -110,7 +108,8 @@ exports.setToken = function(req, res, next){
 //========================================
 // Authorization Middleware
 //========================================
-// Role authorization check
+
+// Check if is admin
 exports.roleAuthorization = function(req, res, next) {
   const user = req.user;
 
@@ -124,6 +123,43 @@ exports.roleAuthorization = function(req, res, next) {
     if (foundUser.admin) { return next(); }
 
     res.status(401).json({ error: 'Pagina riservata agli amministratori.' });
+    return next('Non autorizzato');
+  })
+}
+
+// Check if is owner
+exports.ownerAuthorization = function(req, res, next) {
+  console.log(req.params)
+  const user = req.user;
+  const restaurant_id = req.params.restaurant;
+
+  Restaurant.findById(restaurant_id, function(err, foundRestaurant) {
+    if (err) {
+      res.status(422).json({ error: 'Ristorante non trovato.' });
+      return next(err);
+    }
+
+    if(user._id.toString() == foundRestaurant.owner.toString()) { return next(); }
+
+    res.status(401).json({ error: 'Non sei il proprietario.' });
+    return next('Non autorizzato');
+  })
+}
+
+// Check if is waiter
+exports.waiterAuthorization = function(req, res, next) {
+  const user = req.user;
+  const restaurant_id = req.params.restaurant;
+
+  Restaurant.findById(restaurant_id, function(err, foundRestaurant) {
+    if (err) {
+      res.status(422).json({ error: 'Ristorante non trovato.' });
+      return next(err);
+    }
+
+    if(foundRestaurant.waiters.indexOf(user._id) > -1) { return next(); }
+
+    res.status(401).json({ error: 'Non sei un cameriere presso questo locale.' });
     return next('Non autorizzato');
   })
 }
