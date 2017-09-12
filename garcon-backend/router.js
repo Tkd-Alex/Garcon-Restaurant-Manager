@@ -4,7 +4,9 @@ const AuthenticationController = require('./controllers/authentication'),
       IngredientController = require('./controllers/ingredient'),
       ProductController = require('./controllers/product'),
       OrderController = require('./controllers/order'),
-      express = require('express'),
+      RestaurantController = require('./controllers/restaurant');
+
+const express = require('express'),
       passportService = require('./config/passport'),
       passport = require('passport');
 
@@ -15,16 +17,51 @@ const requireLogin = passport.authenticate('local', { session: false });
 module.exports = function(app) {
   // Initializing route groups
   const apiRoutes = express.Router(),
-        privateRoutes = express.Router(),
+        restaurantRoutes = express.Router(),
         authRoutes = express.Router();
 
   apiRoutes.get('/', function(req, res){
-    res.json({ message: "garcon-backend api is on " + new Date() });
+    res.json({ message: "garcon-backend api is on " + new Date() +
+                        "\nMore info https://github.com/Tkd-Alex/Garcon-Restaurant-Manager" });
   });
 
   //=========================
-  // Ingredient Routes
+  // Auth Routes
   //=========================
+  apiRoutes.use('/auth', authRoutes);
+  authRoutes.post('/register', AuthenticationController.register);
+  authRoutes.post('/login', requireLogin, AuthenticationController.login);
+  authRoutes.post('/set-token/:id', requireAuth, AuthenticationController.setToken)
+
+  //=========================
+  // Restaurant Routes (Main)
+  //=========================
+
+  apiRoutes.use('/restaurant', restaurantRoutes);
+  restaurantRoutes.post('/new-restaurant', requireAuth, AuthenticationController.roleAuthorization, RestaurantController.newRestaurant);
+
+  // Waiter
+  restaurantRoutes.post('/:restaurant/waiter/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.addWaiter);
+  restaurantRoutes.delete('/:restaurant/waiter/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.removeWaiter);
+  restaurantRoutes.get('/:restaurant/waiter/', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.getWaiter);
+  restaurantRoutes.get('/:restaurant/waiter/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.getWaiter);
+
+  // Product
+  restaurantRoutes.post('/:restaurant/product', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.addProduct);
+  restaurantRoutes.delete('/:restaurant/product/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.removeProduct);
+  restaurantRoutes.put('/:restaurant/product/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.updateProduct);
+  restaurantRoutes.get('/:restaurant/product/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
+  restaurantRoutes.get('/:restaurant/product', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
+  restaurantRoutes.get('/:restaurant/product/category/:category', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
+
+  // Set url for API group routes
+  app.use('/api', apiRoutes);
+
+  //==================================
+  // The following api are deprecated
+  //==================================
+
+  // Ingredient Routes
   apiRoutes.route('/ingredient').get(IngredientController.getAll)
                                 .post(IngredientController.insert);
 
@@ -32,9 +69,7 @@ module.exports = function(app) {
                                     .put(IngredientController.update)
                                     .delete(IngredientController.delete);
 
-  //=========================
   // Product Routes
-  //=========================
   apiRoutes.route('/product').get(ProductController.getAll)
                              .post(ProductController.insert);
 
@@ -44,36 +79,11 @@ module.exports = function(app) {
 
   apiRoutes.route('/product/category/:category').get(ProductController.getCategory)
 
-
-  //=========================
   // Order Routes
-  //=========================
   apiRoutes.route('/order').get(OrderController.getAll)
                            .post(OrderController.insert);
 
   apiRoutes.route('/order/:id').get(OrderController.confirm)
                                .post(OrderController.pay);
 
-  privateRoutes.get('/testing', requireAuth, AuthenticationController.roleAuthorization, function(req, res){
-    res.json({ message: "Funziona!" });
-  });
-
-  apiRoutes.use('/private', privateRoutes);
-  //privateRoutes.use(AuthenticationController.roleAuthorization);
-
-  //=========================
-  // Auth Routes
-  //=========================
-
-  // Set auth routes as subgroup/middleware to apiRoutes
-  apiRoutes.use('/auth', authRoutes);
-  // Registration routes
-  authRoutes.post('/register', AuthenticationController.register);
-  // Login route
-  authRoutes.post('/login', requireLogin, AuthenticationController.login);
-  // Set token route
-  authRoutes.post('/set-token/:id', requireAuth, AuthenticationController.setToken)
-
-  // Set url for API group routes
-  app.use('/api', apiRoutes);
 };
