@@ -46,6 +46,10 @@ const UserSchema = new Schema({
   push_token:{
     type: String,
     trim: true
+  },
+  restaurants:{
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Restaurant'
   }
 });
 

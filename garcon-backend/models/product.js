@@ -17,10 +17,10 @@ const ProductSchema = new Schema({
     required: true,
     default: 0
   },
-  ingredients: {
-    type: [mongoose.Schema.Types.ObjectId],
+  ingredients: [{
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Ingredient'
-  },
+  }],
   category: {
     type: String,
     enum: ['Food', 'Drink'],

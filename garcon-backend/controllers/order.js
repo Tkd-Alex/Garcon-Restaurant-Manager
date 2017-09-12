@@ -55,7 +55,7 @@ exports.confirm = function(req, res, next){
             let receipts = await expo.sendPushNotificationsAsync([chunk]);
             console.log(receipts);
         } catch (error) { console.error(error); }
-        res.status(201).json({"message": 'Oridne confermato', "result": result});
+        res.status(201).json({"message": 'Ordine confermato', "result": result});
       });
 
     });
@@ -67,7 +67,7 @@ exports.pay = function(req, res, next){
       order.paid = true;
       order.save(function(err, result) {
         if (err) { return next(err); }
-        res.status(201).json({"message": 'Oridne pagato', "result": result});
+        res.status(201).json({"message": 'Ordine pagato', "result": result});
       });
 
     });
