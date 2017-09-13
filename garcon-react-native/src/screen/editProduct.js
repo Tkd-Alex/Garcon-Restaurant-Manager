@@ -2,7 +2,7 @@ import Expo from 'expo';
 import React, { Component } from 'react';
 import { View, Platform, StyleSheet, RefreshControl, ListView } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right, H2, Tab, Tabs, TabHeading,
-         Button, Icon, Title, List, ListItem, Text, InputGroup, Input } from 'native-base';
+         Button, Icon, Title, List, ListItem, Text, InputGroup, Input, Toast } from 'native-base';
 import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
@@ -129,7 +129,7 @@ class EditProduct extends Component {
                                                 product.ingredients = product.ingredients.concat(ingredient);
                                                 this.setState({ product: product,
                                                                 dataSource: this.state.dataSource.cloneWithRows(product.ingredients)
-                                                              })
+                                                              }, Toast.show({ text: "Ingrediente aggiunto!", position: 'bottom', duration: 3500, type: 'success' }))
                                       }}
                               style={styles.smallestButton} small success><Icon ios='ios-add' android='md-add' /></Button>
                      </Right>

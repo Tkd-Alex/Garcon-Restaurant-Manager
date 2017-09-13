@@ -12,13 +12,14 @@ import Server from '../constants/Server';
 let server = Server.address;
 let port = Server.port;
 
-export const fetchOrder = () => {
+export const fetchOrder = (restaurant, token) => {
   return (dispatch) => {
     dispatch({ type: ORDER_FETCH_START });
-    fetch('http://' + server + ':' + port + '/api/order', {
+    fetch('http://' + server + ':' + port + '/api/restaurant/' + restaurant._id + '/order', {
            method: 'GET',
            headers: { 'Accept': 'application/json',
-                      'Content-Type': 'application/json'
+                      'Content-Type': 'application/json',
+                      'Authorization': token
                     }
           })
       .then((response) => response.json())
@@ -38,13 +39,14 @@ export const fetchOrderFail = (dispatch, error) => {
   console.log(error);
 }
 
-export const newOrder = (order) => {
+export const newOrder = (order, restaurant, token) => {
   return (dispatch) => {
     dispatch({ type: ORDER_NEW_START });
-    fetch('http://' + server + ':' + port + '/api/order', {
+    fetch('http://' + server + ':' + port + '/api/restaurant/' + restaurant._id + '/order', {
            method: 'POST',
            headers: { 'Accept': 'application/json',
-                      'Content-Type': 'application/json'
+                      'Content-Type': 'application/json',
+                      'Authorization': token
                     },
            body: JSON.stringify({ tableNumber: order.tableNumber,
                                   listProduct: order.listProduct,
@@ -69,14 +71,15 @@ export const newOrderFail = (dispatch, error) => {
   console.log(error);
 }
 
-export const updateOrder = (order) => {
+export const updateOrder = (order, restaurant, token) => {
   return (dispatch) => {
     dispatch({ type: ORDER_UPDATE_START });
-    let method = order.complete ? "POST" : "GET"
-    fetch('http://' + server + ':' + port + '/api/order/' + order._id, {
-           method: method,
+    let endpoint = order.complete ? "pay" : "complete"
+    fetch('http://' + server + ':' + port + '/api/restaurant/' + restaurant._id + '/order/' + endpoint + '/' + order._id , {
+           method: 'PUT',
            headers: { 'Accept': 'application/json',
-                      'Content-Type': 'application/json'
+                      'Content-Type': 'application/json',
+                      'Authorization': token
                     }
           })
       .then((response) => response.json())

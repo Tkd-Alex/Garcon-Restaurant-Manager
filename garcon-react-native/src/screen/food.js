@@ -34,7 +34,7 @@ class Food extends Component {
   };
 
   _fetchProduct(){
-    this.props.fetchProduct(this.props.user.defaultRestaurant, this.props.token)
+    this.props.fetchProduct(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
   componentWillMount(){

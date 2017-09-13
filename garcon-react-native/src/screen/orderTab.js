@@ -19,7 +19,7 @@ const mapDispatchToProps = dispatch => ({
   incrementProduct: (product) => dispatch(incrementProduct(product)),
   decrementProduct: (product) => dispatch(decrementProduct(product)),
   removeProduct: (product) => dispatch(removeProduct(product)),
-  newOrder: (order) => dispatch(newOrder(order))
+  newOrder: (order, restaurant, token) => dispatch(newOrder(order, restaurant, token))
 })
 
 class OrderTab extends Component {
@@ -99,10 +99,9 @@ class OrderTab extends Component {
             onSubmit={  (value) => this.setState({ promptVisible: false },
                                            () => {  var order = { tableNumber: value,
                                                                   listProduct: this.props.order.listProduct,
-                                                                  totalPrice: this.props.order.listProduct.reduce( (a, b) =>  ({ totalPrice: a.totalPrice + b.totalPrice}) ).totalPrice,
-                                                                  waiter: this.props.auth.user == null ? 'DEBUG_XXX' : this.props.auth.user
+                                                                  totalPrice: this.props.order.listProduct.reduce( (a, b) =>  ({ totalPrice: a.totalPrice + b.totalPrice}) ).totalPrice
                                                                 }
-                                                    this.props.newOrder(order);
+                                                    this.props.newOrder(order, this.props.auth.user.preferences.defaultRestaurant, this.props.auth.token);
                                                   })
                      }/>
 

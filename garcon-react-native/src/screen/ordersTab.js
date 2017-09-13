@@ -9,11 +9,13 @@ import { fetchOrder } from '../actions/orderActions'
 import Colors from '../constants/Colors';
 
 const mapStateToProps = state => ({
-  order: state.order
+  order: state.order,
+  user: state.auth.user,
+  token: state.auth.token
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchOrder: () => dispatch(fetchOrder())
+  fetchOrder: (restaurant, token) => dispatch(fetchOrder(restaurant, token))
 })
 
 class OrdersTab extends Component {
@@ -22,8 +24,12 @@ class OrdersTab extends Component {
     title: "OrdersTab"
   };
 
+  _fetchOrder(){
+    this.props.fetchOrder(this.props.user.preferences.defaultRestaurant, this.props.token)
+  }
+
   componentWillMount(){
-    this.props.fetchOrder()
+    this._fetchOrder();
   }
 
   render() {
@@ -34,7 +40,7 @@ class OrdersTab extends Component {
             <Title style={{color: "white"}}>Riepilogo ordini</Title>
           </Body>
         </Header>
-        <Content refreshControl={ <RefreshControl onRefresh={this.props.fetchOrder} refreshing={this.props.order.isLoading} /> }>
+        <Content refreshControl={ <RefreshControl onRefresh={this._fetchOrder.bind(this)} refreshing={this.props.order.isLoading} /> }>
           <List>
             {this.props.order.listOrder.map(order =>
               <Card key={order._id} style={{flex: 0}}>

@@ -13,7 +13,7 @@ export default (async function registerForPushNotificationsAsync(user, token) {
   if(tokenPush == user.push_token) return;
 
   return fetch(PUSH_ENDPOINT, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

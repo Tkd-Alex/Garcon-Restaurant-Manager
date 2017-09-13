@@ -12,10 +12,13 @@ import { updateOrder } from '../actions/orderActions'
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  token: state.auth.token
+})
 
 const mapDispatchToProps = dispatch => ({
-  updateOrder: (order) => dispatch(updateOrder(order)),
+  updateOrder: (order, restaurant, token) => dispatch(updateOrder(order, restaurant, token)),
 })
 
 class Order extends Component {
@@ -52,12 +55,12 @@ class Order extends Component {
         </Header>
         <Content>
           <ListView enableEmptySections key={this.state.order.listProduct} dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
-          <Button onPress={() => { this.state.order.complete ? Toast.show({ text: "L'ordine è già stato contrassegnato!", position: 'bottom', duration: 3000, type: 'danger' }) : this.props.updateOrder(this.state.order) }}
+          <Button onPress={() => { this.state.order.complete ? Toast.show({ text: "L'ordine è già stato contrassegnato!", position: 'bottom', duration: 3000, type: 'danger' }) : this.props.updateOrder(this.state.order, this.props.user.preferences.defaultRestaurant, this.props.token) }}
                   iconLeft block success
                   style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} ><Icon name='checkmark' /><Text>Ordine pronto!</Text></Button>
           <Button onPress={() => { if(!this.state.order.complete) Toast.show({ text: "Devi prima confermare l'ordine!", position: 'bottom', duration: 3000, type: 'danger' })
                                    else if(this.state.order.paid) Toast.show({ text: "L'ordine è già stato pagato!", position: 'bottom', duration: 3000, type: 'danger' })
-                                   else this.props.updateOrder(this.state.order) }}
+                                   else this.props.updateOrder(this.state.order, this.props.user.preferences.defaultRestaurant, this.props.token) }}
                   iconLeft block warning
                   style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} ><Icon name='logo-usd' /><Text>Conferma pagamento</Text></Button>
         </Content>

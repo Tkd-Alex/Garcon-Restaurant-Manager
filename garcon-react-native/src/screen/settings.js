@@ -37,7 +37,7 @@ class Settings extends Component {
             <Picker
               mode="dropdown"
               style={{width: 300}}
-              placeholder={this.props.user.defaultRestaurant.name}
+              placeholder={this.props.user.preferences.defaultRestaurant.name}
               onValueChange={(id) => this.props.updateUser(this.props.token, id) }
               iosHeader="Ristorante">
                 { this.props.user.restaurants.map(restaurant =>
