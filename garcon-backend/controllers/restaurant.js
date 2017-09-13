@@ -207,7 +207,7 @@ exports.getProduct = function(req, res, next){
       else if(category){
         let result = [];
         for(let i in restaurant.menu.toObject()) if(restaurant.menu[i].category.toLowerCase() == category.toLowerCase()) result.push(restaurant.menu[i]);
-        if(result.length == 0) { return res.status(422).send({ error: 'Nessun prodotto appartenente a ' + category }); }
+        if(result.length == 0) { return res.status(201).send({ message: 'Nessun prodotto appartenente a ' + category, result: [] }); }
         else res.status(201).json({"result": result});
       }
       else{
@@ -237,6 +237,22 @@ exports.addOrder = function(req, res, next){
       restaurant.orders.push(order);
       restaurant.save(function(err){
         if(err) { return next(err) };
+        User.populate(restaurant, {path:'waiters', model:'User', select:'push_token preferences'}, async function(err, result){
+          let chunk = [];
+          result.waiters.forEach(function(waiter) {
+            if(waiter.preferences.defaultRestaurant.toString() == restaurant._id.toString() && waiter.preferences.newOrderNotification)
+              chunk.push({
+                  to: waiter.push_token,
+                  sound: 'default',
+                  body: "È stato aggiunto un nuovo ordine presso " + restaurant.name,
+                  data: {}
+              })
+          });
+          try {
+            let receipts = await expo.sendPushNotificationsAsync(chunk);
+            console.log(receipts);
+          } catch (error) { console.error(error); }
+        });
         Product.populate(order, {path:'listProduct.product.ingredients', model:'Ingredient'}, function(err,result){
           res.status(201).json({"message": 'Ordine inserito!', "result": result});
         });
@@ -264,10 +280,11 @@ exports.getOrder = function(req, res, next){
   });
 }
 
-exports.confirmOrder = function(req, res, next){
+exports.completeOrder = function(req, res, next){
   const order = req.params.id;
   Restaurant.findById(req.params.restaurant)
             .populate({path: 'orders.waiter', model:'User'})
+            .populate({path: 'orders.listProduct.product.ingredients', model:'Ingredient'})
             .exec(function(err, restaurant){
     if (err) { return next(err); }
     if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
@@ -293,7 +310,9 @@ exports.confirmOrder = function(req, res, next){
 
 exports.payOrder = function(req, res, next){
   const order = req.params.id;
-  Restaurant.findById(req.params.restaurant, function(err, restaurant){
+  Restaurant.findById(req.params.restaurant)
+            .populate({path: 'orders.listProduct.product.ingredients', model:'Ingredient'})
+            .exec(function(err, restaurant){
     if (err) { return next(err); }
     if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
     else{

@@ -31,8 +31,8 @@ module.exports = function(app) {
   apiRoutes.use('/auth', authRoutes);
   authRoutes.post('/register', AuthenticationController.register);
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
-  authRoutes.put('/update', requireAuth, AuthenticationController.update);
-  authRoutes.post('/set-token', requireAuth, AuthenticationController.setToken)
+  authRoutes.put('/set-token', requireAuth, AuthenticationController.setToken);
+  authRoutes.put('/update', requireAuth, AuthenticationController.updatePreferences);
 
   //=========================
   // Restaurant Routes (Main)
@@ -59,9 +59,8 @@ module.exports = function(app) {
   restaurantRoutes.post('/:restaurant/order', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.addOrder);
   restaurantRoutes.get('/:restaurant/order/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
   restaurantRoutes.get('/:restaurant/order', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
-  restaurantRoutes.put('/:restaurant/order/cofirm/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.confirmOrder);
+  restaurantRoutes.put('/:restaurant/order/complete/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.completeOrder);
   restaurantRoutes.put('/:restaurant/order/pay/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.payOrder);
-
 
   // Set url for API group routes
   app.use('/api', apiRoutes);

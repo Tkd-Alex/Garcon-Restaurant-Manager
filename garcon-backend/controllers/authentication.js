@@ -33,7 +33,7 @@ exports.login = function(req, res, next) {
   let userInfo = setUserInfo(req.user);
   User.findById(req.user._id)
       .populate({path: 'restaurants', model:'Restaurant', select:'name'})
-      .populate({path: 'defaultRestaurant', model:'Restaurant', select:'name'})
+      .populate({path: 'preferences.defaultRestaurant', model:'Restaurant', select:'name'})
       .exec(function(err, result){
     res.status(200).json({
       token: 'JWT ' + generateToken(userInfo),
@@ -109,15 +109,16 @@ exports.setToken = function(req, res, next){
   });
 }
 
-// Update default resturant
-exports.update = function(req, res, next){
+// Update preferences
+exports.updatePreferences = function(req, res, next){
   User.findById(req.user._id, function(err, user) {
     if (err) { return next(err); }
-    user.defaultRestaurant = req.body.defaultRestaurant;
+    if(req.body.defaultRestaurant) user.preferences.defaultRestaurant = req.body.defaultRestaurant;
+    if(req.body.newOrderNotification) user.preferences.newOrderNotification = req.body.newOrderNotification;
     user.save(function(err, result) {
       if (err) { return next(err); }
-      Restaurant.populate(result, [{path:"defaultRestaurant", select:'name'}, {path:"restaurants", select:'name'}], function(err, user) {
-        res.status(201).json({"message": 'Ristorante predefinito aggiornato!', "result": user});
+      Restaurant.populate(result, [{path:"preferences.defaultRestaurant", select:'name'}, {path:"restaurants", select:'name'}], function(err, user) {
+        res.status(201).json({"message": 'Impostazioni aggiornate', "result": user});
       });
     });
 
