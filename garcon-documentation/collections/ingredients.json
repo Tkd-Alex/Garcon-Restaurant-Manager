@@ -1,0 +1,57 @@
+{"_id":{"$oid":"59b7d3c62291b801def50379"},"name":"Salsa di pomodoro","__v":0}
+{"_id":{"$oid":"59b7d48d2291b801def5037b"},"name":"Mozzarella","__v":0}
+{"_id":{"$oid":"59b7d4bd2291b801def5037c"},"name":"Basilico","__v":0}
+{"_id":{"$oid":"59b7d4cc2291b801def5037d"},"name":"Prosciutto cotto","__v":0}
+{"_id":{"$oid":"59b7d4d52291b801def5037e"},"name":"Origano","__v":0}
+{"_id":{"$oid":"59b7d4e12291b801def5037f"},"name":"Acciughe","__v":0}
+{"_id":{"$oid":"59b7d4e82291b801def50380"},"name":"Wurstel","__v":0}
+{"_id":{"$oid":"59b7d4ec2291b801def50381"},"name":"Patatine","__v":0}
+{"_id":{"$oid":"59b7d4fc2291b801def50382"},"name":"Pachino","__v":0}
+{"_id":{"$oid":"59b7d5032291b801def50383"},"name":"Rucola","__v":0}
+{"_id":{"$oid":"59b7d5172291b801def50384"},"name":"Prosciutto Crudo","__v":0}
+{"_id":{"$oid":"59b7d51e2291b801def50385"},"name":"Scaglie di Grana","__v":0}
+{"_id":{"$oid":"59b7d5262291b801def50386"},"name":"Melanzane","__v":0}
+{"_id":{"$oid":"59b7d5372291b801def50387"},"name":"Ricotta","__v":0}
+{"_id":{"$oid":"59b7d5432291b801def50388"},"name":"Speck","__v":0}
+{"_id":{"$oid":"59b7d5692291b801def50389"},"name":"Gorgonzola","__v":0}
+{"_id":{"$oid":"59b7d56e2291b801def5038a"},"name":"Tonno","__v":0}
+{"_id":{"$oid":"59b7d5722291b801def5038b"},"name":"Cipolla","__v":0}
+{"_id":{"$oid":"59b7d57f2291b801def5038c"},"name":"Olive nere","__v":0}
+{"_id":{"$oid":"59b7d5892291b801def5038d"},"name":"Pesto di Pistacchio","__v":0}
+{"_id":{"$oid":"59b7d5942291b801def5038e"},"name":"Mais","__v":0}
+{"_id":{"$oid":"59b7d5a22291b801def5038f"},"name":"Salame Piccante","__v":0}
+{"_id":{"$oid":"59b7d5aa2291b801def50390"},"name":"Peperoncino","__v":0}
+{"_id":{"$oid":"59b7d5b42291b801def50391"},"name":"Patate lesse","__v":0}
+{"_id":{"$oid":"59b7d5ba2291b801def50392"},"name":"Salsiccia","__v":0}
+{"_id":{"$oid":"59b7d5dd2291b801def50393"},"name":"Aromi","__v":0}
+{"_id":{"$oid":"59b7d5e32291b801def50394"},"name":"Scarola","__v":0}
+{"_id":{"$oid":"59b7d5fd2291b801def50395"},"name":"Crema di Limone","__v":0}
+{"_id":{"$oid":"59b7d60a2291b801def50396"},"name":"Formaggio di Limone","__v":0}
+{"_id":{"$oid":"59b7d6152291b801def50397"},"name":"Mozzarella di Bufala","__v":0}
+{"_id":{"$oid":"59b7d6312291b801def50398"},"name":"Pesto","__v":0}
+{"_id":{"$oid":"59b7d63e2291b801def50399"},"name":"Mozzarella affumicata","__v":0}
+{"_id":{"$oid":"59b7d6482291b801def5039a"},"name":"Pancetta affumicata","__v":0}
+{"_id":{"$oid":"59b7d6532291b801def5039b"},"name":"Funghi","__v":0}
+{"_id":{"$oid":"59b7d6582291b801def5039c"},"name":"Carciofi","__v":0}
+{"_id":{"$oid":"59b7d6682291b801def5039d"},"name":"Verdure Grigliate","__v":0}
+{"_id":{"$oid":"59b7d6722291b801def5039e"},"name":"Funghi freschi","__v":0}
+{"_id":{"$oid":"59b7d67c2291b801def5039f"},"name":"Piselli","__v":0}
+{"_id":{"$oid":"59b7d6862291b801def503a0"},"name":"Formaggio Salmonato","__v":0}
+{"_id":{"$oid":"59b7d6922291b801def503a1"},"name":"Gran Marnier","__v":0}
+{"_id":{"$oid":"59b7d69e2291b801def503a2"},"name":"Zucchine","__v":0}
+{"_id":{"$oid":"59b7d6ab2291b801def503a3"},"name":"Pesto alle Noci","__v":0}
+{"_id":{"$oid":"59b7d7232291b801def503a4"},"name":"Prezzemolo","__v":0}
+{"_id":{"$oid":"59b7d7282291b801def503a5"},"name":"Uovo Sodo","__v":0}
+{"_id":{"$oid":"59b7d73b2291b801def503a6"},"name":"Bresaola","__v":0}
+{"_id":{"$oid":"59b7d7442291b801def503a7"},"name":"Misto Funghi","__v":0}
+{"_id":{"$oid":"59b7d7492291b801def503a8"},"name":"Gamberetti","__v":0}
+{"_id":{"$oid":"59b7d7522291b801def503a9"},"name":"Melanzane Fritte","__v":0}
+{"_id":{"$oid":"59b7d7672291b801def503aa"},"name":"Panna","__v":0}
+{"_id":{"$oid":"59b7d7732291b801def503ab"},"name":"Granella di Pistacchio","__v":0}
+{"_id":{"$oid":"59b7d77e2291b801def503ac"},"name":"Radicchio","__v":0}
+{"_id":{"$oid":"59b7d7852291b801def503ad"},"name":"Friarielli","__v":0}
+{"_id":{"$oid":"59b7d7922291b801def503ae"},"name":"Primo Sale","__v":0}
+{"_id":{"$oid":"59b7d79f2291b801def503af"},"name":"Frutti di Mare","__v":0}
+{"_id":{"$oid":"59b7d7a52291b801def503b0"},"name":"Aglio","__v":0}
+{"_id":{"$oid":"59b7d7b22291b801def503b1"},"name":"Ricotta fresca","__v":0}
+{"_id":{"$oid":"59b7d7be2291b801def503b2"},"name":"Emmental","__v":0}

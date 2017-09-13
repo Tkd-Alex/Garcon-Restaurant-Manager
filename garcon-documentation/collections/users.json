@@ -1,0 +1,1 @@
+{"_id":{"$oid":"59b7d91b2291b801def503b3"},"fullname":"Mario Rossi","email":"mariorossi@gmail.com","password":"$2a$05$xYNd2Ka30V65o83oN2kZHOENEBLIbd6j3pXu6A2Hc8h1P2kjkqtaW","restaurants":[{"$oid":"59b7db812291b801def503b4"}],"admin":true,"sex":"M","age":23,"create":{"$date":"2017-09-12T12:54:51.396Z"},"__v":1,"push_token":"ExponentPushToken[Oe9XjQLCJCGddtQDgnOzJU]"}
