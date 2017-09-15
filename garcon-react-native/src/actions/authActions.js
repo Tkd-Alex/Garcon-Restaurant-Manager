@@ -1,6 +1,6 @@
 import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOUT,
          SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL,
-         UPDATE_USER_START, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL } from './types'
+         UPDATE_USER_START, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL, ADD_WAITER_SUCCESS } from './types'
 
 import { Toast } from 'native-base';
 import { AsyncStorage } from 'react-native'
@@ -92,7 +92,7 @@ export const loginUserFail = (dispatch, error) => {
   //console.log(error);
 }
 
-export const updateUser = (token, idRestaurant) => {
+export const changeDefaultRestaurant = (token, idRestaurant) => {
   return (dispatch) => {
     dispatch({ type: UPDATE_USER_START });
     fetch('http://' + server + ':' + port + '/api/auth/update', {
@@ -109,6 +109,23 @@ export const updateUser = (token, idRestaurant) => {
   }
 };
 
+export const changeNotificationNewOrder = (token, bool) => {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_USER_START });
+    fetch('http://' + server + ':' + port + '/api/auth/update', {
+           method: 'PUT',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                      'Authorization': token
+                    },
+           body: JSON.stringify({ newOrderNotification: bool })
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { updateUserSuccess(dispatch, responseJson) })
+      .catch((error) => { updateUserFail(dispatch, error) });
+  }
+};
+
 export const updateUserSuccess = (dispatch, responseJson) => {
   dispatch({ type: UPDATE_USER_SUCCESS, payload: responseJson.result });
   Toast.show({ text: responseJson.message, position: 'bottom', duration: 3000, type: 'success' })
@@ -117,4 +134,26 @@ export const updateUserSuccess = (dispatch, responseJson) => {
 export const updateUserFail = (dispatch, error) => {
   dispatch({ type: UPDATE_USER_FAIL, payload: error });
   Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: 'danger' })
+}
+
+export const addWaiter = (token, restaurant, mail) => {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_USER_START });
+    fetch('http://' + server + ':' + port + '/api/restaurant/' + restaurant._id + '/waiter', {
+           method: 'POST',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                      'Authorization': token
+                    },
+           body: JSON.stringify({ email: mail })
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { addWaiterSuccess(dispatch, responseJson) })
+      .catch((error) => { updateUserFail(dispatch, error) });
+  }
+};
+
+export const addWaiterSuccess = (dispatch, responseJson) => {
+  dispatch({ type: ADD_WAITER_SUCCESS });
+  Toast.show({ text: responseJson.message, position: 'bottom', duration: 3000, type: 'success' })
 }

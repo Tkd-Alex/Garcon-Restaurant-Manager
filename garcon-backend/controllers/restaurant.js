@@ -38,6 +38,32 @@ exports.newRestaurant = function(req, res, next){
   })
 }
 
+function _addWaiter(restaurant, waiter, res){
+  if(restaurant.waiters.indexOf(waiter._id) > -1) { return res.status(201).send({ message: 'L\'utente è già un cameriere presso queto locale.' }); }
+  else{
+    restaurant.waiters.push(waiter);
+    restaurant.save(function(err){
+      if(err) { return next(err) };
+      waiter.save(async function(err){
+        if (err) { return next(err); }
+        if(waiter.push_token && waiter.push_token != ""){
+          let chunk = {
+              to: waiter.push_token,
+              sound: 'default',
+              body: "Sei stato aggiunto come cameriere per il locale " + restaurant.name,
+              data: {}
+          }
+          try {
+            let receipts = await expo.sendPushNotificationsAsync([chunk]);
+            console.log(receipts);
+          } catch (error) { console.error(error); }
+        }
+      });
+      res.status(201).json({"message": 'Cameriere aggiunto.'});
+    });
+  }
+}
+
 // Waiter
 exports.addWaiter = function(req, res, next){
   const waiter = req.params.id;
@@ -45,33 +71,22 @@ exports.addWaiter = function(req, res, next){
     if (err) { return next(err); }
     if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
     else{
-        if(restaurant.waiters.indexOf(waiter) > -1) { return res.status(422).send({ error: 'L\'utente è già un cameriere presso queto locale.' }); }
-        else{
-          restaurant.waiters.push(waiter);
-          restaurant.save(function(err){
-            if(err) { return next(err) };
-            User.findById(waiter, function(err, waiter){
-              waiter.restaurants.push(restaurant);
-              waiter.save(async function(err){
-                if (err) { return next(err); }
-                if(waiter.push_token && waiter.push_token != ""){
-                  let chunk = {
-                      to: waiter.push_token,
-                      sound: 'default',
-                      body: "Sei stato aggiunto come cameriere per il locale " + restaurant.name,
-                      data: {}
-                  }
-                  try {
-                    let receipts = await expo.sendPushNotificationsAsync([chunk]);
-                    console.log(receipts);
-                  } catch (error) { console.error(error); }
-                }
-              });
-              res.status(201).json({"message": 'Cameriere aggiunto.'});
-            })
-          });
-        }
+      if(!waiter){
+        if(!req.body.email) { return res.status(422).send({ error: 'Inserisci almeno l\'utente' }); }
+        User.findOne({email: req.body.email}, function(err, waiter){
+          if(err) { return next(err) };
+          if(waiter) _addWaiter(restaurant, waiter, res);
+          else { return res.status(201).send({ message: 'Utente non trovato.' }); }
+        })
       }
+      else{
+        User.findById(waiter, function(err, waiter){
+          if(err) { return next(err) };
+          if(waiter) _addWaiter(restaurant, waiter, res);
+          else { return res.status(201).send({ message: 'Utente non trovato.' }); }
+        });
+      }
+    }
   });
 }
 

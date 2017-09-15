@@ -43,24 +43,25 @@ module.exports = function(app) {
 
   // Waiter
   restaurantRoutes.post('/:restaurant/waiter/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.addWaiter);
+  restaurantRoutes.post('/:restaurant/waiter', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.addWaiter);
   restaurantRoutes.delete('/:restaurant/waiter/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.removeWaiter);
   restaurantRoutes.get('/:restaurant/waiter/', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.getWaiter);
   restaurantRoutes.get('/:restaurant/waiter/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.ownerAuthorization, RestaurantController.getWaiter);
 
   // Product
-  restaurantRoutes.post('/:restaurant/product', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.addProduct);
-  restaurantRoutes.delete('/:restaurant/product/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.removeProduct);
-  restaurantRoutes.put('/:restaurant/product/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.updateProduct);
-  restaurantRoutes.get('/:restaurant/product/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
-  restaurantRoutes.get('/:restaurant/product', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
-  restaurantRoutes.get('/:restaurant/product/category/:category', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
+  restaurantRoutes.post('/:restaurant/product', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.addProduct);
+  restaurantRoutes.delete('/:restaurant/product/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.removeProduct);
+  restaurantRoutes.put('/:restaurant/product/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.updateProduct);
+  restaurantRoutes.get('/:restaurant/product/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
+  restaurantRoutes.get('/:restaurant/product', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
+  restaurantRoutes.get('/:restaurant/product/category/:category', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.getProduct);
 
   // Order
-  restaurantRoutes.post('/:restaurant/order', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.addOrder);
-  restaurantRoutes.get('/:restaurant/order/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
-  restaurantRoutes.get('/:restaurant/order', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
-  restaurantRoutes.put('/:restaurant/order/complete/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.completeOrder);
-  restaurantRoutes.put('/:restaurant/order/pay/:id', requireAuth, AuthenticationController.roleAuthorization, AuthenticationController.waiterAuthorization, RestaurantController.payOrder);
+  restaurantRoutes.post('/:restaurant/order', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.addOrder);
+  restaurantRoutes.get('/:restaurant/order/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
+  restaurantRoutes.get('/:restaurant/order', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
+  restaurantRoutes.put('/:restaurant/order/complete/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.completeOrder);
+  restaurantRoutes.put('/:restaurant/order/pay/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.payOrder);
 
   // Set url for API group routes
   app.use('/api', apiRoutes);
