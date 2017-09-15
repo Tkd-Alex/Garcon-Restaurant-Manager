@@ -17,8 +17,6 @@ exports.newRestaurant = function(req, res, next){
   const address = req.body.address;
   if (!address) { return res.status(422).send({ error: 'Inserisci l\'indirizzo.'}); }
   const owner = req.user;
-  //const owner = req.body.owner;
-  //if (!owner) { return res.status(422).send({ error: 'Inserisci il proprietario.'}); }
 
   let restaurant = new Restaurant({
     name: name,
@@ -29,6 +27,7 @@ exports.newRestaurant = function(req, res, next){
   restaurant.save(function(err, result){
     if(err) return next(err);
     User.findById(owner._id, function(err, waiter){
+      if(waiter.restaurants.length == 0) waiter.preferences.defaultRestaurant = restaurant;
       waiter.restaurants.push(restaurant);
       waiter.save(function(err){
         if (err) { return next(err); }
@@ -44,6 +43,8 @@ function _addWaiter(restaurant, waiter, res){
     restaurant.waiters.push(waiter);
     restaurant.save(function(err){
       if(err) { return next(err) };
+      if(waiter.restaurants.length == 0) waiter.preferences.defaultRestaurant = restaurant;
+      waiter.restaurants.push(restaurant);
       waiter.save(async function(err){
         if (err) { return next(err); }
         if(waiter.push_token && waiter.push_token != ""){

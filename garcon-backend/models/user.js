@@ -54,10 +54,12 @@ const UserSchema = new Schema({
   preferences:{
     defaultRestaurant:{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Restaurant'
+      ref: 'Restaurant',
+      default: null
     },
     newOrderNotification:{
-      type: Boolean
+      type: Boolean,
+      default: true
     }
   }
 });
