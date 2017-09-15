@@ -1,6 +1,6 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
-import { View, Platform, StyleSheet, ListView } from 'react-native';
+import { View, Platform, StyleSheet, ListView, Alert } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right, H3, Toast,
          Button, Icon, Title, List, ListItem, Text, Card, CardItem } from 'native-base';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Colors from '../constants/Colors';
 import OrderCardItem from '../components/orderCardItem'
 
-import { updateOrder } from '../actions/orderActions'
+import { updateOrder, editOrder } from '../actions/orderActions'
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -19,6 +19,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateOrder: (order, restaurant, token) => dispatch(updateOrder(order, restaurant, token)),
+  editOrder: (order, restaurant, token, navigation) => dispatch(editOrder(order, restaurant, token, navigation))
 })
 
 class Order extends Component {
@@ -51,7 +52,23 @@ class Order extends Component {
           <Body>
             <Title style={{color: "white"}}>Comanda: { this.state.order.tableNumber }</Title>
           </Body>
-          <Right></Right>
+          <Right>
+            <Button onPress={() => {
+              if(!this.state.order.paid)
+              Alert.alert(
+                'Modificare?',
+                'Sei sicuro di volere modificare l\'ordine?',
+                [
+                  {text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                  {text: 'SI', onPress: () => this.props.editOrder(this.state.order, this.props.user.preferences.defaultRestaurant, this.props.token, this.props.navigation)},
+                ],
+                { cancelable: false }
+              );
+              else Toast.show({ text: "L'ordine è già stato pagato!", position: 'bottom', duration: 3000, type: 'danger' })
+              }} transparent >
+              <Icon style={{color: "white"}} android='md-list-box' ios="ios-list-box"/>
+            </Button>
+          </Right>
         </Header>
         <Content>
           <ListView enableEmptySections key={this.state.order.listProduct} dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />

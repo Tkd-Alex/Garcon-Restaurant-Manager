@@ -1,6 +1,7 @@
 import { ORDER_FETCH_START, ORDER_FETCH_SUCCESS, ORDER_FETCH_ERROR,
          ORDER_NEW_START, ORDER_NEW_SUCCESS, ORDER_NEW_ERROR,
          ORDER_UPDATE_START, ORDER_UPDATE_SUCCESS, ORDER_UPDATE_ERROR,
+         ORDER_EDIT_START, ORDER_EDIT_SUCCESS, ORDER_EDIT_ERROR,
          EDIT_PRODUCT, ADD_PRODUCT, REMOVE_PRODUCT ,INRECREMENT_PRODUCT, DECREMENT_PRODUCT } from '../actions/types'
 
 import { Toast } from 'native-base';
@@ -134,4 +135,32 @@ export const decrementProduct = (product) => {
     dispatch({ type: DECREMENT_PRODUCT, payload: product  });
     Toast.show({ text: product.name + " decrementato!", position: 'bottom', duration: 3000, type: 'success' })
   }
+}
+
+export const editOrder = (order, restaurant, token, navigation) => {
+  return (dispatch) => {
+    dispatch({ type: ORDER_EDIT_START });
+    fetch('http://' + server + ':' + port + '/api/restaurant/' + restaurant._id + '/order/' + order._id , {
+           method: 'DELETE',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                      'Authorization': token
+                    }
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { editOrderSuccess(dispatch, order, navigation) })
+      .catch((error) => { editOrderFail(dispatch, error) });
+  }
+};
+
+export const editOrderSuccess = (dispatch, order, navigation) => {
+  dispatch({ type: ORDER_EDIT_SUCCESS, payload: order });
+  Toast.show({ text: "Puoi modificare il tuo ordine", position: 'bottom', duration: 3000, type: 'success' })
+  navigation.navigate("OrderTab");
+}
+
+export const editOrderFail = (dispatch, error) => {
+  dispatch({ type: ORDER_EDIT_ERROR });
+  Toast.show({ text: "Qualcosa è andato storto", position: 'bottom', duration: 3000, type: 'danger' })
+  console.log(error);
 }

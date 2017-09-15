@@ -74,8 +74,6 @@ export const loginUser = (userInfo, navigation) => {
 };
 
 export const loginUserSuccess = (dispatch, responseJson, navigation) => {
-  //let userLogged = responseJson.user;
-  //userLogged.token = responseJson.token;
   dispatch({ type: LOGIN_USER_SUCCESS, payload: responseJson });
   try {
     AsyncStorage.setItem('garcon-token', responseJson.token, () => {

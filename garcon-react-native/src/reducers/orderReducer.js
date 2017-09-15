@@ -1,6 +1,7 @@
 import { ORDER_FETCH_START, ORDER_FETCH_SUCCESS, ORDER_FETCH_ERROR,
          ORDER_NEW_START, ORDER_NEW_SUCCESS, ORDER_NEW_ERROR,
          ORDER_UPDATE_START, ORDER_UPDATE_SUCCESS, ORDER_UPDATE_ERROR,
+         ORDER_EDIT_START, ORDER_EDIT_SUCCESS, ORDER_EDIT_ERROR,
          EDIT_PRODUCT, ADD_PRODUCT, REMOVE_PRODUCT, INRECREMENT_PRODUCT, DECREMENT_PRODUCT } from '../actions/types'
 
 let initialState = {
@@ -54,6 +55,15 @@ export default orderReducer = (state = initialState, action) => {
       state.listProduct[index].quantity--;
       state.listProduct[index].totalPrice = state.listProduct[index].quantity * action.payload.price;
       return {...state};
+    case ORDER_EDIT_START:
+      return {...state, isLoading: true, error: null};
+    case ORDER_EDIT_SUCCESS:
+      var index = state.listOrder.map(order => order._id).indexOf(action.payload._id);
+      state.listProduct = action.payload.listProduct;
+      state.listOrder.splice(index,1);
+      return {...state};
+    case ORDER_EDIT_ERROR:
+      return {...state, isLoading: false, error: action.payload};
     default:
       return state;
   }

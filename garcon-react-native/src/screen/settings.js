@@ -2,7 +2,7 @@ import Expo from 'expo';
 import React, { Component } from 'react';
 import { View, Platform, RefreshControl, StyleSheet } from 'react-native';
 import { Container, Content,  Header, Left, Body, Right, H3, Switch, InputGroup,
-         Button, Icon, Title, List, ListItem, Text, Picker, Item, Input } from 'native-base';
+         Button, Icon, Title, List, ListItem, Text, Picker, Item, Input, Toast } from 'native-base';
 import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
@@ -53,6 +53,7 @@ class Settings extends Component {
                   mode="dropdown"
                   style={{width: 250}}
                   placeholder={this.props.user.preferences.defaultRestaurant.name}
+                  selectedValue={this.props.user.preferences.defaultRestaurant._id}
                   onValueChange={(id) => this.props.changeDefaultRestaurant(this.props.token, id) }
                   iosHeader="Ristorante">
                     { this.props.user.restaurants.map(restaurant =>
@@ -68,7 +69,8 @@ class Settings extends Component {
                 <Input returnKeyType="next" autoCorrect={true} placeholder="Mail nuovo cameriere"
                        onChangeText={(newWaiter) => this.setState({newWaiter})} value={this.state.newWaiter} />
                 <Right>
-                  <Button small success onPress={() => this.props.addWaiter(this.props.token, this.props.user.preferences.defaultRestaurant, this.state.newWaiter)}>
+                  <Button small success onPress={() => { if(this.state.newWaiter == "" || this.state.newWaiter.length < 1) Toast.show({ text: "Inserisci una mail per proseguire", position: 'bottom', duration: 3000, type: 'danger' })
+                                                         else this.props.addWaiter(this.props.token, this.props.user.preferences.defaultRestaurant, this.state.newWaiter)}}>
                     <Icon ios='ios-add' android='md-add' />
                   </Button>
                 </Right>

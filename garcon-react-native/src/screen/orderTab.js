@@ -1,7 +1,7 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
 import { View, Platform, StyleSheet } from 'react-native';
-import { Container, Content,  Header, Left, Body, Right, H3,
+import { Container, Content,  Header, Left, Body, Right, H3, Toast,
          Button, Icon, Title, List, ListItem, Text, Card, CardItem } from 'native-base';
 import { connect } from 'react-redux';
 import Prompt from 'react-native-prompt';
@@ -41,7 +41,7 @@ class OrderTab extends Component {
             <Title style={{color: "white"}}>Comanda</Title>
           </Body>
           <Right>
-            <Button transparent onPress={() => {if(this.props.order.listProduct.length < 1) alert("Impossibile proseguire")
+            <Button transparent onPress={() => {if(this.props.order.listProduct.length < 1) Toast.show({ text: "Impossibile proseguire", position: 'bottom', duration: 3000, type: 'danger' })
                                                 else this.setState({ promptVisible: true })}}>
               <Icon style={{color: "white"}} name='basket' />
             </Button>
