@@ -23,7 +23,7 @@ exports.newRestaurant = function(req, res, next){
     address: address,
     owner: owner
   });
-
+  restaurant.waiters.push(owner); 
   restaurant.save(function(err, result){
     if(err) return next(err);
     User.findById(owner._id, function(err, waiter){
@@ -38,7 +38,7 @@ exports.newRestaurant = function(req, res, next){
 }
 
 function _addWaiter(restaurant, waiter, res){
-  if(restaurant.waiters.indexOf(waiter._id) > -1) { return res.status(201).send({ message: 'L\'utente è già un cameriere presso queto locale.' }); }
+  if(restaurant.waiters.indexOf(waiter._id) > -1) { return res.status(201).send({ message: 'L\'utente è già un cameriere presso questo locale.' }); }
   else{
     restaurant.waiters.push(waiter);
     restaurant.save(function(err){
@@ -292,6 +292,21 @@ exports.getOrder = function(req, res, next){
       else{
         res.status(201).json({"result": restaurant.orders});
       }
+    }
+  });
+}
+
+exports.removeOrder = function(req, res, next){
+  const order = req.params.id;
+  Restaurant.findById(req.params.restaurant, function(err, restaurant){
+    if (err) { return next(err); }
+    if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
+    else{
+      restaurant.orders.id(order).remove();
+      restaurant.save(function(err){
+        if(err) { return next(err) };
+        res.status(201).json({"message": 'Prodotto rimosso.'});
+      });
     }
   });
 }

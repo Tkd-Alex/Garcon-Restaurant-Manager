@@ -58,6 +58,7 @@ module.exports = function(app) {
 
   // Order
   restaurantRoutes.post('/:restaurant/order', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.addOrder);
+  restaurantRoutes.delete('/:restaurant/order/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.removeOrder);
   restaurantRoutes.get('/:restaurant/order/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
   restaurantRoutes.get('/:restaurant/order', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.getOrder);
   restaurantRoutes.put('/:restaurant/order/complete/:id', requireAuth, AuthenticationController.waiterAuthorization, RestaurantController.completeOrder);
