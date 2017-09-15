@@ -30,7 +30,8 @@ class Drink extends Component {
   };
 
   _fetchProduct(){
-    this.props.fetchProduct(this.props.user.preferences.defaultRestaurant, this.props.token)
+    if(this.props.user.preferences && this.props.user.preferences.defaultRestaurant)
+      this.props.fetchProduct(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
   componentWillMount(){

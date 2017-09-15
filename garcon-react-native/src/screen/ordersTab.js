@@ -25,7 +25,8 @@ class OrdersTab extends Component {
   };
 
   _fetchOrder(){
-    this.props.fetchOrder(this.props.user.preferences.defaultRestaurant, this.props.token)
+    if(this.props.user.preferences && this.props.user.preferences.defaultRestaurant)
+      this.props.fetchOrder(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
   componentWillMount(){

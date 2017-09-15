@@ -45,20 +45,23 @@ class Settings extends Component {
               <Right><Switch onValueChange={(bool) => this.props.changeNotificationNewOrder(this.props.token, bool) }
                              value={this.props.user.preferences.newOrderNotification} /></Right>
             </ListItem>
-            <ListItem iconLeft>
-              <Icon style={styles.iconForm} ios='ios-home' android="md-home" />
-              <Text>Ristorante predefinito</Text>
-              <Right><Picker
-                mode="dropdown"
-                style={{width: 250}}
-                placeholder={this.props.user.preferences.defaultRestaurant.name}
-                onValueChange={(id) => this.props.changeDefaultRestaurant(this.props.token, id) }
-                iosHeader="Ristorante">
-                  { this.props.user.restaurants.map(restaurant =>
-                    <Item label={restaurant.name} key={restaurant._id} value={restaurant._id} />
-                  )}
-              </Picker></Right>
-            </ListItem>
+            { this.props.user.preferences && this.props.user.restaurants && this.props.user.preferences.defaultRestaurant?
+              <ListItem iconLeft>
+                <Icon style={styles.iconForm} ios='ios-home' android="md-home" />
+                <Text>Ristorante predefinito</Text>
+                <Right><Picker
+                  mode="dropdown"
+                  style={{width: 250}}
+                  placeholder={this.props.user.preferences.defaultRestaurant.name}
+                  onValueChange={(id) => this.props.changeDefaultRestaurant(this.props.token, id) }
+                  iosHeader="Ristorante">
+                    { this.props.user.restaurants.map(restaurant =>
+                      <Item label={restaurant.name} key={restaurant._id} value={restaurant._id} />
+                    )}
+                </Picker></Right>
+              </ListItem>
+              : null
+            }
             { this.props.user.admin && this.props.user._id.toString() == this.props.user.preferences.defaultRestaurant.owner.toString() ?
               <ListItem iconLeft>
                 <Icon ios='ios-person-add' android="md-person-add" style={styles.iconForm} />
