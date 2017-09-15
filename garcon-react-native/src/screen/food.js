@@ -38,13 +38,10 @@ class Food extends Component {
       this.props.fetchProduct(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
-  componentWillMount(){
-    this._fetchProduct();
-  }
-
   // Notifications
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
+    this._fetchProduct();
   }
 
   componentWillUnmount() {

@@ -34,7 +34,7 @@ class Drink extends Component {
       this.props.fetchProduct(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this._fetchProduct();
   }
 

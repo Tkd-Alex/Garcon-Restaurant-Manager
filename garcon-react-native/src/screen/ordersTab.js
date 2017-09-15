@@ -29,7 +29,7 @@ class OrdersTab extends Component {
       this.props.fetchOrder(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this._fetchOrder();
   }
 
