@@ -6,9 +6,10 @@ import { Container, Content,  Header, Left, Body, Right, H3, Switch, InputGroup,
 import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
-import { changeDefaultRestaurant, changeNotificationNewOrder, addWaiter } from '../actions/authActions';
+import { changeDefaultRestaurant, changeNotificationNewOrder, addWaiter, newToken } from '../actions/authActions';
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   user: state.auth.user,
   token: state.auth.token
 })
@@ -16,7 +17,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   changeDefaultRestaurant: (token, idRestaurant) => dispatch(changeDefaultRestaurant(token, idRestaurant)),
   changeNotificationNewOrder: (token, bool) => dispatch(changeNotificationNewOrder(token, bool)),
-  addWaiter: (token, restaurant, mail) => dispatch(addWaiter(token, restaurant, mail))
+  addWaiter: (token, restaurant, mail) => dispatch(addWaiter(token, restaurant, mail)),
+  newToken: (token) => dispatch(newToken(token))
 })
 
 class Settings extends Component {
@@ -29,6 +31,10 @@ class Settings extends Component {
     newWaiter: ""
   };
 
+  _newToken(){
+    this.props.newToken(this.props.token)
+  }
+
   render() {
     return (
       <Container>
@@ -37,7 +43,7 @@ class Settings extends Component {
             <Title style={{color: "white"}}>Impostazioni</Title>
           </Body>
         </Header>
-        <Content>
+        <Content refreshControl={ <RefreshControl onRefresh={this._newToken.bind(this)} refreshing={this.props.auth.isLoading} /> }>
           <List>
             <ListItem iconLeft>
               <Icon style={styles.iconForm} ios='ios-notifications' android="md-notifications" />
@@ -48,7 +54,6 @@ class Settings extends Component {
             { this.props.user.preferences && this.props.user.restaurants && this.props.user.preferences.defaultRestaurant?
               <ListItem iconLeft>
                 <Icon style={styles.iconForm} ios='ios-home' android="md-home" />
-                <Text>Ristorante predefinito</Text>
                 <Right><Picker
                   mode="dropdown"
                   style={{width: 250}}

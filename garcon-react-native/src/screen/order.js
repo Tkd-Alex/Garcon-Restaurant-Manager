@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateOrder: (order, restaurant, token) => dispatch(updateOrder(order, restaurant, token)),
+  updateOrder: (order, restaurant, token, navigation) => dispatch(updateOrder(order, restaurant, token, navigation)),
   editOrder: (order, restaurant, token, navigation) => dispatch(editOrder(order, restaurant, token, navigation))
 })
 
@@ -72,12 +72,12 @@ class Order extends Component {
         </Header>
         <Content>
           <ListView enableEmptySections key={this.state.order.listProduct} dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} />
-          <Button onPress={() => { this.state.order.complete ? Toast.show({ text: "L'ordine è già stato contrassegnato!", position: 'bottom', duration: 3000, type: 'danger' }) : this.props.updateOrder(this.state.order, this.props.user.preferences.defaultRestaurant, this.props.token) }}
+          <Button onPress={() => { this.state.order.complete ? Toast.show({ text: "L'ordine è già stato contrassegnato!", position: 'bottom', duration: 3000, type: 'danger' }) : this.props.updateOrder(this.state.order, this.props.user.preferences.defaultRestaurant, this.props.token, this.props.navigation) }}
                   iconLeft block success
                   style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} ><Icon name='checkmark' /><Text>Ordine pronto!</Text></Button>
           <Button onPress={() => { if(!this.state.order.complete) Toast.show({ text: "Devi prima confermare l'ordine!", position: 'bottom', duration: 3000, type: 'danger' })
                                    else if(this.state.order.paid) Toast.show({ text: "L'ordine è già stato pagato!", position: 'bottom', duration: 3000, type: 'danger' })
-                                   else this.props.updateOrder(this.state.order, this.props.user.preferences.defaultRestaurant, this.props.token) }}
+                                   else this.props.updateOrder(this.state.order, this.props.user.preferences.defaultRestaurant, this.props.token, this.props.navigation) }}
                   iconLeft block warning
                   style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }} ><Icon name='logo-usd' /><Text>Conferma pagamento</Text></Button>
         </Content>

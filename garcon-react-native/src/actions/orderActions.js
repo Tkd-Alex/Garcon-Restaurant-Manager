@@ -72,7 +72,7 @@ export const newOrderFail = (dispatch, error) => {
   console.log(error);
 }
 
-export const updateOrder = (order, restaurant, token) => {
+export const updateOrder = (order, restaurant, token, navigation) => {
   return (dispatch) => {
     dispatch({ type: ORDER_UPDATE_START });
     let endpoint = order.complete ? "pay" : "complete"
@@ -84,14 +84,15 @@ export const updateOrder = (order, restaurant, token) => {
                     }
           })
       .then((response) => response.json())
-      .then((responseJson) => { updateOrderSuccess(dispatch, responseJson) })
+      .then((responseJson) => { updateOrderSuccess(dispatch, responseJson, navigation) })
       .catch((error) => { updateOrderFail(dispatch, error) });
   }
 };
 
-export const updateOrderSuccess = (dispatch, responseJson) => {
+export const updateOrderSuccess = (dispatch, responseJson, navigation) => {
   Toast.show({ text: responseJson.message, position: 'bottom', duration: 2500, type: 'success' })
   dispatch({ type: ORDER_UPDATE_SUCCESS, payload: responseJson.result });
+  if(navigation) navigation.goBack()
 }
 
 export const updateOrderFail = (dispatch, error) => {

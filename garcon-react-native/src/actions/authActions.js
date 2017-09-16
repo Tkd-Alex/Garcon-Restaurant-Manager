@@ -45,7 +45,6 @@ export const registerUser = (userInfo, navigation) => {
 
 export const registerUserSuccess = (dispatch, responseJson, navigation) => {
   dispatch({ type: SIGNUP_USER_SUCCESS });
-  console.log(responseJson);
   Toast.show({ text: "Utente " + responseJson.user.fullname + " registrato.", position: 'bottom', buttonText: 'Ok', duration: 4000, type: 'success' })
   loginUserSuccess(dispatch, responseJson, navigation)
 }
@@ -53,6 +52,22 @@ export const registerUserSuccess = (dispatch, responseJson, navigation) => {
 export const registerUserFail = (dispatch, error) => {
   dispatch({ type: SIGNUP_USER_FAIL, payload: error });
   Toast.show({ text: error, position: 'bottom', duration: 3000, type: 'danger' })
+}
+
+export const newToken = (token) => {
+  return (dispatch) => {
+    dispatch({ type: LOGIN_USER_START });
+    fetch('http://' + server + ':' + port + '/api/auth/user', {
+           method: 'GET',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                      'Authorization': token
+                    }
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { loginUserSuccess(dispatch, responseJson) })
+      .catch((error) => { loginUserFail(dispatch, error) });
+  }
 }
 
 export const loginUser = (userInfo, navigation) => {
@@ -77,7 +92,7 @@ export const loginUserSuccess = (dispatch, responseJson, navigation) => {
   dispatch({ type: LOGIN_USER_SUCCESS, payload: responseJson });
   try {
     AsyncStorage.setItem('garcon-token', responseJson.token, () => {
-      navigation.dispatch(resetAction)
+      if(navigation) navigation.dispatch(resetAction)
     });
   } catch (error) {
     console.log("Error to save data on AsyncStorage")
