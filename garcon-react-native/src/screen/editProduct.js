@@ -28,7 +28,7 @@ class EditProduct extends Component {
     title: "Modifica"
   };
 
-  componentWillMount(){
+  componentDidMount(){
     this.props.fetchIngredient();
   }
 
