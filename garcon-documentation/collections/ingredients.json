@@ -55,3 +55,21 @@
 {"_id":{"$oid":"59b7d7a52291b801def503b0"},"name":"Aglio","__v":0}
 {"_id":{"$oid":"59b7d7b22291b801def503b1"},"name":"Ricotta fresca","__v":0}
 {"_id":{"$oid":"59b7d7be2291b801def503b2"},"name":"Emmental","__v":0}
+{"_id":{"$oid":"59bd097baeb94431a4be7c38"},"name":"Pasta fresca","__v":0}
+{"_id":{"$oid":"59bd0983aeb94431a4be7c39"},"name":"Burro","__v":0}
+{"_id":{"$oid":"59bd09ffaeb94431a4be7c3a"},"name":"Parmigiano","__v":0}
+{"_id":{"$oid":"59bd0a12aeb94431a4be7c3b"},"name":"Sfoglia di pasta","__v":0}
+{"_id":{"$oid":"59bd0a20aeb94431a4be7c3c"},"name":"Pomodoro","__v":0}
+{"_id":{"$oid":"59bd0a36aeb94431a4be7c3d"},"name":"Carne","__v":0}
+{"_id":{"$oid":"59bd0a76aeb94431a4be7c3e"},"name":"Besciamella","__v":0}
+{"_id":{"$oid":"59bd0ab0aeb94431a4be7c3f"},"name":"Sugo alla Bolognese","__v":0}
+{"_id":{"$oid":"59bd0ad0aeb94431a4be7c40"},"name":"Olio di oliva","__v":0}
+{"_id":{"$oid":"59bd0adaaeb94431a4be7c41"},"name":"Sale","__v":0}
+{"_id":{"$oid":"59bd0afaaeb94431a4be7c42"},"name":"Pomodoro fresco","__v":0}
+{"_id":{"$oid":"59bd0b0faeb94431a4be7c43"},"name":"Vongole veraci","__v":0}
+{"_id":{"$oid":"59bd0b32aeb94431a4be7c44"},"name":"Pepe","__v":0}
+{"_id":{"$oid":"59bd0b55aeb94431a4be7c45"},"name":"Frutti di mare","__v":0}
+{"_id":{"$oid":"59bd0b60aeb94431a4be7c46"},"name":"Vongole","__v":0}
+{"_id":{"$oid":"59bd0b87aeb94431a4be7c47"},"name":"Aragosta","__v":0}
+{"_id":{"$oid":"59bd0b97aeb94431a4be7c48"},"name":"Pomodorini","__v":0}
+{"_id":{"$oid":"59bd0baeaeb94431a4be7c49"},"name":"Capperi","__v":0}
