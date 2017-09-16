@@ -13,6 +13,22 @@ L'applicazione permette di facilitare le prenotazioni all'interno di un ristoran
 - Ovviamente anche [ExpoSDK](https://github.com/expo/expo-sdk) mi è stato di molto aiuto, grazie ad esso ho potuto gestire il caricamento dei font e la gestione delle notifiche.
 
 ### Custom components:
+- *ProductListItem*
+
+![ProductListItem](https://raw.githubusercontent.com/Tkd-Alex/Garcon-Restaurant-Manager/master/garcon-documentation/screen/productListItem_resize.jpg)
+
+ProductListItem è stato uno dei primi problemi che ho riscontrato con react native. Durante la creazione delle pagine *Drink* & *Food* avevo la necessità di visualizzare in una sola riga *Nome, Ingredienti e due pulsanti situati a destra* i quali però utilizzando gli elementi di NativeBase non avevano intenzione allinearsi come era mia intezioni. Dopo aver perso i primi due giorni per questa piccolezza grafica notai che il componente *ListItem* e ciò che c'era al suo interno si comportavano in maniera differente, pertanto decisi di creare un componente custom il quale a seconda dei dispositivo ritorna diverse disposizioni.   
+
+| Props | Tipo | Utilità | 
+| :-------- | :-------- | :-------- |
+| product | object | L'array di prodotti viene iterato dal componente padre e il singolo oggetto viene passato al componente in modo tale da poter visualizzare *Nome, Ingredienti* | 
+| navigation | object | Il navigation viene passato per permette al pulsante di modifica prodotto di richiamare la funzione *navigate*.
+| incrementCallback | funzione | È una funziona di callback la quale viene associata all *onPress* del pulsante verde [+]. |
+- *OrderCardItem*
+
+![OrderCardItem](https://raw.githubusercontent.com/Tkd-Alex/Garcon-Restaurant-Manager/master/garcon-documentation/screen/orderCardItem_resize.jpg)
+
+OrderCardItem ha il semplice compito di estendere il componente *CardItem* mostrando il singolo prodotto e i suoi attributi (*Nome, Ingredienti, Prezzo totale, Quantità*). L'unica props che viene passata a questo componente non è nient'altro che il prodtto da mostrare.
 
 
 ### Reducer:
