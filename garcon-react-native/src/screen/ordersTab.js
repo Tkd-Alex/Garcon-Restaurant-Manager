@@ -24,13 +24,13 @@ class OrdersTab extends Component {
     title: "OrdersTab"
   };
 
-  _fetchOrder(){
+  _fetchOrder = () =>{
     if(this.props.user.preferences && this.props.user.preferences.defaultRestaurant)
       this.props.fetchOrder(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
   componentDidMount(){
-    this._fetchOrder();
+    this.props.navigation.addListener('focus', this._fetchOrder);
   }
 
   render() {

@@ -31,8 +31,12 @@ class Settings extends Component {
     newWaiter: ""
   };
 
-  _newToken(){
+  _newToken = () => {
     this.props.newToken(this.props.token)
+  }
+
+  componentDidMount(){
+    this.props.navigation.addListener('focus', this._newToken);
   }
 
   render() {

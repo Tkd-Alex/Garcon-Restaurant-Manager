@@ -33,7 +33,7 @@ class Food extends Component {
     title: "Food"
   };
 
-  _fetchProduct(){
+  _fetchProduct = () => {
     if(this.props.user.preferences && this.props.user.preferences.defaultRestaurant)
       this.props.fetchProduct(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
@@ -41,7 +41,7 @@ class Food extends Component {
   // Notifications
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
-    this._fetchProduct();
+    this.props.navigation.addListener('focus', this._fetchProduct);
   }
 
   componentWillUnmount() {

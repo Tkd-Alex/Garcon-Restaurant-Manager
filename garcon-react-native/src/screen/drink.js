@@ -29,13 +29,13 @@ class Drink extends Component {
     title: "Drink"
   };
 
-  _fetchProduct(){
+  _fetchProduct = () => {
     if(this.props.user.preferences && this.props.user.preferences.defaultRestaurant)
       this.props.fetchProduct(this.props.user.preferences.defaultRestaurant, this.props.token)
   }
 
   componentDidMount(){
-    this._fetchProduct();
+    this.props.navigation.addListener('focus', this._fetchProduct);
   }
 
   state = {

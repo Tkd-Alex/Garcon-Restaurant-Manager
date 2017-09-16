@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
 import { Root, Icon, FooterTab } from "native-base";
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
+import { enhance } from 'react-navigation-addons';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -29,7 +30,7 @@ const authNavigation = StackNavigator({
   Registration: {screen: Registration}
 }, {headerMode: 'screen'});
 
-const tabNavigation = TabNavigator({
+const tabNavigation = enhance(TabNavigator)({
   Food: {
     screen: Food,
     navigationOptions: {
