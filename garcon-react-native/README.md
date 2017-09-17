@@ -93,35 +93,33 @@ OrderCardItem ha il semplice compito di estendere il componente *CardItem* mostr
 
 - *Registrazione* presenta anch'esso un form da compilare per registrare un nuovo utente. Una volta compilati tutti i campi ed aver registrato l'utente, verrà effettuato l'auto login il quale però mostrerà ben poco in quanto il nuovo utente deve attendere un' "assunzione" da parte del proprietario di qualche locale (admin).
 
-![Login](/garcon-documentation/screen/accedi.jpg)
-![Registrazione](/garcon-documentation/screen/registrazione.jpg)
-
-- *Pietanze* mostra il menu di tutto ciò che è commestibile all'interno del ristorante predefinito. Utilizza il componente *ProductListItem* ed'è dotato di una barra di ricerca. Il tasto verde [+] permette di aggiungere e/o incrementare il prodotto all'interno di una nuova comanda. Il tasto con le posate invece permette la modifica del prodotto e quindi la rimozione/aggiunta di un determinato ingrediente.
-
-- *Bevande* è molto simile alla schermata di pietanze con la differenza che ciò che si beve non è modificabile.
-
-![Cibo](/garcon-documentation/screen/cibo.jpg)
-![Bevande](/garcon-documentation/screen/bevande.jpg)
-
-- *Comanda* permette di avere un riepilogo della comanda sulla quale si sta lavorando. Grazie a questa schermata è possibile gestire le quantità un determinato prodotto e/o i suoi ingrediente. Una volta soddisfatti la comanda va confermata tramite il cestino posto in alto a destra il quale chiederà il numero del tavolo.
-
-- *Ordini* è a sua volta una schermata di riepilogo di tutte le comanda confermate e del loro stato attuale (*Numero, Pronto, Pagato, Prezzo totale*).
-
-![Comanda](/garcon-documentation/screen/comanda.jpg)
-![Ordini](/garcon-documentation/screen/ordini.jpg)
-
-- *Modifica prodotto* è la schermata raggiungibile sia dalla schermata *Pietanze* che da *Comanda*. Essa permette di modificare un prodotto rimuovendo e/o aggiungendo dei determinati ingredienti. È divisa in un due tab (*Aggiungi e Rimuovi*), ogni tab è dotata di una barra di ricerca. Per conferma il prodotto è necessario cliccare sul carrello posto in alto a destra.
-
-- *Ordine* è raggiungibile avendo cliccato il nome del tavolo nella schermata *Ordini*. Proprio come *Ordini, Ordine* è una schermata riassunta la quale mostra maggiori dettagli riferiti all'ordine, in particolare i singoli prodotti scelti. Permette di notificare il cameriere proprietario della comanda qualora l'ordine fosse pronto. È possibile confermare l'avvenuto pagamento dell'ordine. Un ordine non pagato può essere ancora modificabile tramite il tasto posto in alto a destra.
-
-`(*Le schermate di modifica prodotto e riepilogo ordine non sono contenute all'interno del tab navigator)`
-
-![Modifica prodotto](/garcon-documentation/screen/modificaProdotto.jpg)
-![Ordine](/garcon-documentation/screen/ordine.jpg)
-
 - *Impostazioni* ha 3 principali funzionalità:
  - Attivare/disattivare la ricezioni di notifiche per un nuovo ordine.
  - Modificare il ristorante predefinito (in quanto un utente potrebbe lavorare in più locali).
  - Aggiungere un nuovo cameriere (operazione visibile solo agli admin).
 
+![Login](/garcon-documentation/screen/accedi.jpg)
+![Registrazione](/garcon-documentation/screen/registrazione.jpg)
 ![Impostazioni](/garcon-documentation/screen/impostazioni.jpg)
+
+- *Pietanze* mostra il menu di tutto ciò che è commestibile all'interno del ristorante predefinito. Utilizza il componente *ProductListItem* ed'è dotato di una barra di ricerca. Il tasto verde [+] permette di aggiungere e/o incrementare il prodotto all'interno di una nuova comanda. Il tasto con le posate invece permette la modifica del prodotto e quindi la rimozione/aggiunta di un determinato ingrediente.
+
+- *Bevande* è molto simile alla schermata di pietanze con la differenza che ciò che si beve non è modificabile.
+
+- *Modifica prodotto* è la schermata raggiungibile sia dalla schermata *Pietanze* che da *Comanda*. Essa permette di modificare un prodotto rimuovendo e/o aggiungendo dei determinati ingredienti. È divisa in un due tab (*Aggiungi e Rimuovi*), ogni tab è dotata di una barra di ricerca. Per conferma il prodotto è necessario cliccare sul carrello posto in alto a destra.
+
+![Cibo](/garcon-documentation/screen/cibo.jpg)
+![Bevande](/garcon-documentation/screen/bevande.jpg)
+![Modifica prodotto](/garcon-documentation/screen/modificaProdotto.jpg)
+
+- *Comanda* permette di avere un riepilogo della comanda sulla quale si sta lavorando. Grazie a questa schermata è possibile gestire le quantità un determinato prodotto e/o i suoi ingrediente. Una volta soddisfatti la comanda va confermata tramite il cestino posto in alto a destra il quale chiederà il numero del tavolo.
+
+- *Ordini* è a sua volta una schermata di riepilogo di tutte le comanda confermate e del loro stato attuale (*Numero, Pronto, Pagato, Prezzo totale*).
+
+- *Ordine* è raggiungibile avendo cliccato il nome del tavolo nella schermata *Ordini*. Proprio come *Ordini, Ordine* è una schermata riassunta la quale mostra maggiori dettagli riferiti all'ordine, in particolare i singoli prodotti scelti. Permette di notificare il cameriere proprietario della comanda qualora l'ordine fosse pronto. È possibile confermare l'avvenuto pagamento dell'ordine. Un ordine non pagato può essere ancora modificabile tramite il tasto posto in alto a destra.
+
+![Comanda](/garcon-documentation/screen/comanda.jpg)
+![Ordini](/garcon-documentation/screen/ordini.jpg)
+![Ordine](/garcon-documentation/screen/ordine.jpg)
+
+`(*Le schermate di modifica prodotto e riepilogo ordine non sono contenute all'interno del tab navigator)`
