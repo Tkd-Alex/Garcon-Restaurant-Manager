@@ -120,5 +120,5 @@ Ovviamente il server è basato su [express](https://github.com/expressjs/express
 | **/:restaurant/order/pay/:id** | *PUT* | requireAuth, waiterAuthorization | | Segna l'ordine come pagato |
 
 > Le api avente route preceduta dai due punti devono essere sostituite con l'ObjectId dell'entità:  
-- */api/resturant/**:restaurant**/product/**:id***
-- */api/resturant/**ade454gbyty6**/product/**123cvvfvt***
+> - */api/resturant/**:restaurant**/product/**:id***
+> - */api/resturant/**ade454gbyty6**/product/**123cvvfvt***
