@@ -24,7 +24,7 @@ L'applicazione è raggiungibile tramite [Expo](https://expo.io/@tkd-alex/garcon-
 | francesco@gmail.com | ciccio | N | Delizie del Palato | Cameriere |
 | gabriele@gmail.com | gabriele | N | Delizie del Palato, RistoranteVeneto | Cameriere |
 
-## Test effettuati:
+### Test effettuati:
 | Device | Sistema Operativo | Problemi riscontrati |
 | :-------- | :-------- | :-------- |
 | Meizu U20 | Android 6.0.1 | Lentezza in alcune operazioni |
