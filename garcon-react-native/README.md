@@ -37,6 +37,9 @@ OrderCardItem ha il semplice compito di estendere il componente *CardItem* mostr
 | loginUser | LOGIN_USER_START | Login utente. |
 | loginUserSuccess | LOGIN_USER_SUCCESS | Login effettuato con successo. |
 | loginUserFail | LOGIN_USER_FAIL | Eventuali errori con login (es. credenziali errate). |
+| logoutUser | LOGOUT_USER_START | Logout utente. |
+| logoutUserSuccess | LOGOUT_USER_SUCCESS | Logout effettuato con successo. |
+| logoutUserFail | LOGOUT_USER_FAIL | Eventuali errori con il logout. |
 | changeDefaultRestaurant | UPDATE_USER_START | Cambio del ristorante predefinito. |
 | changeNotificationNewOrder | UPDATE_USER_START | Cambio impostazioni relative alle notifiche. |
 | updateUserSuccess | UPDATE_USER_SUCCESS | Aggiornamenti avvenuti con successo. |
@@ -98,6 +101,7 @@ OrderCardItem ha il semplice compito di estendere il componente *CardItem* mostr
  - Attivare/disattivare la ricezioni di notifiche per un nuovo ordine.
  - Modificare il ristorante predefinito (in quanto un utente potrebbe lavorare in più locali).
  - Aggiungere un nuovo cameriere (operazione visibile solo agli admin).
+ - Logout dell'utente *(!Lo screen non è aggiornato.)*
 
 ![Login](/garcon-documentation/screen/accedi.jpg)
 ![Registrazione](/garcon-documentation/screen/registrazione.jpg)
@@ -117,7 +121,7 @@ OrderCardItem ha il semplice compito di estendere il componente *CardItem* mostr
 
 - *Ordini* è a sua volta una schermata di riepilogo di tutte le comanda confermate e del loro stato attuale (*Numero, Pronto, Pagato, Prezzo totale*).
 
-- *Ordine* è raggiungibile avendo cliccato il nome del tavolo nella schermata *Ordini*. Proprio come *Ordini, Ordine* è una schermata riassunta la quale mostra maggiori dettagli riferiti all'ordine, in particolare i singoli prodotti scelti. Permette di notificare il cameriere proprietario della comanda qualora l'ordine fosse pronto. È possibile confermare l'avvenuto pagamento dell'ordine. Un ordine non pagato può essere ancora modificabile tramite il tasto posto in alto a destra.
+- *Ordine* è raggiungibile avendo cliccato il nome del tavolo nella schermata *Ordini*. Proprio come *Ordini, Ordine* è una schermata riassunta la quale mostra maggiori dettagli riferiti all'ordine, in particolare i singoli prodotti scelti. Permette di notificare il cameriere proprietario della comanda qualora l'ordine fosse pronto. È possibile confermare l'avvenuto pagamento dell'ordine. Un ordine non pagato può essere ancora modificabile tramite il tasto posto in alto a destra. *!Lo screen non è aggiornato. La data dell'ordine è parsata nel formato DD/MM/YYYY HH:mm:ss*.
 
 ![Comanda](/garcon-documentation/screen/comanda.jpg)
 ![Ordini](/garcon-documentation/screen/ordini.jpg)

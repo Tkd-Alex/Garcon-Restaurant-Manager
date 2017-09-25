@@ -78,6 +78,7 @@ Ovviamente il server è basato su [express](https://github.com/expressjs/express
 | **/register** | *POST* | | fullname, email, password, age, sex | Registrazione di un nuovo utente |
 | **/login** | *POST* | requireLogin | email, password | Api di login |
 | **/set-token** | *PUT* | requireAuth | token | Modifica del token di expo per l'utente loggato |  
+| **/set-token** | *DELETE* | requireAuth | token | Rimozione del token di expo per l'utente loggato |  
 | **/update** | *PUT* | requireAuth | defaultRestaurant, newOrderNotification | Modifica preferenze dell'utente |
 | **/user** | *GET* | requireAuth | | Viene rinnovato il token dell'utente |
 
