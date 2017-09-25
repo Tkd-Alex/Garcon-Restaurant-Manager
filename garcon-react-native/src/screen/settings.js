@@ -50,6 +50,10 @@ class Settings extends Component {
         <Content refreshControl={ <RefreshControl onRefresh={this._newToken.bind(this)} refreshing={this.props.auth.isLoading} /> }>
           <List>
             <ListItem iconLeft>
+              <Icon ios='ios-person' android="md-person" style={styles.iconForm} />
+              <Text style={{fontWeight: 'bold'}}>{ this.props.auth.user.fullname }</Text>
+            </ListItem>
+            <ListItem iconLeft>
               <Icon style={styles.iconForm} ios='ios-notifications' android="md-notifications" />
               <Text>Notifiche nuovo ordine</Text>
               <Right><Switch onValueChange={(bool) => this.props.changeNotificationNewOrder(this.props.token, bool) }
