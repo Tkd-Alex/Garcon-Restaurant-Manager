@@ -253,24 +253,29 @@ exports.addOrder = function(req, res, next){
       restaurant.orders.push(order);
       restaurant.save(function(err){
         if(err) { return next(err) };
-        User.populate(restaurant, {path:'waiters', model:'User', select:'push_token preferences'}, async function(err, result){
+        User.populate(restaurant, {path:'waiters', model:'User', select:'push_token preferences'}, function(err, result){
           let chunk = [];
+          let newOrderPopulate = null;
+
           result.waiters.forEach(function(waiter) {
             if(waiter.preferences.defaultRestaurant.toString() == restaurant._id.toString() && waiter.preferences.newOrderNotification)
               chunk.push({
                   to: waiter.push_token,
                   sound: 'default',
-                  body: "È stato aggiunto un nuovo ordine presso " + restaurant.name,
+                  body: "È stato aggiunto l'ordine " + order.tableNumber + " presso " + restaurant.name,
                   data: {}
               })
           });
-          try {
-            let receipts = await expo.sendPushNotificationsAsync(chunk);
-            console.log(receipts);
-          } catch (error) { console.error(error); }
-        });
-        Product.populate(order, {path:'listProduct.product.ingredients', model:'Ingredient'}, function(err,result){
-          res.status(201).json({"message": 'Ordine inserito!', "result": result});
+
+          Product.populate(order, {path:'listProduct.product.ingredients', model:'Ingredient'}, async function(err,result){
+            for(var i in chunk) chunk[i].data['order'] = result;
+            try {
+              let receipts = await expo.sendPushNotificationsAsync(chunk);
+              console.log(receipts);
+            } catch (error) { console.error(error); }
+            res.status(201).json({"message": 'Ordine inserito!', "result": result});
+          });
+
         });
       });
     }

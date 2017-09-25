@@ -11,7 +11,7 @@ import registerForPushNotificationsAsync from '../registerNotification';
 import Colors from '../constants/Colors';
 import ProductListItem from '../components/productListItem';
 import { fetchProduct } from '../actions/productActions';
-import { editProduct, addProduct, incrementProduct } from '../actions/orderActions'
+import { editProduct, addProduct, incrementProduct, fetchOrder } from '../actions/orderActions'
 
 const mapStateToProps = state => ({
   product: state.food,
@@ -24,7 +24,8 @@ const mapDispatchToProps = dispatch => ({
   fetchProduct: (restaurant, token) => dispatch(fetchProduct('Food', restaurant, token)),
   editProduct: () => dispatch(editProduct()),
   incrementProduct: (product) => dispatch(incrementProduct(product)),
-  addProduct: (product) => dispatch(addProduct(product))
+  addProduct: (product) => dispatch(addProduct(product)),
+  fetchOrder: (restaurant, token) => dispatch(fetchOrder(restaurant, token))
 })
 
 class Food extends Component {
@@ -55,6 +56,12 @@ class Food extends Component {
   }
 
   _handleNotification = ({ origin, data }) => {
+    if(origin == 'selected') this.props.navigation.navigate("order", {order: data.order})
+    else if(origin == 'received'){
+      //this.props.navigation.navigate("OrdersTab");
+      if(this.props.user.preferences && this.props.user.preferences.defaultRestaurant)
+        this.props.fetchOrder(this.props.user.preferences.defaultRestaurant, this.props.token)
+    }
     console.log( `Push notification ${origin} with data: ${JSON.stringify(data)}` );
   };
 
