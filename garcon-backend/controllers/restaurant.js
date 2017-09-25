@@ -23,7 +23,7 @@ exports.newRestaurant = function(req, res, next){
     address: address,
     owner: owner
   });
-  restaurant.waiters.push(owner); 
+  restaurant.waiters.push(owner);
   restaurant.save(function(err, result){
     if(err) return next(err);
     User.findById(owner._id, function(err, waiter){
@@ -281,16 +281,17 @@ exports.getOrder = function(req, res, next){
   const order = req.params.id;
   Restaurant.findById(req.params.restaurant)
             .populate({path: 'orders.listProduct.product.ingredients', model:'Ingredient'})
+            .sort({'orders.date': 1})
             .exec(function(err, restaurant){
     if (err) { return next(err); }
     if (!restaurant) { return res.status(422).send({ error: 'Ristorante non trovato..' }); }
     else{
       if(order){
         if(restaurant.orders.id(order)) res.status(201).json({"result": restaurant.orders.id(order)});
-        else { return res.status(422).send({ error: 'Prodotto non trovato' }); }
+        else { return res.status(422).send({ error: 'Ordine non trovato' }); }
       }
       else{
-        res.status(201).json({"result": restaurant.orders});
+        res.status(201).json({"result": restaurant.orders.reverse()});
       }
     }
   });
@@ -305,7 +306,7 @@ exports.removeOrder = function(req, res, next){
       restaurant.orders.id(order).remove();
       restaurant.save(function(err){
         if(err) { return next(err) };
-        res.status(201).json({"message": 'Prodotto rimosso.'});
+        res.status(201).json({"message": 'Ordine rimosso.'});
       });
     }
   });
