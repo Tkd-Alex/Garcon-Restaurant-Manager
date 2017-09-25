@@ -2,6 +2,7 @@
 ### Componenti e librerie utilizzate:
 - La maggior parte dei componenti utilizzati per l'user interface appartengono a [NativeBase](https://github.com/GeekyAnts/NativeBase), la versione utilizzata per il progetto non è tra le più recenti, per tanto alcuni componenti introdotti nelle versioni successivi non sono stati utilizzati all'interno di Garçon i quali avrebbero potuto dare un tocco in più all'applicazione.
 - [react-native-prompt](https://github.com/jaysoo/react-native-prompt) è stato utilizzato per chiedere all'utente (cameriere) il numero del tavolo prima di confermare la comanda.
+- [react-moment](https://github.com/headzoo/react-moment) è stato utilizzato per visualizzare in maniera corretta la data e l'orario degli ordini.
 - [React Navigation Add-ons](https://github.com/satya164/react-navigation-addons) è stato realizzato come supporto a [React Navigation](https://github.com/react-community/react-navigation), difatti, tramite il metodo *addListener* mi ha permesso di 'fetchare' i dati ogni qualvolta che si verifchi l'evento *on focus* nelle relative schermate.
 - Ovviamente anche [ExpoSDK](https://github.com/expo/expo-sdk) mi è stato di molto aiuto, grazie ad esso ho potuto gestire il caricamento dei font e la gestione delle notifiche.
 

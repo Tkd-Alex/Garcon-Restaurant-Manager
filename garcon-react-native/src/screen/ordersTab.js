@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { fetchOrder } from '../actions/orderActions'
 import Colors from '../constants/Colors';
 
+import Moment from 'react-moment';
+
 const mapStateToProps = state => ({
   order: state.order,
   user: state.auth.user,
@@ -50,7 +52,7 @@ class OrdersTab extends Component {
                       <H3>
                         Tavolo: {order.tableNumber}
                       </H3>
-                      <Text note>{order.date}</Text>
+                      <Moment format="DD/MM/YYYY HH:mm:ss" note element={Text}>{order.date}</Moment>
                   </View>
                 </CardItem>
                 <CardItem style={{paddingTop: 0}}>
