@@ -6,7 +6,7 @@ import { Container, Content,  Header, Left, Body, Right, H3, Toast,
 import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
-import OrderCardItem from '../components/orderCardItem'
+import OrderCardItem from '../components/OrderCardItem'
 
 import { updateOrder, editOrder } from '../actions/orderActions'
 

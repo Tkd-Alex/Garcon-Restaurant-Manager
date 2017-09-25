@@ -6,7 +6,7 @@ import { ORDER_FETCH_START, ORDER_FETCH_SUCCESS, ORDER_FETCH_ERROR,
 
 let initialState = {
   listProduct: [],
-  listOrder: [],
+  listOrders: [],
   error: null,
   isLoading: false
 }
@@ -16,22 +16,22 @@ export default orderReducer = (state = initialState, action) => {
     case ORDER_FETCH_START:
       return {...state, isLoading: true, error: null};
     case ORDER_FETCH_SUCCESS:
-      return {...state, isLoading: false, error: null, listOrder: action.payload};
+      return {...state, isLoading: false, error: null, listOrders: action.payload};
     case ORDER_FETCH_ERROR:
       return {...state, isLoading: false, error: action.payload};
     case ORDER_NEW_START:
       return {...state, isLoading: true, error: null};
     case ORDER_NEW_SUCCESS:
       state.listProduct = [];
-      state.listOrder = state.listOrder.concat(action.payload);
+      state.listOrders = state.listOrders.concat(action.payload);
       return {...state, isLoading: false, error: null};
     case ORDER_NEW_ERROR:
       return {...state, isLoading: false, error: action.payload};
     case ORDER_UPDATE_START:
       return {...state, isLoading: true, error: null};
     case ORDER_UPDATE_SUCCESS:
-      var index = state.listOrder.map(order => order._id).indexOf(action.payload._id);
-      state.listOrder[index] = action.payload;
+      var index = state.listOrders.map(order => order._id).indexOf(action.payload._id);
+      state.listOrders[index] = action.payload;
       return {...state, isLoading: false, error: null};
     case ORDER_UPDATE_ERROR:
       return {...state, isLoading: false, error: action.payload};
@@ -58,9 +58,9 @@ export default orderReducer = (state = initialState, action) => {
     case ORDER_EDIT_START:
       return {...state, isLoading: true, error: null};
     case ORDER_EDIT_SUCCESS:
-      var index = state.listOrder.map(order => order._id).indexOf(action.payload._id);
+      var index = state.listOrders.map(order => order._id).indexOf(action.payload._id);
       state.listProduct = action.payload.listProduct;
-      state.listOrder.splice(index,1);
+      state.listOrders.splice(index,1);
       return {...state};
     case ORDER_EDIT_ERROR:
       return {...state, isLoading: false, error: action.payload};

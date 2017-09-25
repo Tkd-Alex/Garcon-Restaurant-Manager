@@ -6,7 +6,7 @@ import { Container, Content,  Header, Left, Body, Right,
 import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
-import ProductListItem from '../components/productListItem';
+import ProductListItem from '../components/ProductListItem';
 import { fetchProduct } from '../actions/productActions';
 import { editProduct, addProduct, incrementProduct } from '../actions/orderActions';
 

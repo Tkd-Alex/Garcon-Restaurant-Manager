@@ -45,7 +45,7 @@ class OrdersTab extends Component {
         </Header>
         <Content refreshControl={ <RefreshControl onRefresh={this._fetchOrder.bind(this)} refreshing={this.props.order.isLoading} /> }>
           <List>
-            {this.props.order.listOrder.map(order =>
+            {this.props.order.listOrders.map(order =>
               <Card key={order._id} style={{flex: 0}}>
                 <CardItem button onPress={() => this.props.navigation.navigate("order", {order: order})}>
                   <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>

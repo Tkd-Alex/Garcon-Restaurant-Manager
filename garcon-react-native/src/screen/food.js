@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import registerForPushNotificationsAsync from '../registerNotification';
 
 import Colors from '../constants/Colors';
-import ProductListItem from '../components/productListItem';
+import ProductListItem from '../components/ProductListItem';
 import { fetchProduct } from '../actions/productActions';
 import { editProduct, addProduct, incrementProduct, fetchOrder } from '../actions/orderActions'
 
