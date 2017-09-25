@@ -52,7 +52,7 @@ function _addWaiter(restaurant, waiter, res){
               to: waiter.push_token,
               sound: 'default',
               body: "Sei stato aggiunto come cameriere per il locale " + restaurant.name,
-              data: {}
+              data: {type: 'user'}
           }
           try {
             let receipts = await expo.sendPushNotificationsAsync([chunk]);
@@ -111,7 +111,7 @@ exports.removeWaiter = function(req, res, next){
                       to: waiter.push_token,
                       sound: 'default',
                       body: "Sei stato rimosso come cameriere dal locale " + restaurant.name,
-                      data: {}
+                      data: {type: 'user'}
                   }
                   try {
                     let receipts = await expo.sendPushNotificationsAsync([chunk]);
@@ -258,12 +258,12 @@ exports.addOrder = function(req, res, next){
           let newOrderPopulate = null;
 
           result.waiters.forEach(function(waiter) {
-            if(waiter.preferences.defaultRestaurant.toString() == restaurant._id.toString() && waiter.preferences.newOrderNotification)
+            if(waiter.preferences.defaultRestaurant.toString() == restaurant._id.toString() && waiter.preferences.newOrderNotification && waiter.push_token != null)
               chunk.push({
                   to: waiter.push_token,
                   sound: 'default',
                   body: "È stato aggiunto l'ordine " + order.tableNumber + " presso " + restaurant.name,
-                  data: {}
+                  data: {type: 'order'}
               })
           });
 
@@ -330,7 +330,7 @@ exports.completeOrder = function(req, res, next){
           to: restaurant.orders.id(order).waiter.push_token,
           sound: 'default',
           body: "L'ordine " + restaurant.orders.id(order).tableNumber + " è completato!",
-          data: {}
+          data: {type: 'order', order: restaurant.orders.id(order)}
       }
       restaurant.save(async function(err){
         if (err) { return next(err); }

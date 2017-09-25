@@ -56,8 +56,8 @@ class Food extends Component {
   }
 
   _handleNotification = ({ origin, data }) => {
-    if(origin == 'selected') this.props.navigation.navigate("order", {order: data.order})
-    else if(origin == 'received'){
+    if(origin == 'selected' && data.type == 'order') this.props.navigation.navigate("order", {order: data.order})
+    else if(origin == 'received' && data.type == 'order'){
       //this.props.navigation.navigate("OrdersTab");
       if(this.props.user.preferences && this.props.user.preferences.defaultRestaurant)
         this.props.fetchOrder(this.props.user.preferences.defaultRestaurant, this.props.token)
