@@ -6,7 +6,7 @@ import { Container, Content,  Header, Left, Body, Right, H3, Switch, InputGroup,
 import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
-import { changeDefaultRestaurant, changeNotificationNewOrder, addWaiter, newToken } from '../actions/authActions';
+import { changeDefaultRestaurant, changeNotificationNewOrder, addWaiter, newToken, logoutUser } from '../actions/authActions';
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -18,7 +18,8 @@ const mapDispatchToProps = dispatch => ({
   changeDefaultRestaurant: (token, idRestaurant) => dispatch(changeDefaultRestaurant(token, idRestaurant)),
   changeNotificationNewOrder: (token, bool) => dispatch(changeNotificationNewOrder(token, bool)),
   addWaiter: (token, restaurant, mail) => dispatch(addWaiter(token, restaurant, mail)),
-  newToken: (token) => dispatch(newToken(token))
+  newToken: (token) => dispatch(newToken(token)),
+  logoutUser: (token, navigation) => dispatch(logoutUser(token, navigation))
 })
 
 class Settings extends Component {
@@ -43,9 +44,15 @@ class Settings extends Component {
     return (
       <Container>
         <Header androidStatusBarColor={Colors.tintColorDark} style={{ backgroundColor: Colors.tintColor }}>
+          <Left></Left>
           <Body>
             <Title style={{color: "white"}}>Impostazioni</Title>
           </Body>
+          <Right>
+            <Button transparent onPress={() => this.props.logoutUser(this.props.token, this.props.navigation)}>
+              <Icon style={{color: "white"}} name='log-out' />
+            </Button>
+          </Right>
         </Header>
         <Content refreshControl={ <RefreshControl onRefresh={this._newToken.bind(this)} refreshing={this.props.auth.isLoading} /> }>
           <List>

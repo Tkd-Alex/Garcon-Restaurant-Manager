@@ -1,4 +1,5 @@
-import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOUT,
+import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,
+         LOGOUT_USER_START, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAIL,
          SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL,
          UPDATE_USER_START, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL, ADD_WAITER_SUCCESS } from '../actions/types'
 
@@ -15,11 +16,15 @@ export default authReducer = (state = initialState, action) => {
     case LOGIN_USER_START:
       return {...state, isLoading: true, error: null};
     case LOGIN_USER_SUCCESS:
-      return {...state, isLoading: false, error: null, user: action.payload.user, token: action.payload.token};
+      return {...state, isLoading: false, error: null, user: action.payload.user, token: action.payload.token, isLogged: true};
     case LOGIN_USER_FAIL:
       return {...state, isLoading: false, error: action.payload};
-    case LOGIN_USER_LOGOUT:
-      return {...state, user: null, token: ""};
+    case LOGOUT_USER_START:
+      return {...state, isLoading: true, error: null};
+    case LOGOUT_USER_SUCCESS:
+      return {isLoading: false, error: null, user: null, token: "", isLogged: false};
+    case LOGOUT_USER_FAIL:
+      return {...state, isLoading: false, error: action.payload};
     case UPDATE_USER_START:
       return {...state, isLoading: true, error: null};
     case UPDATE_USER_SUCCESS:

@@ -1,4 +1,5 @@
-import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGIN_USER_LOGOUT,
+import { LOGIN_USER_START, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,
+         LOGOUT_USER_START, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAIL,
          SIGNUP_USER_START, SIGNUP_USER_SUCCESS, SIGNUP_USER_FAIL,
          UPDATE_USER_START, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL, ADD_WAITER_SUCCESS } from './types'
 
@@ -11,11 +12,19 @@ import Server from '../constants/Server';
 let server = Server.address;
 let port = Server.port;
 
-const resetAction = NavigationActions.reset({
+const hideLogin = NavigationActions.reset({
   index: 0,
   key: null,
   actions: [
     NavigationActions.navigate({ routeName: 'tabNavigation'})
+  ]
+})
+
+const showLogin = NavigationActions.reset({
+  index: 0,
+  key: null,
+  actions: [
+    NavigationActions.navigate({ routeName: 'authNavigation'})
   ]
 })
 
@@ -92,7 +101,7 @@ export const loginUserSuccess = (dispatch, responseJson, navigation) => {
   dispatch({ type: LOGIN_USER_SUCCESS, payload: responseJson });
   try {
     AsyncStorage.setItem('garcon-token', responseJson.token, () => {
-      if(navigation) navigation.dispatch(resetAction)
+      if(navigation) navigation.dispatch(hideLogin)
     });
   } catch (error) {
     console.log("Error to save data on AsyncStorage")
@@ -102,6 +111,39 @@ export const loginUserSuccess = (dispatch, responseJson, navigation) => {
 export const loginUserFail = (dispatch, error) => {
   dispatch({ type: LOGIN_USER_FAIL, payload: error });
   Toast.show({ text: "Qualcosa è andato storto. Probabilmente i dati non sono corretti", position: 'bottom', duration: 3000, type: 'danger' })
+  //console.log(error);
+}
+
+export const logoutUser = (token, navigation) => {
+  return (dispatch) => {
+    dispatch({ type: LOGOUT_USER_START });
+    fetch('http://' + server + ':' + port + '/api/auth/set-token', {
+           method: 'DELETE',
+           headers: { 'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                      'Authorization': token
+                    }
+          })
+      .then((response) => response.json())
+      .then((responseJson) => { logoutUserSuccess(dispatch, responseJson, navigation) })
+      .catch((error) => { logoutUserFail(dispatch, error) });
+  }
+};
+
+export const logoutUserSuccess = (dispatch, responseJson, navigation) => {
+  try {
+    AsyncStorage.removeItem('garcon-token');
+  } catch (error) {
+    console.log("Error to remove data on AsyncStorage")
+  }
+  if(navigation) navigation.dispatch(showLogin)
+  Toast.show({ text: "Logout eseguito", position: 'bottom', duration: 3000, type: 'success' })
+  dispatch({ type: LOGOUT_USER_SUCCESS });
+}
+
+export const logoutUserFail = (dispatch, error) => {
+  dispatch({ type: LOGOUT_USER_FAIL, payload: error });
+  Toast.show({ text: "Qualcosa è andato storto durante il logout", position: 'bottom', duration: 3000, type: 'danger' })
   //console.log(error);
 }
 

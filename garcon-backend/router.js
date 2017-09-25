@@ -32,6 +32,7 @@ module.exports = function(app) {
   authRoutes.post('/register', AuthenticationController.register);
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
   authRoutes.put('/set-token', requireAuth, AuthenticationController.setToken);
+  authRoutes.delete('/set-token', requireAuth, AuthenticationController.setToken);
   authRoutes.put('/update', requireAuth, AuthenticationController.updatePreferences);
   authRoutes.get('/user', requireAuth, AuthenticationController.login);
 
